@@ -28,7 +28,7 @@ export default async function NotesPage({
       </h1>
       <p className="mb-8 text-[14px] text-mut">{t("updated")}</p>
 
-      {locale === "ru" ? <NotesRu /> : <NotesEn />}
+      {locale === "ru" ? <NotesRu /> : <NotesPt />}
     </LegalLayout>
   );
 }
@@ -57,21 +57,21 @@ function NotesRu() {
   );
 }
 
-function NotesEn() {
+function NotesPt() {
   const items = [
-    "Power monitoring: charge ring, live drain graph, interactive SMC power-flow diagram.",
-    "Hardware panel: temperatures, fans, load, per-component wattage.",
-    "Fan control (Pro): profiles — fixed RPM, sensor curve, auto; thermal protection.",
-    "Battery charge limit, firewall and domain blocking, RU↔EN layout switcher, snippets, custom command buttons (Pro).",
-    "Quick toggles: Wi-Fi, Bluetooth, Night Shift, dark mode, Caffeine, screen resolution.",
-    "Native Control Center-inspired design: light and dark themes, customizable panel.",
-    "Accessibility: VoiceOver and keyboard navigation across main screens, Reduce Motion support.",
-    "Fully local, no telemetry. Notarized by Apple.",
+    "Monitorização de energia: anel de carga, gráfico de consumo em tempo real, diagrama interativo de fluxo de energia do SMC.",
+    "Painel de hardware: temperaturas, ventoinhas, carga, potência por componente.",
+    "Controlo de ventoinhas (Pro): perfis — RPM fixo, curva de sensor, auto; proteção térmica.",
+    "Limite de carga da bateria, firewall e bloqueio de domínios, comutador de disposição RU↔EN, snippets, botões de comando personalizados (Pro).",
+    "Alternadores rápidos: Wi-Fi, Bluetooth, Night Shift, modo escuro, Caffeine, resolução de ecrã.",
+    "Design nativo inspirado no Control Center: temas claro e escuro, painel personalizável.",
+    "Acessibilidade: VoiceOver e navegação por teclado nos ecrãs principais, suporte a Reduzir Movimento.",
+    "Totalmente local, sem telemetria. Notarizado pela Apple.",
   ];
 
   return (
     <>
-      <h2 className="legal-h2">1.0 — first release</h2>
+      <h2 className="legal-h2">1.0 — primeiro lançamento</h2>
       <ul className="legal-ul">
         {items.map((item) => (
           <li key={item}>{item}</li>

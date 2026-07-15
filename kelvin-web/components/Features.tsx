@@ -1,111 +1,144 @@
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import Reveal from "./Reveal";
+import { Icon } from "./icons";
+import {
+  PowerWidget,
+  FansWidget,
+  TogglesWidget,
+  LayoutWidget,
+  SecurityWidget,
+  DevWidget,
+} from "./FeatureWidgets";
 
 export default function Features() {
   const t = useTranslations("Features");
 
   return (
-    <section id="features" className="bg-bg2 pt-20 pb-10 sm:pt-28 sm:pb-14 lg:pt-32">
+    <section id="features" className="py-20 sm:py-28 lg:py-32">
       <div className="mx-auto max-w-[980px] px-5 text-center">
+        <Reveal as="span" className="eyebrow mb-4">
+          {t("eyebrow")}
+        </Reveal>
         <Reveal
           as="h2"
+          index={1}
           className="text-[clamp(2rem,5vw,3.5rem)] font-semibold tracking-[-0.025em] text-tx"
         >
           {t("title")}
         </Reveal>
       </div>
 
-      {/* Feature blocks — Apple style: alternating big tiles */}
-      <div className="mx-auto mt-14 grid max-w-[1024px] gap-4 px-5 sm:mt-20 sm:grid-cols-2">
-        <BigTile
+      <div className="mx-auto mt-16 max-w-[1100px] space-y-24 px-5 sm:mt-24 sm:space-y-32 lg:space-y-40">
+        <BigFeature
+          n={1}
+          icon="power"
           title={t("power.title")}
           desc={t("power.desc")}
-          img="/assets/flow.png"
-          index={1}
-          featured
+          visual={<PowerWidget />}
         />
-        <BigTile
+        <BigFeature
+          n={2}
+          icon="fans"
           title={t("fans.title")}
           desc={t("fans.desc")}
-          index={2}
+          visual={<FansWidget />}
+          flip
         />
-        <BigTile
+        <BigFeature
+          n={3}
+          icon="toggles"
           title={t("toggles.title")}
           desc={t("toggles.desc")}
-          index={3}
+          visual={<TogglesWidget />}
         />
-        <BigTile
-          title={t("security.title")}
-          desc={t("security.desc")}
-          index={4}
-        />
-        <BigTile
+        <BigFeature
+          n={4}
+          icon="layout"
           title={t("layout.title")}
           desc={t("layout.desc")}
-          index={5}
-          className="sm:col-span-2"
+          visual={<LayoutWidget />}
+          flip
         />
-        <BigTile
+        <BigFeature
+          n={5}
+          icon="security"
+          title={t("security.title")}
+          desc={t("security.desc")}
+          visual={<SecurityWidget />}
+        />
+        <BigFeature
+          n={6}
+          icon="dev"
           title={t("dev.title")}
-          desc={t("dev.title")}
-          descOverride={t("dev.desc")}
-          index={6}
-          className="sm:col-span-2"
+          desc={t("dev.desc")}
+          visual={<DevWidget />}
+          flip
         />
       </div>
     </section>
   );
 }
 
-type TileProps = {
+type BigFeatureProps = {
+  n: number;
+  icon: "power" | "fans" | "toggles" | "layout" | "security" | "dev";
   title: string;
   desc: string;
-  descOverride?: string;
-  img?: string;
-  index?: number;
-  featured?: boolean;
-  className?: string;
+  visual: React.ReactNode;
+  flip?: boolean;
 };
 
-function BigTile({
-  title,
-  desc,
-  descOverride,
-  img,
-  index = 0,
-  featured = false,
-  className = "",
-}: TileProps) {
+/* Apple-style alternating block: text one side, live UI the other.
+   The glow under the visual is the "product lights up" effect. */
+function BigFeature({ n, icon, title, desc, visual, flip }: BigFeatureProps) {
   return (
-    <Reveal
-      as="article"
-      index={index}
-      className={`group relative flex flex-col overflow-hidden rounded-3xl bg-surface p-8 sm:p-10 ${className}`}
-    >
-      <h3 className="text-[clamp(1.5rem,3vw,2rem)] font-semibold tracking-tight text-tx">
-        {title}
-      </h3>
-      <p className="mt-2 max-w-md text-[17px] leading-relaxed text-mut">
-        {descOverride ?? desc}
-      </p>
-      {img && (
-        <div className="mt-6 flex-1">
-          <Image
-            src={img}
-            alt={title}
-            width={664}
-            height={600}
-            sizes="(max-width: 768px) 90vw, 480px"
-            className="w-full rounded-2xl"
-          />
+    <div className="grid items-center gap-10 sm:gap-16 lg:grid-cols-2">
+      {/* text */}
+      <Reveal
+        index={0}
+        className={`flex flex-col ${flip ? "lg:order-2 lg:text-right" : "lg:order-1"}`}
+      >
+        <div
+          className={`mb-5 flex items-center gap-3 ${
+            flip ? "lg:flex-row-reverse" : ""
+          }`}
+        >
+          <span className="icon-chip">
+            <Icon name={icon} width={24} height={24} />
+          </span>
+          <span className="text-[13px] font-medium uppercase tracking-[0.14em] text-faint">
+            {String(n).padStart(2, "0")}
+          </span>
         </div>
-      )}
-      {/* accent gradient line at bottom — subtle on hover */}
-      <div
-        aria-hidden
-        className="absolute inset-x-0 bottom-0 h-px scale-x-0 bg-gradient-to-r from-transparent via-accent to-transparent transition-transform duration-700 group-hover:scale-x-100"
-      />
-    </Reveal>
+        <h3 className="text-[clamp(1.75rem,4vw,2.5rem)] font-semibold tracking-[-0.02em] text-tx">
+          {title}
+        </h3>
+        <p
+          className={`mt-4 max-w-md text-[clamp(1rem,1.6vw,1.125rem)] leading-relaxed text-mut ${
+            flip ? "lg:ml-auto" : ""
+          }`}
+        >
+          {desc}
+        </p>
+      </Reveal>
+
+      {/* visual */}
+      <Reveal
+        index={1}
+        className={`relative ${flip ? "lg:order-1" : "lg:order-2"}`}
+      >
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{
+            background:
+              "radial-gradient(closest-side, rgba(51,199,209,0.22), rgba(42,134,240,0.12) 55%, transparent)",
+            filter: "blur(60px)",
+            transform: "scale(1.08)",
+          }}
+        />
+        {visual}
+      </Reveal>
+    </div>
   );
 }

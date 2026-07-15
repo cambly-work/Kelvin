@@ -28,7 +28,7 @@ export default async function EulaPage({
         {t("title")}
       </h1>
       <p className="mb-8 text-[14px] text-mut">{t("updated")}</p>
-      {locale === "ru" ? <EulaRu /> : <EulaEn />}
+      {locale === "ru" ? <EulaRu /> : <EulaPt />}
     </LegalLayout>
   );
 }
@@ -119,79 +119,78 @@ function EulaRu() {
   );
 }
 
-function EulaEn() {
+function EulaPt() {
   return (
     <>
       <p className="legal-p">
-        This agreement is between you (the &quot;User&quot;) and the
-        copyright holder of the Kelvin application for macOS (the
-        &quot;Application&quot;). By installing or using the Application, you
-        accept the terms below.
+        Este contrato é celebrado entre si (o &quot;Utilizador&quot;) e o
+        detentor dos direitos de autor da aplicação Kelvin para macOS (a
+        &quot;Aplicação&quot;). Ao instalar ou usar a Aplicação, aceita os
+        termos abaixo.
       </p>
 
       <Entity />
 
-      <h2 className="legal-h2">1. License</h2>
+      <h2 className="legal-h2">1. Licença</h2>
       <p className="legal-p">
-        The copyright holder grants the User a non-exclusive,
-        non-transferable license to install and use the Application on Mac
-        computers they own, for personal and commercial purposes, in
-        accordance with the purchased tier.
+        O detentor dos direitos concede ao Utilizador uma licença não
+        exclusiva e intransmissível para instalar e usar a Aplicação em
+        computadores Mac que possua, para fins pessoais e comerciais, de
+        acordo com o nível adquirido.
       </p>
 
-      <h2 className="legal-h2">2. Restrictions</h2>
+      <h2 className="legal-h2">2. Restrições</h2>
       <ul className="legal-ul">
-        <li>do not resell, distribute, or rent the Application;</li>
-        <li>do not decompile or reverse-engineer the source code, except as expressly permitted by law;</li>
-        <li>do not remove copyright notices.</li>
+        <li>não revender, distribuir ou arrendar a Aplicação;</li>
+        <li>não descompilar nem fazer engenharia reversa do código-fonte, exceto conforme expressamente permitido por lei;</li>
+        <li>não remover avisos de direitos de autor.</li>
       </ul>
 
-      <h2 className="legal-h2">3. Rights to the Application</h2>
+      <h2 className="legal-h2">3. Direitos sobre a Aplicação</h2>
       <p className="legal-p">
-        The Application is licensed, not sold. All rights to the Application,
-        its code and design belong to the copyright holder.
+        A Aplicação é licenciada, não vendida. Todos os direitos sobre a
+        Aplicação, o seu código e design pertencem ao detentor dos direitos.
       </p>
 
-      <h2 className="legal-h2">4. System actions</h2>
+      <h2 className="legal-h2">4. Ações do sistema</h2>
       <p className="legal-p">
-        The Application may perform system actions (fan control, charge
-        limit, toggles) with your consent and, where necessary, with
-        administrator privileges. The User uses these features at their own
-        risk.
+        A Aplicação pode executar ações no sistema (controlo de ventoinhas,
+        limite de carga, alternadores) com o seu consentimento e, quando
+        necessário, com privilégios de administrador. O Utilizador usa estas
+        funções por sua conta e risco.
       </p>
 
-      <h2 className="legal-h2">5. Disclaimer of warranty</h2>
+      <h2 className="legal-h2">5. Isenção de garantia</h2>
       <p className="legal-p">
-        The Application is provided &quot;as is&quot;, without any express or
-        implied warranties, including fitness for a particular purpose. The
-        copyright holder does not guarantee uninterrupted or error-free
-        operation.
+        A Aplicação é fornecida &quot;tal como está&quot;, sem quaisquer
+        garantias expressas ou implícitas, incluindo adequação a um fim
+        específico. O detentor dos direitos não garante operação ininterrupta
+        ou livre de erros.
       </p>
 
-      <h2 className="legal-h2">6. Limitation of liability</h2>
+      <h2 className="legal-h2">6. Limitação de responsabilidade</h2>
       <p className="legal-p">
-        To the maximum extent permitted by law, the copyright holder is not
-        liable for indirect or incidental damages related to the use of the
-        Application. Aggregate liability does not exceed the amount paid for
-        the license.
+        Na medida máxima permitida por lei, o detentor dos direitos não é
+        responsável por danos indiretos ou incidentais relacionados com o uso
+        da Aplicação. A responsabilidade agregada não excede o montante pago
+        pela licença.
       </p>
 
-      <h2 className="legal-h2">7. Term &amp; termination</h2>
+      <h2 className="legal-h2">7. Prazo e rescisão</h2>
       <p className="legal-p">
-        The license remains in effect until terminated. It terminates
-        automatically upon breach of terms; in that case the User must
-        delete the Application.
+        A licença mantém-se em vigor até ser rescindida. Rescindide-se
+        automaticamente em caso de violação dos termos; nesse caso, o
+        Utilizador deve eliminar a Aplicação.
       </p>
 
-      <h2 className="legal-h2">8. Governing law</h2>
+      <h2 className="legal-h2">8. Lei aplicável</h2>
       <p className="legal-p">
-        This agreement is governed by the laws of the Federative Republic of
-        Brazil.
+        Este contrato é regido pelas leis da República Federativa do Brasil.
       </p>
 
-      <h2 className="legal-h2">9. Contact</h2>
+      <h2 className="legal-h2">9. Contacto</h2>
       <p className="legal-p">
-        License questions —{" "}
+        Questões sobre a licença —{" "}
         <a href="mailto:cambly.studio@gmail.com" className="text-accent hover:underline">
           cambly.studio@gmail.com
         </a>
@@ -199,9 +198,9 @@ function EulaEn() {
       </p>
 
       <p className="mt-7 text-[13px] opacity-70">
-        This is a standard template and does not constitute legal advice.
-        Before public sale, review by a lawyer/accountant (contador) is
-        recommended.
+        Este é um modelo padrão e não constitui aconselhamento jurídico.
+        Antes da venda pública, recomenda-se a revisão por um
+        advogado/contador (contador).
       </p>
     </>
   );

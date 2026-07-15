@@ -25,7 +25,16 @@ export default function Download() {
   const dmgHref = info?.url ?? "#";
 
   return (
-    <section id="download" className="bg-bg py-24 text-center sm:py-32 lg:py-40">
+    <section id="download" className="relative overflow-hidden py-24 text-center sm:py-32 lg:py-40">
+      {/* large ambient glow behind the final CTA */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background:
+            "radial-gradient(ellipse 700px 350px at 50% 50%, rgba(51,199,209,0.14), transparent 70%)",
+        }}
+      />
       <div className="mx-auto max-w-[980px] px-5">
         <Reveal
           as="h2"
@@ -52,7 +61,7 @@ export default function Download() {
           </a>
           <Link
             href="/#pricing"
-            className="link-arrow px-2 py-3.5"
+            className="btn-secondary inline-block px-7 py-3.5"
           >
             {t("ctaSecondary")}
           </Link>

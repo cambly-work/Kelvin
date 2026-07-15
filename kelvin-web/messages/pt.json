@@ -1,0 +1,172 @@
+{
+  "Meta": {
+    "title": "Kelvin — O Multi-ferramenta para a Barra de Menu do Mac",
+    "description": "Energia, ventoinhas, alternadores, disposição do teclado, privacidade e ferramentas de desenvolvimento — tudo num painel nativo da barra de menu do macOS. A monitorização é gratuita para sempre, o Pro é um pagamento único de $19."
+  },
+  "Nav": {
+    "features": "Funções",
+    "pricing": "Preço",
+    "privacy": "Privacidade",
+    "faq": "FAQ",
+    "download": "Descarregar"
+  },
+  "Hero": {
+    "eyebrow": "macOS · barra de menu",
+    "title": "Uma multi-ferramenta em vez de dez utilitários",
+    "lead": "Energia, ventoinhas, alternadores rápidos, disposição automática do teclado, privacidade e ferramentas de desenvolvimento — num único painel nativo da barra de menu. Local. Sem telemetria.",
+    "ctaPrimary": "Descarregar grátis",
+    "ctaSecondary": "Kelvin Pro — $19",
+    "micro": "A monitorização é gratuita para sempre · Pro é um pagamento único, sem subscrição · macOS 11+ · Intel e Apple Silicon"
+  },
+  "Features": {
+    "eyebrow": "Funções",
+    "title": "Tudo à mão",
+    "power": {
+      "title": "Energia à vista",
+      "desc": "Anel de carga, gráfico de consumo em tempo real e um diagrama interativo de fluxo de energia do SMC — veja exatamente para onde vai cada watt e ampere."
+    },
+    "fans": {
+      "title": "Controlo das ventoinhas",
+      "desc": "Perfis: RPM fixo, curva baseada no sensor, auto. Proteção térmica. O daemon do sistema instala-se num clique."
+    },
+    "toggles": {
+      "title": "Alternadores rápidos",
+      "desc": "Wi-Fi, Bluetooth, Night Shift, modo escuro, luz de fundo do teclado — além dos seus próprios botões de comando. Mosaico totalmente personalizável."
+    },
+    "layout": {
+      "title": "Disposição automática RU↔EN",
+      "desc": "Um substituto local do Punto Switcher: corrige a disposição do teclado errada e alterna por atalho — sem nuvem, sem telemetria."
+    },
+    "security": {
+      "title": "Privacidade e firewall",
+      "desc": "ALF integrado, bloqueio de pânico de entrada, bloqueio de domínios, quarentena e Gatekeeper — gerencie tudo num par de cliques."
+    },
+    "dev": {
+      "title": "Para programadores",
+      "desc": "Homebrew, IDEs e bibliotecas a partir do menu. Alteração de resolução de ecrã, alternadores do Finder, monitorização de CPU/RAM na barra de menu."
+    }
+  },
+  "Compare": {
+    "eyebrow": "Grátis vs Pro",
+    "title": "Grátis para sempre — pague apenas para assumir o controlo",
+    "sub": "Veja tudo de graça. O Pro desbloqueia a capacidade de controlar e automatizar.",
+    "free": {
+      "name": "Grátis",
+      "price": "$0",
+      "period": "para sempre",
+      "features": [
+        "Bateria, potência e diagrama de fluxo de energia",
+        "Temperaturas, ventoinhas, carga do sistema",
+        "Leituras em direto na barra de menu",
+        "Alternadores Wi-Fi / Bluetooth / Night Shift / tema",
+        "Caffeine, histórico da área de transferência, resolução de ecrã"
+      ]
+    },
+    "pro": {
+      "badge": "Pro",
+      "name": "Kelvin Pro",
+      "price": "$19",
+      "period": "pagamento único",
+      "features": [
+        "Controlo das ventoinhas (perfis, curvas)",
+        "Limite de carga da bateria",
+        "Firewall e bloqueio de domínios",
+        "Disposição automática, correção de erros de digitação, snippets",
+        "Botões de comando personalizados",
+        "Comutação de GPU, bloqueio de ligações"
+      ],
+      "cta": "Obter Pro"
+    }
+  },
+  "Showcase": {
+    "eyebrow": "Temas claro e escuro",
+    "title": "Design nativo no espírito do Control Center",
+    "desc": "Mosaicos de vidro, cantos contínuos, sombras suaves e microanimações. Temas claro e escuro. O painel é seu para montar — quais os blocos a mostrar e em que ordem."
+  },
+  "Pricing": {
+    "eyebrow": "Preço",
+    "title": "Preço simples",
+    "price": "$19",
+    "note": "pagamento único",
+    "features": [
+      "Todas as funções Pro para sempre",
+      "2 Macs por licença",
+      "Sem subscrição — pague uma vez",
+      "14 dias de acesso total grátis — sem cartão",
+      "Atualizações gratuitas dentro da versão",
+      "Garantia de reembolso de 14 dias"
+    ],
+    "cta": "Comprar Kelvin Pro — $19",
+    "micro": "Pagamentos e licenciamento via Lemon Squeezy (Merchant of Record). Cartões, Apple Pay, PayPal. Recibos e IVA tratados pela loja."
+  },
+  "Privacy": {
+    "eyebrow": "Privacidade",
+    "title": "Local. Sem rastreio.",
+    "pills": [
+      "Sem analítica",
+      "Sem chamadas para casa",
+      "Os dados nunca saem do seu Mac",
+      "Mecanismos abertos do sistema macOS"
+    ],
+    "note": "O Kelvin foi criado como uma alternativa local aos utilitários que telefonam para casa. Ações privilegiadas (daemons, firewall) solicitam a sua palavra-passe através do diálogo padrão do macOS — transparente e sob o seu controlo."
+  },
+  "Faq": {
+    "eyebrow": "FAQ",
+    "title": "Perguntas frequentes",
+    "items": [
+      {
+        "q": "É uma subscrição?",
+        "a": "Não. O Kelvin Pro é um pagamento único de $19. Não há subscrições nem cobranças recorrentes. Versões principais no futuro podem ser uma atualização paga com desconto para proprietários existentes."
+      },
+      {
+        "q": "Quantos Macs cobre uma licença?",
+        "a": "Dois computadores. Pode desativar a licença num Mac e transferi-la para outro — por exemplo, ao substituir ou vender equipamento."
+      },
+      {
+        "q": "O que é exatamente grátis?",
+        "a": "Toda a monitorização — para sempre: bateria, potência, temperaturas, ventoinhas, carga, leituras na barra de menu e alternadores básicos. O Pro adiciona controlo e automação."
+      },
+      {
+        "q": "Funciona em Apple Silicon (série M)?",
+        "a": "Sim, tanto em Intel como Apple Silicon, macOS 11 ou posterior. O conjunto de sensores e a comutação de GPU dependem do modelo — o Kelvin mostra apenas o que está disponível no seu Mac."
+      },
+      {
+        "q": "Posso obter reembolso?",
+        "a": "Sim, dentro de 14 dias — além disso, o período de teste gratuito desbloqueia todas as funções Pro durante 14 dias antes de comprar."
+      },
+      {
+        "q": "Por que não na Mac App Store?",
+        "a": "O controlo das ventoinhas, limite de carga, firewall e daemons do sistema são incompatíveis com a sandbox da App Store. É por isso que o Kelvin é distribuído diretamente — como um DMG notarizado que passa nas verificações do Gatekeeper da Apple."
+      }
+    ]
+  },
+  "Download": {
+    "eyebrow": "Descarregar",
+    "title": "Descarregar",
+    "lead": "Grátis para macOS 11+. O Pro desbloqueia-se dentro da própria aplicação.",
+    "ctaPrimary": "Descarregar .dmg",
+    "ctaSecondary": "Comprar Pro — $19",
+    "micro": "Notarizado pela Apple. No primeiro uso das funções Pro, o macOS pedirá permissão em Definições do Sistema → Privacidade e Segurança."
+  },
+  "Footer": {
+    "privacy": "Privacidade",
+    "eula": "Licença",
+    "support": "Suporte",
+    "legal": "© 2026 Kelvin · Artem Balabanov (MEI) · CNPJ 53.294.776/0001-28"
+  },
+  "Legal": {
+    "back": "← Kelvin",
+    "privacy": {
+      "title": "Política de Privacidade",
+      "updated": "Atualizado: 29 de junho de 2026"
+    },
+    "eula": {
+      "title": "Contrato de Licença do Utilizador Final (EULA)",
+      "updated": "Atualizado: 26 de junho de 2026"
+    },
+    "notes": {
+      "title": "Novidades",
+      "updated": "Histórico de versões do Kelvin"
+    }
+  }
+}

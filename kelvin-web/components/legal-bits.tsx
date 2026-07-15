@@ -2,7 +2,7 @@
 
 export function Entity() {
   return (
-    <div className="glass my-5.5 rounded-[14px] px-5 py-4.5 text-[15px] text-tx">
+    <div className="glass my-5 rounded-[14px] px-5 py-4 text-[15px] text-tx">
       <strong>Оператор / Operator:</strong> Artem Balabanov (MEI)
       <br />
       CNPJ 53.294.776/0001-28 · Brazil

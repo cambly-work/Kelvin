@@ -15,7 +15,7 @@ export default function LegalLayout({
     <>
       <Nav />
       <main className="flex-1">
-        <section className="mx-auto max-w-[47.5rem] px-5 py-10 sm:px-8 sm:py-20 lg:px-8">
+        <section className="mx-auto max-w-[47.5rem] px-5 pb-10 pt-24 sm:px-8 sm:pb-20 sm:pt-28 lg:px-8">
           <Link
             href="/"
             className="mb-7 inline-block text-[14px] text-mut transition-colors hover:text-tx"

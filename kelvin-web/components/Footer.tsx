@@ -5,7 +5,7 @@ export default function Footer() {
   const t = useTranslations("Footer");
 
   return (
-    <footer className="border-t border-white/10 bg-bg px-5 py-8 sm:px-8">
+    <footer className="border-t border-line px-5 py-8 sm:px-8">
       <div className="mx-auto flex max-w-[980px] flex-col items-center gap-4 text-center sm:flex-row sm:justify-between sm:text-left">
         <div className="flex items-center gap-2 text-[14px] text-mut">
           <img

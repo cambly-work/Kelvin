@@ -30,7 +30,7 @@ export default async function PrivacyPage({
       <p className="mb-8 text-[14px] text-mut">{t("updated")}</p>
 
       <Entity />
-      {locale === "ru" ? <PrivacyRu /> : <PrivacyEn />}
+      {locale === "ru" ? <PrivacyRu /> : <PrivacyPt />}
     </LegalLayout>
   );
 }
@@ -164,121 +164,125 @@ function PrivacyRu() {
   );
 }
 
-function PrivacyEn() {
+function PrivacyPt() {
   return (
     <>
       <p className="legal-p">
-        Kelvin is built as a local tool. Monitoring and system metrics are
-        processed entirely on your Mac. This document honestly explains what
-        the app does with information and the exactly two network requests
-        it makes.
+        O Kelvin foi criado como uma ferramenta local. A monitorização e as
+        métricas do sistema são processadas inteiramente no seu Mac. Este
+        documento explica honestamente o que a aplicação faz com a
+        informação e os exatamente dois pedidos de rede que faz.
       </p>
 
-      <Entity />
-
-      <h2 className="legal-h2">1. Analytics &amp; tracking</h2>
+      <h2 className="legal-h2">1. Analítica e rastreio</h2>
       <p className="legal-p">
-        <strong>None.</strong> Kelvin has no analytics, no ad SDKs, no
-        trackers and no counters. We don&apos;t collect usage statistics,
-        build a profile, or send anything to our servers for analysis.{" "}
+        <strong>Nenhum.</strong> O Kelvin não tem analítica, nem SDKs de
+        anúncios, nem rastreadores, nem contadores. Não recolhemos
+        estatísticas de uso, não criamos perfis nem enviamos nada para os
+        nossos servidores para análise.{" "}
         <strong>
-          The free monitoring features make zero network requests
+          As funções de monitorização gratuitas não fazem nenhum pedido de
+          rede
         </strong>{" "}
-        — battery, temperatures, fans, network and disk are all read locally
-        (IOKit / SMC / system counters); we intentionally never query your
-        public IP.
+        — bateria, temperaturas, ventoinhas, rede e disco são todas lidas
+        localmente (IOKit / SMC / contadores do sistema); nunca consultamos
+        intencionalmente o seu IP público.
       </p>
 
-      <h2 className="legal-h2">2. What leaves your Mac</h2>
+      <h2 className="legal-h2">2. O que sai do seu Mac</h2>
       <p className="legal-p">
-        Exactly two requests, both minimal and necessary:
-      </p>
-      <ul className="legal-ul">
-        <li>
-          <strong>Update check.</strong> No more than once a day the app
-          requests <code>trykelvin.com/appcast.json</code> to see if a new
-          version is available. This is a plain anonymous GET request: no
-          account, no identifiers, no personal data.
-        </li>
-        <li>
-          <strong>License check (Kelvin Pro only).</strong> When you activate
-          a license key and then periodically to confirm it, the key and a
-          device identifier are sent to our payment provider{" "}
-          <strong>Lemon Squeezy</strong> for validation. This only happens
-          when using Pro; in free mode the license is never checked. The
-          check works offline during a grace period.
-        </li>
-      </ul>
-
-      <h2 className="legal-h2">3. What stays local and never leaves</h2>
-      <ul className="legal-ul">
-        <li>power state, battery, wattage and current (IOKit / SMC);</li>
-        <li>
-          CPU/GPU/memory load, temperatures, fan speeds, network and disk
-          throughput;
-        </li>
-        <li>
-          Bluetooth device battery (via the macOS system report) — display
-          only;
-        </li>
-        <li>
-          clipboard history (if enabled) — stored only locally on your Mac
-          and never transmitted;
-        </li>
-        <li>
-          app preferences and the trial anchor — in your Mac&apos;s local
-          user defaults and Keychain.
-        </li>
-      </ul>
-
-      <h2 className="legal-h2">4. System permissions</h2>
-      <p className="legal-p">
-        Some features require macOS permissions — used solely for their
-        stated purpose and transmitting nothing:
+        Exatamente dois pedidos, ambos mínimos e necessários:
       </p>
       <ul className="legal-ul">
         <li>
-          <strong>Bluetooth</strong> — show status and toggle from the menu
-          bar;
+          <strong>Verificação de atualizações.</strong> No máximo uma vez por
+          dia, a aplicação pede <code>trykelvin.com/appcast.json</code> para
+          ver se há uma nova versão disponível. Este é um simples pedido GET
+          anónimo: sem conta, sem identificadores, sem dados pessoais.
         </li>
         <li>
-          <strong>Accessibility</strong> — auto keyboard layout switching and
-          snippets (processed locally);
-        </li>
-        <li>
-          <strong>Apple Events</strong> — toggles like dark mode and Night
-          Shift;
-        </li>
-        <li>
-          <strong>Administrator password</strong> — one-time installation of
-          system daemons (fans, charge limit) via the standard macOS dialog.
+          <strong>Verificação de licença (apenas Kelvin Pro).</strong> Quando
+          ativa uma chave de licença e depois periodicamente para confirmar,
+          a chave e um identificador do dispositivo são enviados ao nosso
+          provedor de pagamentos <strong>Lemon Squeezy</strong> para
+          validação. Isto só acontece ao usar o Pro; no modo gratuito a
+          licença nunca é verificada. A verificação funciona offline durante
+          um período de tolerância.
         </li>
       </ul>
 
-      <h2 className="legal-h2">5. Payments</h2>
+      <h2 className="legal-h2">
+        3. O que fica local e nunca sai
+      </h2>
+      <ul className="legal-ul">
+        <li>estado de energia, bateria, potência e corrente (IOKit / SMC);</li>
+        <li>
+          carga de CPU/GPU/memória, temperaturas, velocidade das ventoinhas,
+          débito de rede e disco;
+        </li>
+        <li>
+          bateria de dispositivos Bluetooth (via relatório do sistema macOS)
+          — apenas exibição;
+        </li>
+        <li>
+          histórico da área de transferência (se ativado) — armazenado apenas
+          localmente no seu Mac e nunca transmitido;
+        </li>
+        <li>
+          preferências da aplicação e a âncora do período de teste — nos
+          user defaults locais e Keychain do seu Mac.
+        </li>
+      </ul>
+
+      <h2 className="legal-h2">4. Permissões do sistema</h2>
       <p className="legal-p">
-        License purchases are processed by the third-party payment service
-        Lemon Squeezy (merchant of record). Payment details are handled by
-        them per their policy; we receive only the details needed to issue
-        and validate the license (e.g. order email).
+        Algumas funções exigem permissões do macOS — usadas apenas para o fim
+        declarado e sem transmitir nada:
+      </p>
+      <ul className="legal-ul">
+        <li>
+          <strong>Bluetooth</strong> — mostrar o estado e alternar a partir
+          da barra de menu;
+        </li>
+        <li>
+          <strong>Acessibilidade</strong> — comutação automática da
+          disposição do teclado e snippets (processados localmente);
+        </li>
+        <li>
+          <strong>Apple Events</strong> — alternadores como modo escuro e
+          Night Shift;
+        </li>
+        <li>
+          <strong>Palavra-passe de administrador</strong> — instalação única
+          de daemons do sistema (ventoinhas, limite de carga) via o diálogo
+          padrão do macOS.
+        </li>
+      </ul>
+
+      <h2 className="legal-h2">5. Pagamentos</h2>
+      <p className="legal-p">
+        As compras de licença são processadas pelo serviço de pagamentos
+        terceiro Lemon Squeezy (merchant of record). Os dados de pagamento
+        são tratados por eles conforme a sua política; recebemos apenas os
+        detalhes necessários para emitir e validar a licença (por exemplo,
+        email do pedido).
       </p>
 
-      <h2 className="legal-h2">6. Data storage &amp; transfer</h2>
+      <h2 className="legal-h2">6. Armazenamento e transferência de dados</h2>
       <p className="legal-p">
-        System metrics and preferences stay on your device. We don&apos;t
-        store them and don&apos;t share them with third parties. Only the two
-        requests from section 2 ever leave your Mac.
+        As métricas do sistema e as preferências ficam no seu dispositivo.
+        Não as armazenamos nem as partilhamos com terceiros. Apenas os dois
+        pedidos da secção 2 saem do seu Mac.
       </p>
 
-      <h2 className="legal-h2">7. Changes</h2>
+      <h2 className="legal-h2">7. Alterações</h2>
       <p className="legal-p">
-        When this policy changes we&apos;ll update this page and the date
-        above.
+        Quando esta política mudar, atualizaremos esta página e a data acima.
       </p>
 
-      <h2 className="legal-h2">8. Contact</h2>
+      <h2 className="legal-h2">8. Contacto</h2>
       <p className="legal-p">
-        Questions —{" "}
+        Questões —{" "}
         <a
           href="mailto:cambly.studio@gmail.com"
           className="text-accent hover:underline"

@@ -15,7 +15,7 @@ export default function LocaleSwitcher() {
   }
 
   return (
-    <div className="flex items-center gap-1.5 text-[11px] text-faint">
+    <div className="flex items-center gap-1.5 text-[13px] font-medium text-mut">
       <button
         onClick={() => switchTo("ru")}
         aria-pressed={locale === "ru"}
@@ -27,13 +27,13 @@ export default function LocaleSwitcher() {
       </button>
       <span className="text-faint/50">·</span>
       <button
-        onClick={() => switchTo("en")}
-        aria-pressed={locale === "en"}
+        onClick={() => switchTo("pt")}
+        aria-pressed={locale === "pt"}
         className={`transition-colors ${
-          locale === "en" ? "text-tx" : "hover:text-mut"
+          locale === "pt" ? "text-tx" : "hover:text-mut"
         }`}
       >
-        EN
+        PT
       </button>
     </div>
   );
