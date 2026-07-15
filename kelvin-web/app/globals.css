@@ -1,48 +1,32 @@
 @import "tailwindcss";
 
 /* =========================================================================
-   Kelvin — design system, in sync with the native macOS app (Swift Design.swift)
-   Deep canvas · glass vibrancy tiles · single teal→blue gradient accent
-   CONTRACT: accent tokens must match the app — accent #33C7D1, ink #0A3342
+   Kelvin — monolithic Apple-style design system
+   Pure black canvas · solid surfaces · one calm accent · product-first
+   No glass, no gradients-everywhere, no grain, no fake UI.
    ========================================================================= */
 
 @theme {
-  /* brand / accent — the ONLY color beyond neutrals */
+  /* brand accent — ONE color, solid, used sparingly */
   --color-accent: #33c7d1;
-  --color-accent-bright: #4deaea;
-  --color-accent-deep: #198c9e;
   --color-accent-blue: #2a86f0;
   --color-ink: #0a3342;
 
-  /* surfaces — deep canvas, glass tiles like the popover */
-  --color-bg: #0a0e13;
-  --color-bg2: #0e141c;
-  --color-surface: #151b24;
+  /* canvas — pure black, Apple product pages */
+  --color-bg: #000000;
+  --color-surface: #1d1d1f;
 
-  /* hairlines */
-  --color-line: rgba(255, 255, 255, 0.08);
-  --color-line-strong: rgba(255, 255, 255, 0.12);
+  /* hairline */
+  --color-line: rgba(255, 255, 255, 0.1);
 
-  /* text — warm neutrals, tuned to the popover */
-  --color-tx: #eaf1f8;
-  --color-mut: #8c9bad;
-  --color-faint: #6e7785;
+  /* text — Apple product-page grays */
+  --color-tx: #f5f5f7;
+  --color-mut: #a1a1a6;
+  --color-faint: #6e6e73;
 
-  /* semantic — statuses only, never decoration */
-  --color-green: #34c759;
-  --color-orange: #ff9f0a;
-  --color-red: #ff453a;
-
-  /* font — system stack resolves to SF Pro on Mac = authentic Apple feel */
+  /* font — system stack resolves to SF Pro on Mac */
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display",
     "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
-
-  /* radii — no fractional radii, popover-scale */
-  --r-btn: 12px;
-  --r-tile: 18px;
-  --r-control: 10px;
-  --r-chip: 8px;
-  --r-shot: 22px;
 
   /* motion */
   --ease-kelvin: cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -52,45 +36,18 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    /* offset anchor jumps for the fixed header so headings aren't hidden */
     scroll-padding-top: 5rem;
   }
 
   body {
     font-family: var(--font-sans);
-    /* ambient atmosphere — three radial glows over the deep canvas.
-       NOTE: no background-attachment:fixed (causes repaint-on-scroll). */
-    background:
-      radial-gradient(1200px 700px at 78% -12%, rgba(42, 134, 240, 0.13), transparent 60%),
-      radial-gradient(960px 640px at -4% 6%, rgba(51, 199, 209, 0.12), transparent 55%),
-      radial-gradient(900px 760px at 60% 108%, rgba(51, 199, 209, 0.07), transparent 60%),
-      var(--color-bg);
+    background: var(--color-bg);
     color: var(--color-tx);
     line-height: 1.47;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     letter-spacing: -0.003em;
     overflow-x: hidden;
-  }
-
-  /* film grain — overlay, very subtle (no neon kitsch) */
-  body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    mix-blend-mode: overlay;
-    opacity: 0.035;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  /* keep interactive content above the grain layer */
-  main,
-  header,
-  footer {
-    position: relative;
-    z-index: 1;
   }
 
   /* Apple's signature tight headlines */
@@ -104,118 +61,46 @@
 
 /* ----------------------------------------------------------------------- */
 @layer components {
-  /* the signature 2-stop accent gradient — CTA, badges, price, ticks */
-  .grad {
-    background: linear-gradient(135deg, #33c7d1, #2a86f0);
-  }
-
-  /* gradient text — for price, hero accent words */
+  /* gradient text — reserved ONLY for the price, the single gradient on the page */
   .text-gradient {
-    background: linear-gradient(135deg, #4deaea 0%, #33c7d1 40%, #2a86f0 100%);
+    background: linear-gradient(135deg, #33c7d1, #2a86f0);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
   }
 
-  /* GLASS — the popover's vibrancy tile look, but WITHOUT backdrop-filter.
-     backdrop-filter on 10+ cards repaints the whole layer every scroll
-     frame = heavy GPU. A solid translucent fill + inset highlight gives
-     the same depth with near-zero cost. */
-  .glass {
-    background: rgba(255, 255, 255, 0.05);
+  /* CARD — solid surface with a hairline edge. No glass, no blur. */
+  .card {
+    background: var(--color-surface);
     border: 1px solid var(--color-line);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.06),
-      0 8px 24px rgba(0, 0, 0, 0.35);
-  }
-  /* denser glass on small screens for readability over busy backgrounds */
-  @media (max-width: 640px) {
-    .glass {
-      background: rgba(255, 255, 255, 0.07);
-    }
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
 
-  /* glass tile with hover lift + accent glow (feature/compare cards) */
-  .glass-interactive {
-    transition:
-      transform 0.2s var(--ease-kelvin),
-      border-color 0.2s var(--ease-kelvin),
-      box-shadow 0.2s var(--ease-kelvin);
-  }
-  .glass-interactive:hover {
-    transform: translateY(-4px);
-    border-color: rgba(51, 199, 209, 0.45);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.06),
-      0 0 0 1px rgba(51, 199, 209, 0.25),
-      0 20px 50px -16px rgba(51, 199, 209, 0.25);
-  }
-
-  /* line-icon chip — accent-tinted square holding an SF-style icon */
-  .icon-chip {
-    width: 44px;
-    height: 44px;
-    display: grid;
-    place-items: center;
-    border-radius: var(--r-control);
-    background: rgba(51, 199, 209, 0.1);
-    border: 1px solid rgba(51, 199, 209, 0.18);
-    color: var(--color-accent);
-  }
-
-  /* eyebrow — small uppercase accent label above sections */
-  .eyebrow {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 1;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--color-accent);
-  }
-
-  /* primary CTA — gradient pill with glow */
+  /* primary CTA — solid Apple blue, no glow */
   .btn-primary {
-    background: linear-gradient(135deg, #33c7d1, #2a86f0);
-    color: var(--color-ink);
-    border-radius: var(--r-btn);
-    font-size: 15px;
-    font-weight: 600;
-    box-shadow: 0 10px 30px rgba(42, 134, 240, 0.32);
-    transition:
-      transform 0.18s var(--ease-kelvin),
-      box-shadow 0.18s var(--ease-kelvin);
-  }
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 16px 40px rgba(42, 134, 240, 0.42);
-  }
-
-  /* secondary CTA — glass outline pill */
-  .btn-secondary {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--color-line-strong);
-    color: var(--color-tx);
-    border-radius: var(--r-btn);
+    background: var(--color-accent-blue);
+    color: #fff;
+    border-radius: 980px;
     font-size: 15px;
     font-weight: 500;
-    transition:
-      background 0.18s var(--ease-kelvin),
-      border-color 0.18s var(--ease-kelvin);
+    transition: opacity 0.2s var(--ease-kelvin);
   }
-  .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.09);
+  .btn-primary:hover {
+    opacity: 0.88;
   }
 
-  /* gradient tick mark (checklists) */
-  .tick {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #33c7d1, #2a86f0);
-    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='black' d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/></svg>") center/13px no-repeat;
-    mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='black' d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/></svg>") center/13px no-repeat;
+  /* secondary CTA — light fill like Apple */
+  .btn-secondary {
+    background: var(--color-tx);
+    color: #000;
+    border-radius: 980px;
+    font-size: 15px;
+    font-weight: 500;
+    transition: opacity 0.2s var(--ease-kelvin);
+  }
+  .btn-secondary:hover {
+    opacity: 0.88;
   }
 
   /* Apple-style link with arrow */
@@ -229,6 +114,13 @@
   }
   .link-arrow:hover {
     opacity: 0.75;
+  }
+
+  /* section label — quiet, not a shouty uppercase tag */
+  .eyebrow {
+    color: var(--color-accent);
+    font-size: 17px;
+    font-weight: 400;
   }
 
   /* legal page prose */
@@ -263,14 +155,14 @@
 }
 
 /* ----------------------------------------------------------------------- */
-/* scroll reveal — opacity + transform only (no blur: filter in transition is GPU-expensive) */
+/* scroll reveal — opacity + transform only */
 @media (prefers-reduced-motion: no-preference) {
   [data-reveal] {
     opacity: 0;
     transform: translateY(24px);
     transition:
-      opacity 0.52s var(--ease-kelvin),
-      transform 0.52s var(--ease-kelvin);
+      opacity 0.6s var(--ease-kelvin),
+      transform 0.6s var(--ease-kelvin);
   }
   [data-reveal].is-in {
     opacity: 1;

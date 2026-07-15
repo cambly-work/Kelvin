@@ -1,142 +1,132 @@
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import Reveal from "./Reveal";
 import { Icon } from "./icons";
-import {
-  LazyPower,
-  LazyFans,
-  LazyToggles,
-  LazyLayout,
-  LazySecurity,
-  LazyDev,
-} from "./LazyWidget";
 
 export default function Features() {
   const t = useTranslations("Features");
 
   return (
-    <section id="features" className="border-t border-line py-20 sm:py-28 lg:py-32">
-      <div className="mx-auto max-w-[980px] px-5 text-center">
-        <Reveal as="span" className="eyebrow mb-4">
-          {t("eyebrow")}
-        </Reveal>
-        <Reveal
-          as="h2"
-          index={1}
-          className="text-[clamp(2rem,5vw,3.5rem)] font-semibold tracking-[-0.025em] text-tx"
-        >
+    <section id="features" className="border-t border-line">
+      {/* Section heading */}
+      <div className="mx-auto max-w-[980px] px-5 pt-24 pb-10 text-center sm:pt-32">
+        <Reveal as="h2" className="text-[clamp(2rem,5vw,3.5rem)] font-semibold tracking-[-0.025em] text-tx">
           {t("title")}
         </Reveal>
       </div>
 
-      <div className="mx-auto mt-16 max-w-[1100px] space-y-24 px-5 sm:mt-24 sm:space-y-32 lg:space-y-40">
+      {/* Four big product blocks — alternating text / honest screenshot crop */}
+      <div>
         <BigFeature
-          n={1}
           icon="power"
           title={t("power.title")}
           desc={t("power.desc")}
-          visual={<LazyPower />}
+          crop="/assets/crops/ru-power.png"
+          cropW={652}
+          cropH={207}
         />
         <BigFeature
-          n={2}
           icon="fans"
           title={t("fans.title")}
           desc={t("fans.desc")}
-          visual={<LazyFans />}
+          crop="/assets/crops/ru-fans.png"
+          cropW={652}
+          cropH={210}
           flip
         />
         <BigFeature
-          n={3}
           icon="toggles"
           title={t("toggles.title")}
           desc={t("toggles.desc")}
-          visual={<LazyToggles />}
+          crop="/assets/crops/ru-toggles.png"
+          cropW={652}
+          cropH={214}
         />
         <BigFeature
-          n={4}
-          icon="layout"
-          title={t("layout.title")}
-          desc={t("layout.desc")}
-          visual={<LazyLayout />}
-          flip
-        />
-        <BigFeature
-          n={5}
           icon="security"
           title={t("security.title")}
           desc={t("security.desc")}
-          visual={<LazySecurity />}
-        />
-        <BigFeature
-          n={6}
-          icon="dev"
-          title={t("dev.title")}
-          desc={t("dev.desc")}
-          visual={<LazyDev />}
+          crop="/assets/crops/ru-settings.png"
+          cropW={652}
+          cropH={267}
           flip
         />
+      </div>
+
+      {/* Two quieter text-only features */}
+      <div className="mx-auto max-w-[980px] px-5 py-24 sm:py-32">
+        <div className="grid gap-12 sm:grid-cols-2 sm:gap-16">
+          <TextFeature icon="layout" title={t("layout.title")} desc={t("layout.desc")} />
+          <TextFeature icon="dev" title={t("dev.title")} desc={t("dev.desc")} />
+        </div>
       </div>
     </section>
   );
 }
 
 type BigFeatureProps = {
-  n: number;
-  icon: "power" | "fans" | "toggles" | "layout" | "security" | "dev";
+  icon: "power" | "fans" | "toggles" | "security";
   title: string;
   desc: string;
-  visual: React.ReactNode;
+  crop: string;
+  cropW: number;
+  cropH: number;
   flip?: boolean;
 };
 
-/* Apple-style alternating block: text one side, live UI the other.
-   The glow under the visual is the "product lights up" effect. */
-function BigFeature({ n, icon, title, desc, visual, flip }: BigFeatureProps) {
+function BigFeature({ icon, title, desc, crop, cropW, cropH, flip }: BigFeatureProps) {
   return (
-    <div className="grid items-center gap-10 sm:gap-16 lg:grid-cols-2">
-      {/* text */}
-      <Reveal
-        index={0}
-        className={`flex flex-col ${flip ? "lg:order-2 lg:text-right" : "lg:order-1"}`}
-      >
-        <div
-          className={`mb-5 flex items-center gap-3 ${
-            flip ? "lg:flex-row-reverse" : ""
-          }`}
-        >
-          <span className="icon-chip">
-            <Icon name={icon} width={24} height={24} />
+    <div className="border-t border-line">
+      <div className="mx-auto grid max-w-[980px] items-center gap-10 px-5 py-20 sm:py-28 lg:grid-cols-2 lg:gap-16">
+        <Reveal className={flip ? "lg:order-2 lg:text-left" : "lg:order-1"}>
+          <span className="mb-5 block text-accent">
+            <Icon name={icon} width={28} height={28} />
           </span>
-          <span className="text-[13px] font-medium uppercase tracking-[0.14em] text-faint">
-            {String(n).padStart(2, "0")}
-          </span>
-        </div>
-        <h3 className="text-[clamp(1.75rem,4vw,2.5rem)] font-semibold tracking-[-0.02em] text-tx">
-          {title}
-        </h3>
-        <p
-          className={`mt-4 max-w-md text-[clamp(1rem,1.6vw,1.125rem)] leading-relaxed text-mut ${
-            flip ? "lg:ml-auto" : ""
-          }`}
-        >
-          {desc}
-        </p>
-      </Reveal>
-
-      {/* visual */}
-      <Reveal
-        index={1}
-        className={`relative ${flip ? "lg:order-1" : "lg:order-2"}`}
-      >
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10"
-          style={{
-            background:
-              "radial-gradient(closest-side, rgba(51,199,209,0.18), rgba(42,134,240,0.09) 55%, transparent)",
-          }}
-        />
-        {visual}
-      </Reveal>
+          <h3 className="text-[clamp(1.75rem,4vw,2.5rem)] font-semibold tracking-[-0.02em] text-tx">
+            {title}
+          </h3>
+          <p className="mt-4 max-w-md text-[clamp(1.0625rem,1.8vw,1.25rem)] leading-relaxed text-mut">
+            {desc}
+          </p>
+        </Reveal>
+        <Reveal index={1} className={flip ? "lg:order-1" : "lg:order-2"}>
+          <Image
+            src={crop}
+            alt={title}
+            width={cropW}
+            height={cropH}
+            quality={80}
+            sizes="(max-width: 768px) 90vw, 460px"
+            className="h-auto w-full rounded-[18px] border border-line"
+            style={{
+              aspectRatio: `${cropW} / ${cropH}`,
+              boxShadow: "0 20px 50px -20px rgba(0,0,0,0.7)",
+            }}
+          />
+        </Reveal>
+      </div>
     </div>
+  );
+}
+
+function TextFeature({
+  icon,
+  title,
+  desc,
+}: {
+  icon: "layout" | "dev";
+  title: string;
+  desc: string;
+}) {
+  return (
+    <Reveal>
+      <span className="mb-4 block text-accent">
+        <Icon name={icon} width={28} height={28} />
+      </span>
+      <h3 className="text-[24px] font-semibold tracking-[-0.02em] text-tx">
+        {title}
+      </h3>
+      <p className="mt-3 text-[17px] leading-relaxed text-mut">{desc}</p>
+    </Reveal>
   );
 }
