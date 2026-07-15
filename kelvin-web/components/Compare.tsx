@@ -8,7 +8,7 @@ export default function Compare() {
   const proFeatures = t.raw("pro.features") as string[];
 
   return (
-    <section id="compare" className="py-20 sm:py-28 lg:py-32">
+    <section id="compare" className="border-t border-line py-20 sm:py-28 lg:py-32">
       <div className="mx-auto max-w-[980px] px-5 text-center">
         <Reveal as="span" className="eyebrow mb-4">
           {t("eyebrow")}
@@ -28,12 +28,12 @@ export default function Compare() {
           {t("sub")}
         </Reveal>
 
-        <div className="mt-14 grid gap-4 text-left sm:grid-cols-2">
+        <div className="mt-14 grid items-stretch gap-4 text-left sm:grid-cols-2">
           {/* Free */}
           <Reveal
             as="article"
             index={2}
-            className="glass glass-interactive rounded-[20px] p-8 sm:p-10"
+            className="glass glass-interactive flex h-full flex-col rounded-[20px] p-8 sm:p-10"
           >
             <h3 className="text-[24px] font-semibold text-tx">
               {t("free.name")}
@@ -52,7 +52,7 @@ export default function Compare() {
           <Reveal
             as="article"
             index={3}
-            className="glass relative overflow-hidden rounded-[20px] p-8 ring-1 ring-accent/40 sm:p-10"
+            className="glass relative flex h-full flex-col overflow-hidden rounded-[20px] p-8 ring-1 ring-accent/40 sm:p-10"
           >
             {/* gradient wash at top */}
             <div
@@ -66,7 +66,7 @@ export default function Compare() {
             <div className="grad absolute right-6 top-6 rounded-full px-3 py-1 text-[12px] font-semibold text-ink shadow-[0_6px_18px_rgba(42,134,240,0.32)]">
               {t("pro.badge")}
             </div>
-            <h3 className="relative text-[24px] font-semibold text-tx">
+            <h3 className="relative pr-16 text-[24px] font-semibold text-tx">
               {t("pro.name")}
             </h3>
             <p className="relative mt-1 text-[17px] text-mut">
@@ -79,7 +79,7 @@ export default function Compare() {
             </ul>
             <Link
               href="/#pricing"
-              className="btn-primary relative mt-8 inline-block px-6 py-2.5"
+              className="btn-primary relative mt-auto inline-block w-fit px-6 py-2.5 pt-8"
             >
               {t("pro.cta")}
             </Link>

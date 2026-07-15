@@ -6,7 +6,7 @@ export default function Pricing() {
   const features = t.raw("features") as string[];
 
   return (
-    <section id="pricing" className="py-20 sm:py-28 lg:py-32">
+    <section id="pricing" className="border-t border-line py-20 sm:py-28 lg:py-32">
       <div className="mx-auto max-w-[980px] px-5 text-center">
         <Reveal as="span" className="eyebrow mb-4">
           {t("eyebrow")}
@@ -21,7 +21,16 @@ export default function Pricing() {
 
         {/* price — gradient text */}
         <Reveal index={2} className="mt-6">
-          <span className="text-gradient text-[clamp(4rem,10vw,7rem)] font-semibold tracking-[-0.03em]">
+          <span
+            className="text-[clamp(4rem,10vw,7rem)] font-bold tracking-[-0.03em]"
+            style={{
+              background:
+                "linear-gradient(135deg, #4deaea 0%, #33c7d1 45%, #2a86f0 100%)",
+              WebkitBackgroundClip: "text",
+              backgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
             {t("price")}
           </span>
           <span className="ml-3 text-[21px] text-mut">{t("note")}</span>

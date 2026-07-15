@@ -25,7 +25,7 @@ export default function Download() {
   const dmgHref = info?.url ?? "#";
 
   return (
-    <section id="download" className="relative overflow-hidden py-24 text-center sm:py-32 lg:py-40">
+    <section id="download" className="relative overflow-hidden border-t border-line py-24 text-center sm:py-32 lg:py-40">
       {/* large ambient glow behind the final CTA */}
       <div
         aria-hidden

@@ -2,19 +2,19 @@ import { useTranslations } from "next-intl";
 import Reveal from "./Reveal";
 import { Icon } from "./icons";
 import {
-  PowerWidget,
-  FansWidget,
-  TogglesWidget,
-  LayoutWidget,
-  SecurityWidget,
-  DevWidget,
-} from "./FeatureWidgets";
+  LazyPower,
+  LazyFans,
+  LazyToggles,
+  LazyLayout,
+  LazySecurity,
+  LazyDev,
+} from "./LazyWidget";
 
 export default function Features() {
   const t = useTranslations("Features");
 
   return (
-    <section id="features" className="py-20 sm:py-28 lg:py-32">
+    <section id="features" className="border-t border-line py-20 sm:py-28 lg:py-32">
       <div className="mx-auto max-w-[980px] px-5 text-center">
         <Reveal as="span" className="eyebrow mb-4">
           {t("eyebrow")}
@@ -34,14 +34,14 @@ export default function Features() {
           icon="power"
           title={t("power.title")}
           desc={t("power.desc")}
-          visual={<PowerWidget />}
+          visual={<LazyPower />}
         />
         <BigFeature
           n={2}
           icon="fans"
           title={t("fans.title")}
           desc={t("fans.desc")}
-          visual={<FansWidget />}
+          visual={<LazyFans />}
           flip
         />
         <BigFeature
@@ -49,14 +49,14 @@ export default function Features() {
           icon="toggles"
           title={t("toggles.title")}
           desc={t("toggles.desc")}
-          visual={<TogglesWidget />}
+          visual={<LazyToggles />}
         />
         <BigFeature
           n={4}
           icon="layout"
           title={t("layout.title")}
           desc={t("layout.desc")}
-          visual={<LayoutWidget />}
+          visual={<LazyLayout />}
           flip
         />
         <BigFeature
@@ -64,14 +64,14 @@ export default function Features() {
           icon="security"
           title={t("security.title")}
           desc={t("security.desc")}
-          visual={<SecurityWidget />}
+          visual={<LazySecurity />}
         />
         <BigFeature
           n={6}
           icon="dev"
           title={t("dev.title")}
           desc={t("dev.desc")}
-          visual={<DevWidget />}
+          visual={<LazyDev />}
           flip
         />
       </div>

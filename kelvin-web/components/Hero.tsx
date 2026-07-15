@@ -80,9 +80,12 @@ export default function Hero() {
           width={panelW}
           height={panelH}
           priority
-          sizes="(max-width: 768px) 90vw, 600px"
+          fetchPriority="high"
+          quality={80}
+          sizes="(max-width: 768px) 88vw, 480px"
           className="mx-auto h-auto w-auto max-h-[70vh] rounded-[22px] border border-line-strong"
           style={{
+            aspectRatio: `${panelW} / ${panelH}`,
             filter: "drop-shadow(0 1px 0 rgba(255,255,255,0.06)) drop-shadow(0 40px 90px rgba(0,0,0,0.6))",
           }}
         />

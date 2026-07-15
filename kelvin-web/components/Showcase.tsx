@@ -74,9 +74,11 @@ function ShowcaseShot({
         alt={alt}
         width={w}
         height={h}
+        quality={75}
         sizes="(max-width: 768px) 42vw, 220px"
         className="h-auto w-auto max-h-[460px] rounded-[18px] border border-line-strong"
         style={{
+          aspectRatio: `${w} / ${h}`,
           filter: "drop-shadow(0 1px 0 rgba(255,255,255,0.06)) drop-shadow(0 30px 70px rgba(0,0,0,0.55))",
         }}
       />
