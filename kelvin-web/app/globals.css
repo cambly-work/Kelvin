@@ -58,13 +58,13 @@
 
   body {
     font-family: var(--font-sans);
-    /* ambient atmosphere — three radial glows over the deep canvas */
+    /* ambient atmosphere — three radial glows over the deep canvas.
+       NOTE: no background-attachment:fixed (causes repaint-on-scroll). */
     background:
       radial-gradient(1200px 700px at 78% -12%, rgba(42, 134, 240, 0.13), transparent 60%),
       radial-gradient(960px 640px at -4% 6%, rgba(51, 199, 209, 0.12), transparent 55%),
       radial-gradient(900px 760px at 60% 108%, rgba(51, 199, 209, 0.07), transparent 60%),
       var(--color-bg);
-    background-attachment: fixed;
     color: var(--color-tx);
     line-height: 1.47;
     -webkit-font-smoothing: antialiased;
@@ -118,15 +118,16 @@
     -webkit-text-fill-color: transparent;
   }
 
-  /* GLASS — the popover's vibrancy tile: translucent + blur + top highlight */
+  /* GLASS — the popover's vibrancy tile look, but WITHOUT backdrop-filter.
+     backdrop-filter on 10+ cards repaints the whole layer every scroll
+     frame = heavy GPU. A solid translucent fill + inset highlight gives
+     the same depth with near-zero cost. */
   .glass {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--color-line);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.06),
       0 8px 24px rgba(0, 0, 0, 0.35);
-    backdrop-filter: blur(8px) saturate(140%);
-    -webkit-backdrop-filter: blur(8px) saturate(140%);
   }
   /* denser glass on small screens for readability over busy backgrounds */
   @media (max-width: 640px) {
@@ -262,20 +263,17 @@
 }
 
 /* ----------------------------------------------------------------------- */
-/* scroll reveal */
+/* scroll reveal — opacity + transform only (no blur: filter in transition is GPU-expensive) */
 @media (prefers-reduced-motion: no-preference) {
   [data-reveal] {
     opacity: 0;
     transform: translateY(24px);
-    filter: blur(6px);
     transition:
       opacity 0.52s var(--ease-kelvin),
-      transform 0.52s var(--ease-kelvin),
-      filter 0.52s var(--ease-kelvin);
+      transform 0.52s var(--ease-kelvin);
   }
   [data-reveal].is-in {
     opacity: 1;
     transform: none;
-    filter: none;
   }
 }

@@ -28,7 +28,7 @@ export default function Nav() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
         scrolled || open
-          ? "border-b border-line bg-bg/70 backdrop-blur-xl backdrop-saturate-150"
+          ? "border-b border-line bg-bg/85"
           : "border-b border-transparent bg-transparent"
       }`}
     >
@@ -102,7 +102,7 @@ export default function Nav() {
 
       {/* mobile dropdown */}
       {open && (
-        <div className="border-t border-line bg-bg/70 px-5 py-2 backdrop-blur-xl md:hidden">
+        <div className="border-t border-line bg-bg/85 px-5 py-2 md:hidden">
           <div className="flex flex-col">
             {[...links, { href: "/#download", label: t("download") }].map(
               (l) => (

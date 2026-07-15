@@ -2,7 +2,6 @@ import { useTranslations, useLocale } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import Reveal from "./Reveal";
-import HeroParallax from "./HeroParallax";
 
 export default function Hero() {
   const t = useTranslations("Hero");
@@ -63,15 +62,13 @@ export default function Hero() {
       </div>
 
       {/* product screenshot — the device "lights up" with ambient glow + deep shadow */}
-      <HeroParallax className="relative mt-16 lg:mt-20">
+      <Reveal index={3} className="relative mt-16 lg:mt-20">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
             background:
-              "radial-gradient(closest-side, rgba(51,199,209,0.30), rgba(42,134,240,0.16) 55%, transparent)",
-            filter: "blur(70px)",
-            transform: "scale(1.05)",
+              "radial-gradient(closest-side, rgba(51,199,209,0.25), rgba(42,134,240,0.12) 55%, transparent)",
           }}
         />
         <Image
@@ -86,10 +83,10 @@ export default function Hero() {
           className="mx-auto h-auto w-auto max-h-[70vh] rounded-[22px] border border-line-strong"
           style={{
             aspectRatio: `${panelW} / ${panelH}`,
-            filter: "drop-shadow(0 1px 0 rgba(255,255,255,0.06)) drop-shadow(0 40px 90px rgba(0,0,0,0.6))",
+            boxShadow: "0 1px 0 rgba(255,255,255,0.06) inset, 0 40px 90px -20px rgba(0,0,0,0.6)",
           }}
         />
-      </HeroParallax>
+      </Reveal>
     </section>
   );
 }

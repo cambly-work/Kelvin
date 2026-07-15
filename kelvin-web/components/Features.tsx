@@ -132,9 +132,7 @@ function BigFeature({ n, icon, title, desc, visual, flip }: BigFeatureProps) {
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
             background:
-              "radial-gradient(closest-side, rgba(51,199,209,0.22), rgba(42,134,240,0.12) 55%, transparent)",
-            filter: "blur(60px)",
-            transform: "scale(1.08)",
+              "radial-gradient(closest-side, rgba(51,199,209,0.18), rgba(42,134,240,0.09) 55%, transparent)",
           }}
         />
         {visual}

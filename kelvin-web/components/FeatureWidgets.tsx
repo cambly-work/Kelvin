@@ -189,15 +189,8 @@ export function FansWidget() {
 
 /* --- 3. Toggles: Wi-Fi / Bluetooth / Dark ------------------------------ */
 export function TogglesWidget() {
-  const { ref, seen } = useInView<HTMLDivElement>();
+  const { ref } = useInView<HTMLDivElement>();
   const [on, setOn] = useState([true, false, true]);
-  useEffect(() => {
-    if (!seen) return;
-    const t = setInterval(() => {
-      setOn((prev) => [prev[1], prev[2], prev[0]]);
-    }, 2200);
-    return () => clearInterval(t);
-  }, [seen]);
 
   const labels = ["Wi-Fi", "Bluetooth", "Dark Mode"];
   const icons = ["􀙇", "􀺞", "􀾫"]; // SF-ish glyphs as text fallback
@@ -248,8 +241,9 @@ export function LayoutWidget() {
   const [fixed, setFixed] = useState(false);
   useEffect(() => {
     if (!seen) return;
-    const t = setInterval(() => setFixed((v) => !v), 1900);
-    return () => clearInterval(t);
+    // one-shot: fix the layout a moment after entering view, then stop
+    const t = setTimeout(() => setFixed(true), 600);
+    return () => clearTimeout(t);
   }, [seen]);
 
   return (

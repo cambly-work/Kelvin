@@ -64,9 +64,7 @@ function ShowcaseShot({
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            "radial-gradient(closest-side, rgba(51,199,209,0.22), rgba(42,134,240,0.12) 55%, transparent)",
-          filter: "blur(50px)",
-          transform: "scale(1.06)",
+            "radial-gradient(closest-side, rgba(51,199,209,0.18), rgba(42,134,240,0.09) 55%, transparent)",
         }}
       />
       <Image
@@ -79,7 +77,7 @@ function ShowcaseShot({
         className="h-auto w-auto max-h-[460px] rounded-[18px] border border-line-strong"
         style={{
           aspectRatio: `${w} / ${h}`,
-          filter: "drop-shadow(0 1px 0 rgba(255,255,255,0.06)) drop-shadow(0 30px 70px rgba(0,0,0,0.55))",
+          boxShadow: "0 1px 0 rgba(255,255,255,0.06) inset, 0 30px 70px -22px rgba(0,0,0,0.55)",
         }}
       />
     </div>
