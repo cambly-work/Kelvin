@@ -56,8 +56,17 @@ export async function generateMetadata({
 }
 
 export const viewport: Viewport = {
-  themeColor: "#0A0E13",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fbfbfd" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
 };
+
+/**
+ * Runs synchronously before first paint to apply the saved/system theme.
+ * Prevents FOUC (flash of wrong theme). Must stay inline in <head>.
+ */
+const themeScript = `(function(){try{var t=localStorage.getItem('kelvin-theme');if(t==='light'){document.documentElement.classList.add('light')}else if(t==='dark'){document.documentElement.classList.remove('light')}else if(matchMedia('(prefers-color-scheme: light)').matches){document.documentElement.classList.add('light')}}catch(e){}})()`;
 
 export default async function LocaleLayout({
   children,
@@ -76,6 +85,9 @@ export default async function LocaleLayout({
       className={`${inter.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="min-h-dvh flex flex-col">
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>

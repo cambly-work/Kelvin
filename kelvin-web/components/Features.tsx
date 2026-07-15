@@ -3,8 +3,12 @@ import Image from "next/image";
 import Reveal from "./Reveal";
 import { Icon } from "./icons";
 
-export default function Features() {
+export default function Features({ locale }: { locale: string }) {
   const t = useTranslations("Features");
+  // Crop screenshots are only available for the RU panel layout.
+  // On other locales, fall back to text+icon for all features so visitors
+  // never see screenshots with foreign-language labels.
+  const hasCrops = locale === "ru";
 
   return (
     <section id="features" className="border-t border-line">
@@ -15,51 +19,37 @@ export default function Features() {
         </Reveal>
       </div>
 
-      {/* Four big product blocks — alternating text / honest screenshot crop */}
-      <div>
-        <BigFeature
-          icon="power"
-          title={t("power.title")}
-          desc={t("power.desc")}
-          crop="/assets/crops/ru-power.png"
-          cropW={652}
-          cropH={207}
-        />
-        <BigFeature
-          icon="fans"
-          title={t("fans.title")}
-          desc={t("fans.desc")}
-          crop="/assets/crops/ru-fans.png"
-          cropW={652}
-          cropH={210}
-          flip
-        />
-        <BigFeature
-          icon="toggles"
-          title={t("toggles.title")}
-          desc={t("toggles.desc")}
-          crop="/assets/crops/ru-toggles.png"
-          cropW={652}
-          cropH={214}
-        />
-        <BigFeature
-          icon="security"
-          title={t("security.title")}
-          desc={t("security.desc")}
-          crop="/assets/crops/ru-settings.png"
-          cropW={652}
-          cropH={267}
-          flip
-        />
-      </div>
-
-      {/* Two quieter text-only features */}
-      <div className="mx-auto max-w-[980px] px-5 py-24 sm:py-32">
-        <div className="grid gap-12 sm:grid-cols-2 sm:gap-16">
-          <TextFeature icon="layout" title={t("layout.title")} desc={t("layout.desc")} />
-          <TextFeature icon="dev" title={t("dev.title")} desc={t("dev.desc")} />
+      {hasCrops ? (
+        /* RU: four big product blocks with honest screenshot crops */
+        <div>
+          <BigFeature icon="power" title={t("power.title")} desc={t("power.desc")} crop="/assets/crops/ru-power.png" cropW={652} cropH={207} />
+          <BigFeature icon="fans" title={t("fans.title")} desc={t("fans.desc")} crop="/assets/crops/ru-fans.png" cropW={652} cropH={210} flip />
+          <BigFeature icon="toggles" title={t("toggles.title")} desc={t("toggles.desc")} crop="/assets/crops/ru-toggles.png" cropW={652} cropH={214} />
+          <BigFeature icon="security" title={t("security.title")} desc={t("security.desc")} crop="/assets/crops/ru-settings.png" cropW={652} cropH={267} flip />
         </div>
-      </div>
+      ) : (
+        /* PT: text+icon for all six features (no foreign-label screenshots) */
+        <div className="mx-auto max-w-[980px] px-5">
+          <div className="grid gap-12 sm:grid-cols-2 sm:gap-x-16 sm:gap-y-16">
+            <TextFeature icon="power" title={t("power.title")} desc={t("power.desc")} />
+            <TextFeature icon="fans" title={t("fans.title")} desc={t("fans.desc")} />
+            <TextFeature icon="toggles" title={t("toggles.title")} desc={t("toggles.desc")} />
+            <TextFeature icon="security" title={t("security.title")} desc={t("security.desc")} />
+            <TextFeature icon="layout" title={t("layout.title")} desc={t("layout.desc")} />
+            <TextFeature icon="dev" title={t("dev.title")} desc={t("dev.desc")} />
+          </div>
+        </div>
+      )}
+
+      {/* RU: two quieter text-only features below the crops */}
+      {hasCrops && (
+        <div className="mx-auto max-w-[980px] px-5 py-24 sm:py-32">
+          <div className="grid gap-12 sm:grid-cols-2 sm:gap-16">
+            <TextFeature icon="layout" title={t("layout.title")} desc={t("layout.desc")} />
+            <TextFeature icon="dev" title={t("dev.title")} desc={t("dev.desc")} />
+          </div>
+        </div>
+      )}
     </section>
   );
 }
@@ -114,7 +104,7 @@ function TextFeature({
   title,
   desc,
 }: {
-  icon: "layout" | "dev";
+  icon: "power" | "fans" | "toggles" | "security" | "layout" | "dev";
   title: string;
   desc: string;
 }) {

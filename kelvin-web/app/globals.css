@@ -39,6 +39,19 @@
     scroll-padding-top: 5rem;
   }
 
+  /* LIGHT THEME — toggled by .light on <html> (set before paint, no FOUC).
+     Only token values change; every component using tokens repaints. */
+  :root.light {
+    --color-bg: #fbfbfd;
+    --color-surface: #f5f5f7;
+    --color-line: rgba(0, 0, 0, 0.12);
+    --color-tx: #1d1d1f;
+    --color-mut: #6e6e73;
+    --color-faint: #86868b;
+    --color-accent: #198c9e;
+    --color-accent-blue: #0066cc;
+  }
+
   body {
     font-family: var(--font-sans);
     background: var(--color-bg);
@@ -75,6 +88,10 @@
     background: var(--color-surface);
     border: 1px solid var(--color-line);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+  /* lighter shadow on light theme */
+  :root.light .card {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   }
 
   /* primary CTA — solid Apple blue, no glow */

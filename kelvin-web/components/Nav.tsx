@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import LocaleSwitcher from "./LocaleSwitcher";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Nav() {
   const t = useTranslations("Nav");
@@ -70,6 +71,7 @@ export default function Nav() {
             {t("download")}
           </Link>
           <LocaleSwitcher />
+          <ThemeToggle />
           {/* mobile toggle */}
           <button
             className="text-tx md:hidden"

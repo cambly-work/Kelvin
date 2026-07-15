@@ -23,7 +23,7 @@ export default async function HomePage({
       <Nav />
       <main className="flex-1">
         <Hero />
-        <Features />
+        <Features locale={locale} />
         <Compare />
         <Showcase />
         <Pricing />
