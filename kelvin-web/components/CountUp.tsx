@@ -1,16 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useInView, useMotionValue, animate } from "motion/react";
 
 /**
- * Animated count-up. Counts from 0 to `value` when scrolled into view.
- * motion disables the animation under prefers-reduced-motion (jumps to value).
+ * Lightweight count-up animation using requestAnimationFrame.
+ * Zero dependencies. Respects prefers-reduced-motion (jumps to value).
  */
 export default function CountUp({
   value,
   prefix = "",
-  duration = 1.2,
+  duration = 1200,
   className,
 }: {
   value: number;
@@ -19,19 +18,44 @@ export default function CountUp({
   className?: string;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "0px 0px -10% 0px" });
   const [display, setDisplay] = useState(0);
-  const mv = useMotionValue(0);
+  const started = useRef(false);
 
   useEffect(() => {
-    if (!inView) return;
-    const controls = animate(mv, value, {
-      duration,
-      ease: [0.22, 0.61, 0.36, 1],
-      onUpdate: (v) => setDisplay(Math.round(v)),
-    });
-    return () => controls.stop();
-  }, [inView, value, duration, mv]);
+    const el = ref.current;
+    if (!el) return;
+
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (reduce) {
+      setDisplay(value);
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting || started.current) return;
+          started.current = true;
+          const start = performance.now();
+          const tick = (now: number) => {
+            const progress = Math.min((now - start) / duration, 1);
+            // ease-out cubic
+            const eased = 1 - Math.pow(1 - progress, 3);
+            setDisplay(Math.round(eased * value));
+            if (progress < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+          io.unobserve(el);
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    io.observe(el);
+    return () => io.disconnect();
+  }, [value, duration]);
 
   return (
     <span ref={ref} className={className}>

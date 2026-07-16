@@ -1,7 +1,7 @@
 import { useTranslations, useLocale } from "next-intl";
+import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import Reveal from "./Reveal";
-import LazyHeroProduct from "./LazyHeroProduct";
 
 export default function Hero() {
   const t = useTranslations("Hero");
@@ -38,12 +38,24 @@ export default function Hero() {
         </Reveal>
       </div>
 
-      <LazyHeroProduct
-        src={panelSrc}
-        alt={t("title")}
-        width={panelW}
-        height={panelH}
-      />
+      {/* Product screenshot — honest, simple shadow, no glow */}
+      <Reveal index={3} className="relative mx-auto mt-16 w-fit lg:mt-20">
+        <Image
+          src={panelSrc}
+          alt={t("title")}
+          width={panelW}
+          height={panelH}
+          priority
+          fetchPriority="high"
+          quality={80}
+          sizes="(max-width: 768px) 88vw, 480px"
+          className="mx-auto h-auto w-auto max-h-[70vh] rounded-[22px] border border-line"
+          style={{
+            aspectRatio: `${panelW} / ${panelH}`,
+            boxShadow: "var(--shadow-product)",
+          }}
+        />
+      </Reveal>
     </section>
   );
 }
