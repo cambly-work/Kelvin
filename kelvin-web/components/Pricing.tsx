@@ -1,6 +1,9 @@
 import { useTranslations } from "next-intl";
 import Reveal from "./Reveal";
-import CountUp from "./CountUp";
+import dynamic from "next/dynamic";
+
+// Lazy-load count-up so motion stays out of the initial bundle.
+const CountUp = dynamic(() => import("./CountUp"));
 
 export default function Pricing() {
   const t = useTranslations("Pricing");
