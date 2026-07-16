@@ -1,10 +1,7 @@
 import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/routing";
 import Reveal from "./Reveal";
-import dynamic from "next/dynamic";
-
-// Lazy-load the parallax product so motion stays out of the initial bundle.
-const HeroProduct = dynamic(() => import("./HeroProduct"));
+import LazyHeroProduct from "./LazyHeroProduct";
 
 export default function Hero() {
   const t = useTranslations("Hero");
@@ -41,7 +38,7 @@ export default function Hero() {
         </Reveal>
       </div>
 
-      <HeroProduct
+      <LazyHeroProduct
         src={panelSrc}
         alt={t("title")}
         width={panelW}
