@@ -14,10 +14,10 @@ export default function Faq() {
 
         <Reveal index={1} className="space-y-3">
           {items.map((item) => (
-            <details key={item.q} className="card rounded-[14px] px-6 transition-colors duration-200 open:ring-1 open:ring-accent/30">
+            <details key={item.q} className="group card rounded-[14px] px-6 transition-colors duration-200 open:ring-1 open:ring-accent/30">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-[17px] font-medium text-tx">
                 {item.q}
-                <svg className="h-5 w-5 shrink-0 text-accent transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden>
+                <svg className="h-5 w-5 shrink-0 text-accent transition-transform duration-300 group-open:rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden>
                   <path d="M12 5v14M5 12h14" />
                 </svg>
               </summary>

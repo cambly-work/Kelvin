@@ -1,9 +1,12 @@
 import { useTranslations } from "next-intl";
 import Reveal from "./Reveal";
+import CountUp from "./CountUp";
 
 export default function Pricing() {
   const t = useTranslations("Pricing");
   const features = t.raw("features") as string[];
+  // price is "$19" — extract the numeric part for count-up
+  const priceNum = parseInt(t("price").replace(/\D/g, ""), 10) || 19;
 
   return (
     <section id="pricing" className="border-t border-line">
@@ -12,10 +15,10 @@ export default function Pricing() {
           {t("title")}
         </Reveal>
 
-        {/* price — the single gradient on the whole page */}
+        {/* price — the single gradient on the page, counts up on view */}
         <Reveal index={1} className="mt-6">
           <span className="text-gradient text-[clamp(4rem,10vw,7rem)] font-semibold tracking-[-0.03em]">
-            {t("price")}
+            <CountUp value={priceNum} prefix="$" />
           </span>
           <span className="ml-3 text-[21px] text-mut">{t("note")}</span>
         </Reveal>

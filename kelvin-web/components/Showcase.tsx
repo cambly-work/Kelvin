@@ -36,7 +36,7 @@ function ShowcaseShot({ src, alt, w, h }: { src: string; alt: string; w: number;
       className="h-auto w-auto max-h-[460px] rounded-[18px] border border-line"
       style={{
         aspectRatio: `${w} / ${h}`,
-        boxShadow: "0 20px 50px -20px rgba(0,0,0,0.7)",
+        boxShadow: "var(--shadow-product)",
       }}
     />
   );

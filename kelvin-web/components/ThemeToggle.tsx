@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 /**
  * Light/dark theme toggle. Reads the initial state from the <html> class
@@ -8,6 +9,7 @@ import { useEffect, useState } from "react";
  * .light on <html> and persists the choice to localStorage.
  */
 export default function ThemeToggle() {
+  const t = useTranslations("A11y");
   const [light, setLight] = useState(false);
 
   useEffect(() => {
@@ -28,7 +30,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggle}
-      aria-label={light ? "Switch to dark theme" : "Switch to light theme"}
+      aria-label={light ? t("toggleThemeDark") : t("toggleThemeLight")}
       className="text-mut transition-colors hover:text-tx"
     >
       {light ? (

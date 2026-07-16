@@ -1,9 +1,10 @@
 "use client";
 
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/routing";
 
 export default function LocaleSwitcher() {
+  const t = useTranslations("A11y");
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
@@ -15,7 +16,11 @@ export default function LocaleSwitcher() {
   }
 
   return (
-    <div className="flex items-center gap-1.5 text-[13px] font-medium text-mut">
+    <div
+      className="flex items-center gap-1.5 text-[13px] font-medium text-mut"
+      role="group"
+      aria-label={t("language")}
+    >
       <button
         onClick={() => switchTo("ru")}
         aria-pressed={locale === "ru"}

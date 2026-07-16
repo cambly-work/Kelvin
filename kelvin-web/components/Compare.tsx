@@ -19,7 +19,7 @@ export default function Compare() {
 
         <div className="mt-14 grid items-stretch gap-4 text-left sm:grid-cols-2">
           {/* Free */}
-          <Reveal as="article" index={2} className="card flex h-full flex-col rounded-[18px] p-8 sm:p-10">
+          <Reveal as="article" index={2} className="card card-hover flex h-full flex-col rounded-[18px] p-8 sm:p-10">
             <h3 className="text-[24px] font-semibold text-tx">{t("free.name")}</h3>
             <p className="mt-1 text-[17px] text-mut">
               {t("free.price")} · {t("free.period")}
@@ -32,7 +32,7 @@ export default function Compare() {
           </Reveal>
 
           {/* Pro */}
-          <Reveal as="article" index={3} className="card relative flex h-full flex-col rounded-[18px] p-8 ring-1 ring-accent/30 sm:p-10">
+          <Reveal as="article" index={3} className="card card-hover relative flex h-full flex-col rounded-[18px] p-8 ring-1 ring-accent/30 sm:p-10">
             <div className="absolute right-6 top-6 rounded-full bg-accent px-3 py-1 text-[12px] font-semibold text-ink">
               {t("pro.badge")}
             </div>

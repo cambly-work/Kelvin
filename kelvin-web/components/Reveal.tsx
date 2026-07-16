@@ -1,21 +1,23 @@
 "use client";
 
-import { useEffect, useRef, type ElementType, type ReactNode } from "react";
+import { motion } from "motion/react";
+import type { ElementType, ReactNode } from "react";
 
 type RevealProps = {
   children: ReactNode;
+  /** element tag to render (preserves semantic HTML for a11y/SEO) */
   as?: ElementType;
   className?: string;
-  /** stagger index — adds transitionDelay = index * 60ms */
+  /** stagger index — adds delay = index * 80ms */
   index?: number;
   id?: string;
   style?: React.CSSProperties;
 };
 
 /**
- * Scroll-reveal wrapper. Starts hidden (opacity 0 + blur, see globals.css)
- * and flips to visible when scrolled into view via IntersectionObserver.
- * Respects prefers-reduced-motion (elements stay visible by default).
+ * Scroll-reveal wrapper powered by motion. Animates opacity + y-offset when
+ * the element scrolls into view. Preserves semantic tag via `as`.
+ * motion respects prefers-reduced-motion automatically.
  */
 export default function Reveal({
   children,
@@ -25,49 +27,23 @@ export default function Reveal({
   id,
   style,
 }: RevealProps) {
-  const ref = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const reduce = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    if (reduce || !("IntersectionObserver" in window)) {
-      el.classList.add("is-in");
-      return;
-    }
-
-    if (index > 0) {
-      el.style.transitionDelay = `${index * 60}ms`;
-    }
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (!e.isIntersecting) return;
-          el.classList.add("is-in");
-          io.unobserve(el);
-        });
-      },
-      { rootMargin: "0px 0px -10% 0px", threshold: 0.08 }
-    );
-
-    io.observe(el);
-    return () => io.disconnect();
-  }, [index]);
+  const MotionTag = motion(Tag);
 
   return (
-    <Tag
-      ref={ref as never}
-      className={className}
-      data-reveal
+    <MotionTag
       id={id}
+      className={className}
       style={style}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+      transition={{
+        duration: 0.6,
+        delay: index * 0.08,
+        ease: [0.22, 0.61, 0.36, 1],
+      }}
     >
       {children}
-    </Tag>
+    </MotionTag>
   );
 }

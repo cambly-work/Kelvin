@@ -28,8 +28,19 @@
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display",
     "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
 
-  /* motion */
+  /* motion — easing + duration scale */
   --ease-kelvin: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out-kelvin: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* radii — unified scale */
+  --radius-pill: 980px;
+  --radius-shot: 22px;
+  --radius-card: 18px;
+  --radius-control: 12px;
+
+  /* shadows — product images and cards, with light-theme overrides */
+  --shadow-product: 0 30px 80px -30px rgba(0, 0, 0, 0.8);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* ----------------------------------------------------------------------- */
@@ -50,6 +61,8 @@
     --color-faint: #86868b;
     --color-accent: #198c9e;
     --color-accent-blue: #0066cc;
+    --shadow-product: 0 20px 60px -25px rgba(0, 0, 0, 0.25);
+    --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.08);
   }
 
   body {
@@ -74,9 +87,10 @@
 
 /* ----------------------------------------------------------------------- */
 @layer components {
-  /* gradient text — reserved ONLY for the price, the single gradient on the page */
+  /* gradient text — reserved ONLY for the price, the single gradient on the page.
+     Uses tokens so it adapts in light theme. */
   .text-gradient {
-    background: linear-gradient(135deg, #33c7d1, #2a86f0);
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-blue));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -87,18 +101,25 @@
   .card {
     background: var(--color-surface);
     border: 1px solid var(--color-line);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow-card);
   }
-  /* lighter shadow on light theme */
-  :root.light .card {
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  /* hover-lift for interactive cards */
+  .card-hover {
+    transition:
+      transform 0.2s var(--ease-kelvin),
+      border-color 0.2s var(--ease-kelvin),
+      box-shadow 0.2s var(--ease-kelvin);
+  }
+  .card-hover:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--color-accent) 40%, var(--color-line));
   }
 
   /* primary CTA — solid Apple blue, no glow */
   .btn-primary {
     background: var(--color-accent-blue);
     color: #fff;
-    border-radius: 980px;
+    border-radius: var(--radius-pill);
     font-size: 15px;
     font-weight: 500;
     transition: opacity 0.2s var(--ease-kelvin);
@@ -111,7 +132,7 @@
   .btn-secondary {
     background: var(--color-tx);
     color: #000;
-    border-radius: 980px;
+    border-radius: var(--radius-pill);
     font-size: 15px;
     font-weight: 500;
     transition: opacity 0.2s var(--ease-kelvin);
@@ -138,6 +159,33 @@
     color: var(--color-accent);
     font-size: 17px;
     font-weight: 400;
+  }
+
+  /* FOCUS-VISIBLE — unified keyboard ring for all interactive elements.
+     Uses accent; offset so it clears rounded borders. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* SKIP-TO-CONTENT — visible only when focused */
+  .skip-link {
+    position: fixed;
+    top: 0.5rem;
+    left: 50%;
+    transform: translateY(-150%);
+    z-index: 100;
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--radius-control);
+    background: var(--color-accent);
+    color: var(--color-ink);
+    font-size: 14px;
+    font-weight: 500;
+    transition: transform 0.2s var(--ease-kelvin);
+  }
+  .skip-link:focus {
+    transform: translateY(0);
   }
 
   /* legal page prose */
@@ -184,5 +232,17 @@
   [data-reveal].is-in {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* REDUCED MOTION — kill ALL transitions/animations, not just reveal */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

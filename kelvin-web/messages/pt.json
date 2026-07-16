@@ -168,5 +168,11 @@
       "title": "Novidades",
       "updated": "Histórico de versões do Kelvin"
     }
+  },
+  "A11y": {
+    "skipToContent": "Ir para o conteúdo",
+    "toggleThemeLight": "Mudar para tema claro",
+    "toggleThemeDark": "Mudar para tema escuro",
+    "language": "Idioma"
   }
 }

@@ -90,7 +90,7 @@ function BigFeature({ icon, title, desc, crop, cropW, cropH, flip }: BigFeatureP
             className="h-auto w-full rounded-[18px] border border-line"
             style={{
               aspectRatio: `${cropW} / ${cropH}`,
-              boxShadow: "0 20px 50px -20px rgba(0,0,0,0.7)",
+              boxShadow: "var(--shadow-product)",
             }}
           />
         </Reveal>

@@ -168,5 +168,11 @@
       "title": "Что нового",
       "updated": "История версий Kelvin"
     }
+  },
+  "A11y": {
+    "skipToContent": "Перейти к содержимому",
+    "toggleThemeLight": "Переключить на светлую тему",
+    "toggleThemeDark": "Переключить на тёмную тему",
+    "language": "Язык"
   }
 }
