@@ -11,16 +11,30 @@ export default function Hero() {
   const panelH = locale === "pt" ? 2252 : 2072;
 
   return (
-    <section className="relative overflow-hidden px-5 pb-10 pt-32 text-center sm:pt-40">
-      {/* subtle radial accent in the background */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[600px]"
-        style={{
-          background:
-            "radial-gradient(50% 50% at 50% 0%, color-mix(in srgb, var(--color-accent) 14%, transparent), transparent 70%)",
-        }}
-      />
+    <section className="relative overflow-hidden px-5 pb-10 pt-40 text-center sm:pt-48">
+      {/* Warp-style размытые акцентные пятна на фоне */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        {/* Центральное верхнее свечение */}
+        <div
+          className="absolute left-1/2 top-0 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-3xl"
+          style={{
+            background: "radial-gradient(circle, color-mix(in srgb, var(--color-accent) 25%, transparent), transparent 70%)",
+          }}
+        />
+        {/* Второстепенные пятна */}
+        <div
+          className="absolute left-1/4 top-1/3 h-96 w-96 rounded-full opacity-20 blur-2xl"
+          style={{
+            background: "radial-gradient(circle, color-mix(in srgb, var(--color-accent) 20%, transparent), transparent 70%)",
+          }}
+        />
+        <div
+          className="absolute right-1/4 top-1/4 h-80 w-80 rounded-full opacity-25 blur-2xl"
+          style={{
+            background: "radial-gradient(circle, color-mix(in srgb, var(--color-accent) 18%, transparent), transparent 70%)",
+          }}
+        />
+      </div>
 
       <div className="mx-auto max-w-[980px]">
         <Reveal
@@ -47,10 +61,16 @@ export default function Hero() {
         </Reveal>
 
         <Reveal index={3} className="mt-8 flex flex-wrap justify-center gap-4">
-          <Link href="/#download" className="btn-primary">
+          <Link
+            href="/#download"
+            className="btn-primary transition-transform duration-200 hover:scale-105"
+          >
             {t("ctaPrimary")}
           </Link>
-          <Link href="/#pricing" className="btn-secondary">
+          <Link
+            href="/#pricing"
+            className="btn-secondary transition-transform duration-200 hover:scale-105"
+          >
             {t("ctaSecondary")}
           </Link>
         </Reveal>
@@ -60,8 +80,15 @@ export default function Hero() {
         </Reveal>
       </div>
 
-      {/* giant product screenshot with glow */}
+      {/* Скриншот с мягким свечением и едва заметной обводкой */}
       <Reveal index={5} className="relative mx-auto mt-16 w-fit lg:mt-20">
+        {/* Дополнительное свечение позади скриншота */}
+        <div
+          className="absolute inset-0 -z-10 scale-110 rounded-[22px] opacity-60 blur-2xl"
+          style={{
+            background: "radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--color-accent) 30%, transparent), transparent 70%)",
+          }}
+        />
         <div className="glow relative">
           <Image
             src={panelSrc}
@@ -72,10 +99,10 @@ export default function Hero() {
             fetchPriority="high"
             quality={80}
             sizes="(max-width: 768px) 88vw, 480px"
-            className="mx-auto h-auto w-auto max-h-[72vh] rounded-[22px] border border-line"
+            className="mx-auto h-auto w-auto max-h-[72vh] rounded-[22px] border border-white/[0.06]"
             style={{
               aspectRatio: `${panelW} / ${panelH}`,
-              boxShadow: "var(--shadow-product)",
+              boxShadow: "0 0 60px -20px color-mix(in srgb, var(--color-accent) 40%, transparent), var(--shadow-product)",
             }}
           />
         </div>
