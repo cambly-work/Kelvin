@@ -1,17 +1,19 @@
 # Kelvin Web Redesign — Design Spec
 
 **Date:** 2026-07-17
-**Status:** Approved (pending spec review)
-**Reference aesthetic:** [makeitfable.com](https://makeitfable.com) — warm, editorial, spacious, calm.
+**Status:** Approved (v2 — Warp direction)
+**Primary reference:** [warp.dev](https://www.warp.dev) — dark, confident, dev-premium, giant product screenshots.
+**Secondary:** both light and dark themes implemented (dark default).
 
 ## Context
 
 The current Kelvin landing site (`kelvin-web/`) was built in an "Apple product page" aesthetic —
 pure black `#000000` canvas, cold cyan accent `#33c7d1`, glow gradients, and nine back-to-back
-sections. The owner is unhappy with the result: it reads as cold and noisy rather than premium.
+sections. The owner is unhappy: it reads as cold and noisy rather than premium.
 
-This spec covers a **visual and structural rebuild** of the landing page. The product content
-(what Kelvin is, its features, pricing) is unchanged — only how it's presented.
+The owner's chosen direction is **Warp-style**: a dark, confident dev-premium aesthetic that fits
+Kelvin's audience (Mac power users, developers) — the same audience Warp targets. This spec covers
+a visual and structural rebuild. Product content is unchanged.
 
 ## Product (unchanged)
 
@@ -36,8 +38,8 @@ Locally processed, no telemetry.
 
 ### Keep (infrastructure, not visual)
 - Next.js 16 skeleton, App Router, `next-intl`
-- i18n messages (`ru.json`, `pt.json`) + add missing `en.json`
-- `appcast.json` (feeds the in-app updater for installed copies — do not touch)
+- i18n messages (`ru.json`, `pt.json`) — locales are `ru` (default) and `pt` only
+- `appcast.json` (feeds the in-app updater — do not touch)
 - `kelvin-web/app/api/latest-version` (version-check endpoint)
 - Legal pages: `privacy.html`, `eula.html`, `notes.html` + their routes
 - Product assets/screenshots/crops in `public/assets/` and `assets/`
@@ -46,47 +48,57 @@ Locally processed, no telemetry.
 
 ## Visual System
 
-Warm editorial aesthetic. Calm, spacious, human — opposite of the cold black/cyan look.
+Dark, confident, dev-premium. Like Warp.
 
 ### Color tokens
 
-| Token            | Light (default)        | Dark                   |
-| ---------------- | ---------------------- | ---------------------- |
-| `--color-bg`     | `#FAFAF7` warm off-white | `#14171C` warm slate   |
-| `--color-surface`| `#F2F0EA` warm card     | `#1C2026` raised card  |
-| `--color-tx`     | `#1A1A1A`               | `#E8E6E1`              |
-| `--color-mut`    | `#5C5C5C`               | `#A8A6A0`              |
-| `--color-line`   | `rgba(0,0,0,0.10)` warm | `rgba(255,255,255,0.10)`|
-| `--color-accent` | `#2D5F4E` deep green    | `#3A8068` (lighter for contrast) |
+| Token            | Dark (default)            | Light                   |
+| ---------------- | ------------------------- | ----------------------- |
+| `--color-bg`     | `#0D1117` (GitHub-slate)  | `#FAFAF7` warm off-white|
+| `--color-surface`| `#161B22` raised card     | `#FFFFFF` clean card    |
+| `--color-tx`     | `#E6EDF3`                 | `#1A1A1A`               |
+| `--color-mut`    | `#8B949E`                 | `#5C5C5C`               |
+| `--color-line`   | `rgba(255,255,255,0.10)`  | `rgba(0,0,0,0.10)`      |
+| `--color-accent` | `#58A6FF` (GitHub blue)   | `#0969DA`               |
 
-Accent is green — deliberately distant from the old cold blue/cyan, and reads as "calm utility".
+Accent is a calm blue — reads as "developer tool," consistent with Warp/Linear/GitHub dark UIs.
 
 ### Typography
 - System font stack (resolves to SF Pro on Mac) — no web-font payload.
-- Large, calm headings. Tight letter-spacing on display sizes.
+- **Bold, confident display headings** — large sizes, tight tracking, high contrast weight.
 - Generous line-height on body copy.
 
 ### Texture rules
-- **No pure black, no glow, no grain.**
-- One soft shadow on product screenshots only (`--shadow-product`).
-- Hairline borders, warm-toned.
-- No decorative gradients. A single subtle accent treatment may appear on the price.
+- **Glow is back** — but purposeful: a soft radial glow behind product screenshots only, not on every surface.
+- Subtle radial accent gradients in hero background (dark, subtle — like Warp's).
+- Hairline borders.
+- No pure `#000000`; use `#0D1117` slate for depth without flatness.
 
-### Light theme is default; dark theme via toggle (existing `ThemeToggle` concept reused, restyled).
+### Theme system
+- **Dark is default.**
+- Light theme fully implemented via toggle (existing `ThemeToggle` concept reused, restyled).
+- No FOUC: theme class set before paint (existing pattern with `.light` on `<html>`).
 
 ## Page Structure
 
-**9 sections → 6 sections.** The old Showcase, standalone Download, and standalone Privacy
-sections are removed (they duplicated content or belong elsewhere).
+**9 sections → 7 sections.** The old Showcase and standalone Download are removed (they
+duplicated content). A new social-proof section is added.
 
-1. **Nav** — wordmark "Kelvin" + anchors: Features / Pricing / FAQ / Download. Locale + theme toggle. Minimal.
-2. **Hero** — centered. Large calm headline, short lead, two CTAs (Download free / Pro $19), product panel screenshot below, full width. (Layout chosen by owner.)
-3. **Features** — 6 features in one clean rhythm:
-   - 4 "big" features (Power, Fans, Toggles, Privacy) as alternating text/screenshot-crop rows. Crops only exist for RU layout; other locales fall back to text+icon (preserve current behavior).
+1. **Nav** — wordmark "Kelvin" + anchors: Features / Pricing / FAQ / Download. Locale + theme toggle. Sticky, subtle blur on scroll.
+
+2. **Hero** — centered. Bold headline, short lead, two CTAs (Download free / Pro $19). **Giant product panel screenshot below, full width, with soft glow.** Subtle radial accent in background. (Layout approved by owner.)
+
+3. **Social proof (NEW)** — a band of trust signals below the hero. Content to be supplied by owner (download count, user quotes, or logos). Falls back gracefully to a single strong stat if no data yet.
+
+4. **Features** — 6 features in one clean rhythm:
+   - 4 "big" features (Power, Fans, Toggles, Privacy) as alternating text/**large screenshot** rows with glow. Crops only exist for RU layout; PT falls back to text+icon (preserve current behavior).
    - 2 "quiet" features (Layout, Dev) as a compact two-column text row below.
-4. **Pricing** — Free vs Pro, two clean columns. Free = monitoring forever; Pro = $19 one-time control.
-5. **FAQ** — retained, restyled.
-6. **Download + Footer (combined)** — download CTA at top, then footer with Privacy / EULA / Notes links to their dedicated pages, locale switch, copyright.
+
+5. **Pricing** — Free vs Pro, two clean columns. Free = monitoring forever; Pro = $19 one-time control.
+
+6. **FAQ** — retained, restyled.
+
+7. **Download + Footer (combined)** — download CTA at top, then footer with Privacy / EULA / Notes links, locale switch, copyright.
 
 ### Removed as standalone sections
 - **Showcase** — duplicated Features.
@@ -95,9 +107,21 @@ sections are removed (they duplicated content or belong elsewhere).
 
 ## Content & i18n
 
-- Locales are `ru` (default) and `pt` only — configured in `i18n/routing.ts`. No `en` locale exists and none is added by this redesign.
+- Locales are `ru` (default) and `pt` only — configured in `i18n/routing.ts`.
 - Preserve all existing copy in `ru.json` and `pt.json`.
 - Locale-specific screenshot behavior preserved: RU uses crop images, PT falls back to text+icon.
+
+## README for owner editing
+
+A `kelvin-web/README.md` will be created so the owner can edit and maintain the code themselves.
+It will document:
+- How to run the dev server (`npm run dev`) and build (`npm run build`)
+- Project structure overview (where components, pages, styles, i18n live)
+- How to edit each section (file paths + what to change)
+- How to add/modify i18n strings
+- How to change colors and theme tokens (the single `globals.css` token block)
+- How to change screenshots/assets
+- How to deploy
 
 ## Non-Goals
 
@@ -107,4 +131,4 @@ sections are removed (they duplicated content or belong elsewhere).
 
 ## Open Questions
 
-None remaining. Owner approved: warm editorial aesthetic, green accent, centered hero with screenshot, 6-section structure, delete-all-visuals / keep-infrastructure scope.
+None remaining. Owner approved (v2): Warp-style dark primary, both themes implemented, giant screenshots with glow, social proof section, bold typography, README for self-editing.
