@@ -62,6 +62,7 @@
       "name": "Grátis",
       "price": "$0",
       "period": "para sempre",
+      "cta": "Descarregar grátis",
       "features": [
         "Bateria, potência e diagrama de fluxo de energia",
         "Temperaturas, ventoinhas, carga do sistema",

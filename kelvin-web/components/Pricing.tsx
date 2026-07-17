@@ -39,7 +39,7 @@ export default function Pricing() {
               ))}
             </ul>
             <Link href="/#download" className="btn-secondary mt-8 w-full text-center">
-              {t("free.name")}
+              {t("free.cta")}
             </Link>
           </Reveal>
 
