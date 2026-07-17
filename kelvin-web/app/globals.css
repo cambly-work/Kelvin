@@ -1,46 +1,46 @@
 @import "tailwindcss";
 
 /* =========================================================================
-   Kelvin — monolithic Apple-style design system
-   Pure black canvas · solid surfaces · one calm accent · product-first
-   No glass, no gradients-everywhere, no grain, no fake UI.
+   Kelvin — Warp-style dark design system
+   Deep slate canvas · calm blue accent · confident typography ·
+   glow reserved for product screenshots only.
    ========================================================================= */
 
 @theme {
-  /* brand accent — ONE color, solid, used sparingly */
-  --color-accent: #33c7d1;
-  --color-accent-blue: #2a86f0;
-  --color-ink: #0a3342;
+  /* accent — calm developer blue */
+  --color-accent: #58a6ff;
+  --color-accent-blue: #58a6ff;
+  --color-ink: #0d1117;
 
-  /* canvas — pure black, Apple product pages */
-  --color-bg: #000000;
-  --color-surface: #1d1d1f;
+  /* canvas — deep slate, never pure black */
+  --color-bg: #0d1117;
+  --color-surface: #161b22;
 
   /* hairline */
   --color-line: rgba(255, 255, 255, 0.1);
 
-  /* text — Apple product-page grays */
-  --color-tx: #f5f5f7;
-  --color-mut: #a1a1a6;
-  --color-faint: #6e6e73;
+  /* text */
+  --color-tx: #e6edf3;
+  --color-mut: #8b949e;
+  --color-faint: #6e7681;
 
   /* font — system stack resolves to SF Pro on Mac */
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display",
     "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
 
-  /* motion — easing + duration scale */
+  /* motion */
   --ease-kelvin: cubic-bezier(0.22, 0.61, 0.36, 1);
   --ease-out-kelvin: cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* radii — unified scale */
+  /* radii */
   --radius-pill: 980px;
   --radius-shot: 22px;
   --radius-card: 18px;
   --radius-control: 12px;
 
-  /* shadows — product images and cards, with light-theme overrides */
-  --shadow-product: 0 30px 80px -30px rgba(0, 0, 0, 0.8);
-  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3);
+  /* shadows — product glow + soft card */
+  --shadow-product: 0 40px 120px -30px rgba(88, 166, 255, 0.28);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 /* ----------------------------------------------------------------------- */
@@ -53,196 +53,178 @@
   /* LIGHT THEME — toggled by .light on <html> (set before paint, no FOUC).
      Only token values change; every component using tokens repaints. */
   :root.light {
-    --color-bg: #fbfbfd;
-    --color-surface: #f5f5f7;
-    --color-line: rgba(0, 0, 0, 0.12);
-    --color-tx: #1d1d1f;
-    --color-mut: #6e6e73;
+    --color-bg: #fafaf7;
+    --color-surface: #ffffff;
+    --color-line: rgba(0, 0, 0, 0.1);
+    --color-tx: #1a1a1a;
+    --color-mut: #5c5c5c;
     --color-faint: #86868b;
-    --color-accent: #198c9e;
-    --color-accent-blue: #0066cc;
-    --shadow-product: 0 20px 60px -25px rgba(0, 0, 0, 0.25);
-    --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.08);
+    --color-accent: #0969da;
+    --color-accent-blue: #0969da;
+    --color-ink: #1a1a1a;
+    --shadow-product: 0 30px 80px -25px rgba(9, 105, 218, 0.18);
+    --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.06);
   }
 
   body {
     font-family: var(--font-sans);
     background: var(--color-bg);
     color: var(--color-tx);
-    line-height: 1.47;
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     letter-spacing: -0.003em;
     overflow-x: hidden;
   }
 
-  /* Apple's signature tight headlines */
+  /* confident tight headlines */
   h1,
   h2,
   h3 {
-    letter-spacing: -0.025em;
-    line-height: 1.05;
+    letter-spacing: -0.03em;
+    line-height: 1.04;
+  }
+
+  /* focus visibility for keyboard users */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 }
 
 /* ----------------------------------------------------------------------- */
 @layer components {
-  /* gradient text — reserved ONLY for the price, the single gradient on the page.
-     Uses tokens so it adapts in light theme. */
+  /* skip link — visible on focus */
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+    background: var(--color-accent);
+    color: #fff;
+    padding: 0.6rem 1rem;
+    border-radius: 0 0 8px 0;
+    font-size: 14px;
+  }
+  .skip-link:focus {
+    left: 0;
+  }
+
+  /* primary CTA — solid accent, confident */
+  .btn-primary {
+    display: inline-block;
+    background: var(--color-accent);
+    color: #fff;
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: var(--radius-pill);
+    padding: 0.8rem 1.6rem;
+    transition:
+      transform 0.15s var(--ease-kelvin),
+      filter 0.15s var(--ease-kelvin);
+  }
+  .btn-primary:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+  }
+
+  /* secondary CTA — hairline outline */
+  .btn-secondary {
+    display: inline-block;
+    background: transparent;
+    color: var(--color-tx);
+    border: 1px solid var(--color-line);
+    font-weight: 500;
+    font-size: 15px;
+    border-radius: var(--radius-pill);
+    padding: calc(0.8rem - 1px) 1.5rem;
+    transition:
+      border-color 0.15s var(--ease-kelvin),
+      background 0.15s var(--ease-kelvin);
+  }
+  .btn-secondary:hover {
+    border-color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  }
+
+  /* CARD — raised surface with hairline */
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* glow behind a screenshot — radial accent halo */
+  .glow::before {
+    content: "";
+    position: absolute;
+    inset: -10% -5% -20% -5%;
+    z-index: -1;
+    background: radial-gradient(
+      60% 50% at 50% 60%,
+      color-mix(in srgb, var(--color-accent) 28%, transparent),
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+
+  /* gradient text — reserved for the single price emphasis */
   .text-gradient {
-    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-blue));
+    background: linear-gradient(
+      135deg,
+      var(--color-accent),
+      color-mix(in srgb, var(--color-accent) 50%, #a371f7)
+    );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
   }
 
-  /* CARD — solid surface with a hairline edge. No glass, no blur. */
-  .card {
-    background: var(--color-surface);
-    border: 1px solid var(--color-line);
-    box-shadow: var(--shadow-card);
-  }
-  /* hover-lift for interactive cards */
-  .card-hover {
-    transition:
-      transform 0.2s var(--ease-kelvin),
-      border-color 0.2s var(--ease-kelvin),
-      box-shadow 0.2s var(--ease-kelvin);
-  }
-  .card-hover:hover {
-    transform: translateY(-3px);
-    border-color: color-mix(in srgb, var(--color-accent) 40%, var(--color-line));
-  }
-
-  /* primary CTA — solid Apple blue, no glow */
-  .btn-primary {
-    background: var(--color-accent-blue);
-    color: #fff;
-    border-radius: var(--radius-pill);
-    font-size: 15px;
-    font-weight: 500;
-    transition: opacity 0.2s var(--ease-kelvin);
-  }
-  .btn-primary:hover {
-    opacity: 0.88;
-  }
-
-  /* secondary CTA — light fill like Apple */
-  .btn-secondary {
-    background: var(--color-tx);
-    color: #000;
-    border-radius: var(--radius-pill);
-    font-size: 15px;
-    font-weight: 500;
-    transition: opacity 0.2s var(--ease-kelvin);
-  }
-  .btn-secondary:hover {
-    opacity: 0.88;
-  }
-
-  /* Apple-style link with arrow */
-  .link-arrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    color: var(--color-accent-blue);
-    font-size: 17px;
-    transition: opacity 0.2s;
-  }
-  .link-arrow:hover {
-    opacity: 0.75;
-  }
-
-  /* section label — quiet, not a shouty uppercase tag */
-  .eyebrow {
-    color: var(--color-accent);
-    font-size: 17px;
-    font-weight: 400;
-  }
-
-  /* FOCUS-VISIBLE — unified keyboard ring for all interactive elements.
-     Uses accent; offset so it clears rounded borders. */
-  :focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 3px;
-    border-radius: 4px;
-  }
-
-  /* SKIP-TO-CONTENT — visible only when focused */
-  .skip-link {
-    position: fixed;
-    top: 0.5rem;
-    left: 50%;
-    transform: translateY(-150%);
-    z-index: 100;
-    padding: 0.5rem 1.25rem;
-    border-radius: var(--radius-control);
-    background: var(--color-accent);
-    color: var(--color-ink);
-    font-size: 14px;
-    font-weight: 500;
-    transition: transform 0.2s var(--ease-kelvin);
-  }
-  .skip-link:focus {
-    transform: translateY(0);
-  }
-
-  /* legal page prose */
-  .legal-p {
-    color: var(--color-mut);
-    font-size: 17px;
-    line-height: 1.7;
-    margin: 10px 0;
-  }
-  .legal-p strong {
-    color: var(--color-tx);
-  }
-  .legal-h2 {
-    font-size: 22px;
-    font-weight: 600;
-    margin: 32px 0 12px;
-    color: var(--color-tx);
-  }
-  .legal-ul {
-    margin: 10px 0 10px 24px;
-    list-style: disc;
-  }
-  .legal-ul li {
-    color: var(--color-mut);
-    font-size: 17px;
-    line-height: 1.7;
-    margin: 5px 0;
-  }
-  .legal-ul strong {
-    color: var(--color-tx);
-  }
-}
-
-/* ----------------------------------------------------------------------- */
-/* scroll reveal — opacity + transform only */
-@media (prefers-reduced-motion: no-preference) {
-  [data-reveal] {
+  /* reveal-on-scroll — start hidden, JS adds .reveal-visible */
+  .reveal {
     opacity: 0;
     transform: translateY(24px);
     transition:
-      opacity 0.6s var(--ease-kelvin),
-      transform 0.6s var(--ease-kelvin);
+      opacity 0.6s var(--ease-out-kelvin),
+      transform 0.6s var(--ease-out-kelvin);
+    will-change: opacity, transform;
   }
-  [data-reveal].is-in {
+  .reveal.reveal-visible {
     opacity: 1;
     transform: none;
   }
-}
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
 
-/* REDUCED MOTION — kill ALL transitions/animations, not just reveal */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+  /* legal page typography */
+  .legal-p {
+    margin: 0.75rem 0;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--color-mut);
+  }
+  .legal-h2 {
+    margin: 1.75rem 0 0.5rem;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-tx);
+  }
+  .legal-ul {
+    margin: 0.5rem 0 1rem;
+    padding-left: 1.25rem;
+    list-style: disc;
+    color: var(--color-mut);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .legal-ul li {
+    margin: 0.25rem 0;
   }
 }

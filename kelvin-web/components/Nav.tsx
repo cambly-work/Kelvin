@@ -21,7 +21,6 @@ export default function Nav() {
   const links = [
     { href: "/#features", label: t("features") },
     { href: "/#pricing", label: t("pricing") },
-    { href: "/#privacy", label: t("privacy") },
     { href: "/#faq", label: t("faq") },
   ] as const;
 
@@ -29,15 +28,15 @@ export default function Nav() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
         scrolled || open
-          ? "border-b border-line bg-bg/85"
-          : "border-b border-transparent bg-transparent"
+          ? "border-b border-line bg-bg/85 backdrop-blur-md"
+          : "border-b border-transparent"
       }`}
     >
       <nav className="mx-auto flex h-12 max-w-[1024px] items-center justify-between px-5">
         {/* brand */}
         <Link
           href="/"
-          className="flex items-center gap-2 text-[14px] font-medium text-tx"
+          className="flex items-center gap-2 text-[14px] font-semibold text-tx"
         >
           <img
             src="/assets/icon.png"
@@ -66,11 +65,13 @@ export default function Nav() {
         <div className="flex items-center gap-4">
           <Link
             href="/#download"
-            className="hidden text-[13px] text-mut transition-colors hover:text-tx sm:block"
+            className="btn-primary hidden !px-4 !py-2 !text-[13px] sm:inline-block"
           >
             {t("download")}
           </Link>
-          <LocaleSwitcher />
+          <span className="hidden md:block">
+            <LocaleSwitcher />
+          </span>
           <ThemeToggle />
           {/* mobile toggle */}
           <button
@@ -104,7 +105,7 @@ export default function Nav() {
 
       {/* mobile dropdown */}
       {open && (
-        <div className="border-t border-line bg-bg/85 px-5 py-2 md:hidden">
+        <div className="border-t border-line bg-bg/95 px-5 py-2 backdrop-blur-md md:hidden">
           <div className="flex flex-col">
             {[...links, { href: "/#download", label: t("download") }].map(
               (l) => (
@@ -118,6 +119,9 @@ export default function Nav() {
                 </Link>
               )
             )}
+            <div className="px-2 py-2.5">
+              <LocaleSwitcher />
+            </div>
           </div>
         </div>
       )}

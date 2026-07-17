@@ -1,71 +1,48 @@
 "use client";
 
-import { useEffect, useRef, type ElementType, type ReactNode } from "react";
-
-type RevealProps = {
-  children: ReactNode;
-  as?: ElementType;
-  className?: string;
-  /** stagger index — adds transitionDelay = index * 80ms */
-  index?: number;
-  id?: string;
-  style?: React.CSSProperties;
-};
+import { useEffect, useRef, useState, type ElementType, type ReactNode } from "react";
 
 /**
- * Lightweight scroll-reveal using CSS + IntersectionObserver.
- * Keeps motion out of the initial bundle (it's reserved for richer
- * interactions: parallax, count-up). Respects prefers-reduced-motion.
+ * Scroll reveal wrapper. Starts hidden via the `.reveal` class (see
+ * globals.css) and adds `.reveal-visible` when scrolled into view.
+ * `index` staggers the transition delay.
  */
 export default function Reveal({
-  children,
-  as: Tag = "div",
-  className,
+  as,
   index = 0,
-  id,
-  style,
-}: RevealProps) {
-  const ref = useRef<HTMLElement>(null);
+  className = "",
+  children,
+}: {
+  as?: ElementType;
+  index?: number;
+  className?: string;
+  children: ReactNode;
+}) {
+  const Tag = (as ?? "div") as ElementType;
+  const ref = useRef<HTMLElement | null>(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-
-    const reduce = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    if (reduce || !("IntersectionObserver" in window)) {
-      el.classList.add("is-in");
-      return;
-    }
-
-    if (index > 0) {
-      el.style.transitionDelay = `${index * 80}ms`;
-    }
-
     const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (!e.isIntersecting) return;
-          el.classList.add("is-in");
-          io.unobserve(el);
-        });
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          io.disconnect();
+        }
       },
-      { rootMargin: "0px 0px -10% 0px", threshold: 0.08 }
+      { rootMargin: "0px 0px -10% 0px", threshold: 0.05 }
     );
-
     io.observe(el);
     return () => io.disconnect();
-  }, [index]);
+  }, []);
 
   return (
     <Tag
-      ref={ref as never}
-      className={className}
-      data-reveal
-      id={id}
-      style={style}
+      ref={ref}
+      className={`reveal ${visible ? "reveal-visible" : ""} ${className}`}
+      style={{ transitionDelay: `${index * 90}ms` }}
     >
       {children}
     </Tag>

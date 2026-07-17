@@ -1,51 +1,96 @@
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 import Reveal from "./Reveal";
-import CountUp from "./CountUp";
 
 export default function Pricing() {
-  const t = useTranslations("Pricing");
-  const features = t.raw("features") as string[];
-  // price is "$19" — extract the numeric part for count-up
-  const priceNum = parseInt(t("price").replace(/\D/g, ""), 10) || 19;
+  const t = useTranslations("Compare");
+  const freeFeatures = t.raw("free.features") as string[];
+  const proFeatures = t.raw("pro.features") as string[];
 
   return (
     <section id="pricing" className="border-t border-line">
-      <div className="mx-auto max-w-[980px] px-5 py-24 text-center sm:py-32">
-        <Reveal as="h2" className="text-[clamp(2rem,5vw,3.5rem)] font-semibold tracking-[-0.025em] text-tx">
+      <div className="mx-auto max-w-[980px] px-5 py-24 sm:py-32">
+        <Reveal as="p" className="mb-4 text-center text-[13px] font-medium uppercase tracking-[0.14em] text-accent">
+          {t("eyebrow")}
+        </Reveal>
+        <Reveal as="h2" index={1} className="mx-auto max-w-[680px] text-balance text-center text-[clamp(2rem,5vw,3.25rem)] font-bold tracking-[-0.03em] text-tx">
           {t("title")}
         </Reveal>
-
-        {/* price — the single gradient on the page, counts up on view */}
-        <Reveal index={1} className="mt-6">
-          <span className="text-gradient text-[clamp(4rem,10vw,7rem)] font-semibold tracking-[-0.03em]">
-            <CountUp value={priceNum} prefix="$" />
-          </span>
-          <span className="ml-3 text-[21px] text-mut">{t("note")}</span>
+        <Reveal as="p" index={2} className="mx-auto mt-4 max-w-[560px] text-center text-mut">
+          {t("sub")}
         </Reveal>
 
-        {/* solid price card */}
-        <Reveal index={2} className="card mx-auto mt-10 max-w-[460px] rounded-[20px] p-8 text-left sm:p-10">
-          <ul className="space-y-3">
-            {features.map((f) => (
-              <li key={f} className="flex items-start gap-3 text-[15px] leading-snug text-tx">
-                <svg className="mt-0.5 h-[18px] w-[18px] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--color-accent)" }} aria-hidden>
-                  <path d="M20 6 9 17l-5-5" />
-                </svg>
-                {f}
-              </li>
-            ))}
-          </ul>
+        <div className="mt-14 grid gap-6 lg:grid-cols-2">
+          {/* Free */}
+          <Reveal className="card rounded-[18px] p-8">
+            <h3 className="text-[20px] font-bold text-tx">{t("free.name")}</h3>
+            <div className="mt-3 flex items-baseline gap-2">
+              <span className="text-[42px] font-bold tracking-[-0.02em] text-tx">
+                {t("free.price")}
+              </span>
+              <span className="text-[14px] text-faint">{t("free.period")}</span>
+            </div>
+            <ul className="mt-6 space-y-3">
+              {freeFeatures.map((f) => (
+                <li key={f} className="flex gap-3 text-[15px] text-mut">
+                  <Check />
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <Link href="/#download" className="btn-secondary mt-8 w-full text-center">
+              {t("free.cta")}
+            </Link>
+          </Reveal>
 
-          {/* BUY_URL: заменить на checkout Lemon Squeezy при подключении магазина */}
-          <a href="https://trykelvin.com" className="btn-primary mt-8 block w-full px-8 py-3.5 text-center text-[16px]">
-            {t("cta")}
-          </a>
-        </Reveal>
-
-        <Reveal as="p" index={3} className="mx-auto mt-5 max-w-[480px] text-[13px] leading-relaxed text-faint">
-          {t("micro")}
-        </Reveal>
+          {/* Pro — emphasized */}
+          <Reveal
+            index={1}
+            className="card relative overflow-hidden rounded-[18px] p-8 ring-1 ring-accent/40"
+          >
+            <span className="absolute right-5 top-5 rounded-full bg-accent px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-white">
+              {t("pro.badge")}
+            </span>
+            <h3 className="text-[20px] font-bold text-tx">{t("pro.name")}</h3>
+            <div className="mt-3 flex items-baseline gap-2">
+              <span className="text-gradient text-[48px] font-bold tracking-[-0.02em]">
+                {t("pro.price")}
+              </span>
+              <span className="text-[14px] text-faint">{t("pro.period")}</span>
+            </div>
+            <ul className="mt-6 space-y-3">
+              {proFeatures.map((f) => (
+                <li key={f} className="flex gap-3 text-[15px] text-tx">
+                  <Check />
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <Link href="/#download" className="btn-primary mt-8 w-full text-center">
+              {t("pro.cta")}
+            </Link>
+          </Reveal>
+        </div>
       </div>
     </section>
+  );
+}
+
+function Check() {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="mt-0.5 shrink-0 text-accent"
+      aria-hidden
+    >
+      <path d="m5 12 5 5 9-9" />
+    </svg>
   );
 }

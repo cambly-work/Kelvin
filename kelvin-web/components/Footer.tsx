@@ -3,38 +3,40 @@ import { Link } from "@/i18n/routing";
 
 export default function Footer() {
   const t = useTranslations("Footer");
+  const legal = useTranslations("Legal");
 
   return (
-    <footer className="border-t border-line px-5 py-8 sm:px-8">
-      <div className="mx-auto flex max-w-[980px] flex-col items-center gap-4 text-center sm:flex-row sm:justify-between sm:text-left">
-        <div className="flex items-center gap-2 text-[14px] text-mut">
+    <footer className="border-t border-line">
+      <div className="mx-auto flex max-w-[1024px] flex-col gap-4 px-5 py-8 text-[13px] text-faint sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-2">
           <img
             src="/assets/icon.png"
-            alt=""
+            alt="Kelvin"
             width={16}
             height={16}
-            className="rounded-[4px]"
+            className="rounded-[3px]"
           />
-          <span>Kelvin</span>
+          <span className="font-medium text-mut">Kelvin</span>
         </div>
-        <nav className="flex gap-5 text-[12px] text-faint">
-          <Link href="/privacy" className="transition-colors hover:text-mut">
+        <nav className="flex flex-wrap gap-x-5 gap-y-2">
+          <Link href="/privacy" className="transition-colors hover:text-tx">
             {t("privacy")}
           </Link>
-          <Link href="/eula" className="transition-colors hover:text-mut">
+          <Link href="/eula" className="transition-colors hover:text-tx">
             {t("eula")}
+          </Link>
+          <Link href="/notes" className="transition-colors hover:text-tx">
+            {legal("notes.title")}
           </Link>
           <a
             href="mailto:cambly.studio@gmail.com"
-            className="transition-colors hover:text-mut"
+            className="transition-colors hover:text-tx"
           >
             {t("support")}
           </a>
         </nav>
+        <p className="sm:text-right">{t("legal")}</p>
       </div>
-      <p className="mx-auto mt-4 max-w-[980px] text-center text-[11px] text-faint">
-        {t("legal")}
-      </p>
     </footer>
   );
 }

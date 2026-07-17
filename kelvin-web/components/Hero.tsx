@@ -11,50 +11,74 @@ export default function Hero() {
   const panelH = locale === "pt" ? 2252 : 2072;
 
   return (
-    <section className="overflow-hidden px-5 pb-10 pt-28 text-center sm:pt-36">
+    <section className="relative overflow-hidden px-5 pb-10 pt-32 text-center sm:pt-40">
+      {/* subtle radial accent in the background */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[600px]"
+        style={{
+          background:
+            "radial-gradient(50% 50% at 50% 0%, color-mix(in srgb, var(--color-accent) 14%, transparent), transparent 70%)",
+        }}
+      />
+
       <div className="mx-auto max-w-[980px]">
         <Reveal
+          as="p"
+          className="mb-5 text-[13px] font-medium uppercase tracking-[0.14em] text-accent"
+        >
+          {t("eyebrow")}
+        </Reveal>
+
+        <Reveal
           as="h1"
-          className="text-balance text-[clamp(2.75rem,8vw,5.5rem)] font-semibold leading-[1.04] tracking-[-0.025em] text-tx"
+          index={1}
+          className="text-balance text-[clamp(2.75rem,8vw,5.5rem)] font-bold leading-[1.02] tracking-[-0.035em] text-tx"
         >
           {t("title")}
         </Reveal>
 
         <Reveal
           as="p"
-          index={1}
-          className="mx-auto mt-6 max-w-[640px] text-pretty text-[clamp(1.125rem,2.2vw,1.5rem)] font-normal leading-snug text-mut"
+          index={2}
+          className="mx-auto mt-6 max-w-[640px] text-pretty text-[clamp(1.125rem,2.2vw,1.375rem)] leading-snug text-mut"
         >
           {t("lead")}
         </Reveal>
 
-        <Reveal index={2} className="mt-8 flex flex-wrap justify-center gap-4">
-          <Link href="/#download" className="btn-primary inline-block px-7 py-3">
+        <Reveal index={3} className="mt-8 flex flex-wrap justify-center gap-4">
+          <Link href="/#download" className="btn-primary">
             {t("ctaPrimary")}
           </Link>
-          <Link href="/#pricing" className="btn-secondary inline-block px-6 py-3">
+          <Link href="/#pricing" className="btn-secondary">
             {t("ctaSecondary")}
           </Link>
         </Reveal>
+
+        <Reveal index={4} as="p" className="mt-6 text-[13px] text-faint">
+          {t("micro")}
+        </Reveal>
       </div>
 
-      {/* Product screenshot — honest, simple shadow, no glow */}
-      <Reveal index={3} className="relative mx-auto mt-16 w-fit lg:mt-20">
-        <Image
-          src={panelSrc}
-          alt={t("title")}
-          width={panelW}
-          height={panelH}
-          priority
-          fetchPriority="high"
-          quality={80}
-          sizes="(max-width: 768px) 88vw, 480px"
-          className="mx-auto h-auto w-auto max-h-[70vh] rounded-[22px] border border-line"
-          style={{
-            aspectRatio: `${panelW} / ${panelH}`,
-            boxShadow: "var(--shadow-product)",
-          }}
-        />
+      {/* giant product screenshot with glow */}
+      <Reveal index={5} className="relative mx-auto mt-16 w-fit lg:mt-20">
+        <div className="glow relative">
+          <Image
+            src={panelSrc}
+            alt={t("title")}
+            width={panelW}
+            height={panelH}
+            priority
+            fetchPriority="high"
+            quality={80}
+            sizes="(max-width: 768px) 88vw, 480px"
+            className="mx-auto h-auto w-auto max-h-[72vh] rounded-[22px] border border-line"
+            style={{
+              aspectRatio: `${panelW} / ${panelH}`,
+              boxShadow: "var(--shadow-product)",
+            }}
+          />
+        </div>
       </Reveal>
     </section>
   );

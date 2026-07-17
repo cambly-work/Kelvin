@@ -1,51 +1,34 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/routing";
 import Reveal from "./Reveal";
-
-type VersionInfo = {
-  version: string;
-  url: string;
-  minOS: string;
-};
+import appcast from "@/public/appcast.json";
 
 export default function Download() {
   const t = useTranslations("Download");
-  const [info, setInfo] = useState<VersionInfo | null>(null);
-
-  useEffect(() => {
-    fetch("/api/latest-version")
-      .then((r) => r.json())
-      .then(setInfo)
-      .catch(() => {});
-  }, []);
-
-  const dmgHref = info?.url ?? "#";
 
   return (
     <section id="download" className="border-t border-line">
-      <div className="mx-auto max-w-[980px] px-5 py-28 text-center sm:py-36">
-        <Reveal as="h2" className="text-[clamp(2.5rem,7vw,5rem)] font-semibold tracking-[-0.025em] text-tx">
+      <Reveal className="mx-auto max-w-[980px] px-5 py-24 text-center sm:py-32">
+        <h2 className="text-[clamp(2rem,5vw,3.25rem)] font-bold tracking-[-0.03em] text-tx">
           {t("title")}
-        </Reveal>
-        <Reveal as="p" index={1} className="mx-auto mt-4 max-w-[500px] text-[clamp(1.125rem,2vw,1.375rem)] text-mut">
-          {t("lead")}
-        </Reveal>
-        <Reveal index={2} className="mt-8 flex flex-wrap justify-center gap-4">
-          <a href={dmgHref} className="btn-primary inline-block px-8 py-3.5">
+        </h2>
+        <p className="mx-auto mt-4 max-w-[520px] text-mut">{t("lead")}</p>
+
+        <div className="mt-8 flex flex-wrap justify-center gap-4">
+          <a href={appcast.url} className="btn-primary">
             {t("ctaPrimary")}
-            {info?.version && <span className="opacity-70"> · v{info.version}</span>}
           </a>
-          <Link href="/#pricing" className="btn-secondary inline-block px-7 py-3.5">
+          <a
+            href="https://trykelvin.lemonsqueezy.com/checkout/buy/9f0f7e7c-7be9-4def-94e2-99b8e2c6b801"
+            className="btn-secondary"
+          >
             {t("ctaSecondary")}
-          </Link>
-        </Reveal>
-        <Reveal as="p" index={3} className="mx-auto mt-6 max-w-[500px] text-[13px] leading-relaxed text-faint">
+          </a>
+        </div>
+
+        <p className="mx-auto mt-6 max-w-[560px] text-[13px] leading-relaxed text-faint">
           {t("micro")}
-        </Reveal>
-      </div>
+        </p>
+      </Reveal>
     </section>
   );
 }

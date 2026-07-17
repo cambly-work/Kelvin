@@ -1,6 +1,4 @@
-import type { SVGProps } from "react";
-
-type IconName =
+export type FeatureIcon =
   | "power"
   | "fans"
   | "toggles"
@@ -8,59 +6,75 @@ type IconName =
   | "security"
   | "dev";
 
-const paths: Record<IconName, React.ReactNode> = {
+const PATHS: Record<FeatureIcon, React.ReactNode> = {
   power: (
-    <path d="M13 2 4.5 13H11l-1 9 8.5-11H12l1-9Z" />
+    <>
+      <path d="M11 3a1 1 0 1 1 2 0v8a1 1 0 1 1-2 0V3z" />
+      <path d="M7.5 6.2a7 7 0 1 0 9 0" />
+    </>
   ),
   fans: (
     <>
-      <circle cx="12" cy="12" r="2" />
-      <path d="M12 10c0-3-1-7-3-7-1.5 0-2 2-1.5 4 .5 1.8 2 2.6 4.5 3M14 12c3 0 7 1 7 3 0 1.5-2 2-4 1.5-1.8-.5-2.6-2-3-4.5M12 14c0 3 1 7 3 7 1.5 0 2-2 1.5-4-.5-1.8-2-2.6-4.5-3M10 12c-3 0-7-1-7-3 0-1.5 2-2 4-1.5 1.8.5 2.6 2 3 4.5" />
+      <circle cx="12" cy="12" r="2.2" />
+      <path d="M12 9.8c0-3-1-5.8-1-5.8s-3 .8-3 3.8 4 2 4 2z" />
+      <path d="M14.2 12c3 0 5.8-1 5.8-1s-.8-3-3.8-3-2 4-2 4z" />
+      <path d="M12 14.2c0 3 1 5.8 1 5.8s3-.8 3-3.8-4-2-4-2z" />
+      <path d="M9.8 12c-3 0-5.8 1-5.8 1s.8 3 3.8 3 2-4 2-4z" />
     </>
   ),
   toggles: (
     <>
-      <line x1="4" y1="8" x2="20" y2="8" />
-      <circle cx="9" cy="8" r="2.4" fill="none" />
-      <line x1="4" y1="16" x2="20" y2="16" />
-      <circle cx="15" cy="16" r="2.4" fill="none" />
+      <rect x="2" y="6" width="20" height="12" rx="3" />
+      <circle cx="16" cy="12" r="2.5" fill="currentColor" stroke="none" />
     </>
   ),
   layout: (
     <>
-      <rect x="2.5" y="6" width="19" height="12" rx="2" />
-      <path d="M6 9.5h.01M9.5 9.5h.01M13 9.5h.01M16.5 9.5h.01M8 14h8" />
+      <rect x="3" y="6" width="18" height="12" rx="2" />
+      <path d="M7 10h2M7 14h6M15 10h2" />
+      <path d="m17 6 4 4M17 18l4-4" />
     </>
   ),
   security: (
     <>
-      <path d="M12 3 5 6v5c0 4.4 3 8.4 7 10 4-1.6 7-5.6 7-10V6l-7-3Z" />
+      <path d="M12 3 5 6v5c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3z" />
       <path d="m9 12 2 2 4-4" />
     </>
   ),
   dev: (
-    <path d="m8 8-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14" />
+    <>
+      <path d="m8 9-3 3 3 3" />
+      <path d="m16 9 3 3-3 3" />
+      <path d="m13 7-2 10" />
+    </>
   ),
 };
 
 export function Icon({
   name,
-  ...props
-}: { name: IconName } & Omit<SVGProps<SVGSVGElement>, "children">) {
+  width = 24,
+  height = 24,
+  className,
+}: {
+  name: FeatureIcon;
+  width?: number;
+  height?: number;
+  className?: string;
+}) {
   return (
     <svg
+      width={width}
+      height={height}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.5"
+      strokeWidth={1.6}
       strokeLinecap="round"
       strokeLinejoin="round"
-      width="24"
-      height="24"
+      className={className}
       aria-hidden
-      {...props}
     >
-      {paths[name]}
+      {PATHS[name]}
     </svg>
   );
 }
