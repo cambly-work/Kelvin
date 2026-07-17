@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kelvin Web
 
-## Getting Started
+Landing site for Kelvin, a macOS menu-bar multitool. Built with Next.js 16, React 19, Tailwind CSS v4, and `next-intl`. Dark theme by default, light theme via toggle.
 
-First, run the development server:
+## Quick start
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cd kelvin-web
+npm install      # first time only
+npm run dev      # http://localhost:3000  (redirects to /ru)
+npm run build    # production build
+npm start        # serve the production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+kelvin-web/
+├── app/
+│   ├── [locale]/            # locale-segmented routes (ru, pt)
+│   │   ├── layout.tsx       # <html> shell, metadata, theme FOUC script — DO NOT remove the script
+│   │   ├── page.tsx         # the landing page — assembles all sections
+│   │   ├── privacy/         # privacy policy page
+│   │   ├── eula/            # license agreement page
+│   │   └── notes/           # release notes page
+│   ├── api/latest-version/  # version-check endpoint (read by the app)
+│   ├── globals.css          # ★ the whole design system lives here
+│   └── layout.tsx           # root passthrough (next-intl owns <html>)
+├── components/              # one file per page section
+├── messages/                # i18n strings: ru.json, pt.json
+├── i18n/                    # routing.ts (locales), request.ts
+├── public/                  # static assets, screenshots, appcast.json
+└── next.config.ts
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## How to edit things
 
-## Learn More
+### Change text on the site
+All copy lives in `messages/ru.json` and `messages/pt.json`, grouped by section (`Hero`, `Features`, `Compare`, `Faq`, `Download`, etc.). Edit the JSON, save, and the dev server hot-reloads.
 
-To learn more about Next.js, take a look at the following resources:
+### Change colors / theme
+Open `app/globals.css`. The `@theme { ... }` block at the top defines the **dark** (default) tokens. The `:root.light { ... }` block overrides them for light mode. Change a value there and every component using that token updates. Key tokens:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Token            | What it controls        |
+| ---------------- | ----------------------- |
+| `--color-bg`     | page background         |
+| `--color-surface`| cards / raised surfaces |
+| `--color-tx`     | primary text            |
+| `--color-mut`    | secondary text          |
+| `--color-accent` | the blue accent         |
+| `--color-line`   | hairline borders        |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Change a single section
+Each section is one file in `components/`:
 
-## Deploy on Vercel
+| Section      | File                    |
+| ------------ | ----------------------- |
+| Nav bar      | `components/Nav.tsx`     |
+| Hero         | `components/Hero.tsx`    |
+| Trust band   | `components/SocialProof.tsx` |
+| Features     | `components/Features.tsx`|
+| Pricing      | `components/Pricing.tsx` |
+| FAQ          | `components/Faq.tsx`     |
+| Download CTA | `components/Download.tsx`|
+| Footer       | `components/Footer.tsx`  |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Change screenshots
+Drop replacements into `public/assets/`. The hero uses `panel-ru-1.png` / `panel-pt-1.png`. Feature crops (RU only) live in `public/assets/crops/`. Keep the same filenames, or update the paths in `Hero.tsx` / `Features.tsx`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Change the download link
+The `.dmg` URL comes from `public/appcast.json` → `url`. The Download section reads it automatically. **Do not delete `appcast.json`** — installed copies of Kelvin also read it for auto-updates.
+
+## Deploy
+Push to `main`. The GitHub Actions workflow in `.github/workflows/` builds and deploys.
