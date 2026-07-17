@@ -6,8 +6,13 @@ export default function Footer() {
   const legal = useTranslations("Legal");
 
   return (
-    <footer className="border-t border-line">
-      <div className="mx-auto flex max-w-[1024px] flex-col gap-4 px-5 py-8 text-[13px] text-faint sm:flex-row sm:items-center sm:justify-between">
+    <footer className="relative bg-bg/60 backdrop-blur-2xl">
+      {/* градиентная черта сверху (как у Warp) */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent dark:hidden"
+        aria-hidden="true"
+      />
+      <div className="mx-auto flex max-w-[1100px] flex-col gap-4 px-6 py-8 text-[13px] text-faint sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-2">
           <img
             src="/assets/icon.png"
