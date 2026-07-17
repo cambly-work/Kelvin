@@ -34,7 +34,7 @@ export default function Nav() {
     >
       {/* ─── тонкая градиентная «дорожка» снизу, как у Warp ─── */}
       <div
-        className={`pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent transition-opacity duration-500 ${
+        className={`pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent transition-opacity duration-500 dark:hidden ${
           scrolled ? "opacity-100" : "opacity-0"
         }`}
       />
