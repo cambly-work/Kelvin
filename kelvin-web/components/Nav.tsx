@@ -28,16 +28,11 @@ export default function Nav() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         scrolled || open
-          ? "border-b border-white/[0.06] bg-bg/60 shadow-[0_1px_3px_rgba(0,0,0,0.03)] backdrop-blur-2xl"
-          : "border-b border-transparent"
+          ? "bg-bg/60 backdrop-blur-2xl"  // только фон и блюр, без границ и теней
+          : ""
       }`}
     >
-      {/* ─── тонкая градиентная «дорожка» снизу, как у Warp ─── */}
-      <div
-        className={`pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent transition-opacity duration-500 dark:hidden ${
-          scrolled ? "opacity-100" : "opacity-0"
-        }`}
-      />
+      {/* градиентная полоска полностью удалена */}
 
       <nav className="mx-auto flex h-14 max-w-[1100px] items-center justify-between px-6">
         {/* brand */}
@@ -110,9 +105,9 @@ export default function Nav() {
         </div>
       </nav>
 
-      {/* mobile dropdown — тоже стеклянный */}
+      {/* mobile dropdown — без верхнего бордера */}
       {open && (
-        <div className="border-t border-white/[0.06] bg-bg/60 px-6 py-3 backdrop-blur-2xl md:hidden">
+        <div className="bg-bg/60 px-6 py-3 backdrop-blur-2xl md:hidden">
           <div className="flex flex-col gap-1">
             {[...links, { href: "/#download", label: t("download") }].map(
               (l) => (
