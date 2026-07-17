@@ -95,9 +95,9 @@ sections are removed (they duplicated content or belong elsewhere).
 
 ## Content & i18n
 
+- Locales are `ru` (default) and `pt` only — configured in `i18n/routing.ts`. No `en` locale exists and none is added by this redesign.
 - Preserve all existing copy in `ru.json` and `pt.json`.
-- Add `en.json` (currently missing despite being referenced).
-- Locale-specific screenshot behavior preserved: RU uses crop images, PT/EN fall back to text+icon.
+- Locale-specific screenshot behavior preserved: RU uses crop images, PT falls back to text+icon.
 
 ## Non-Goals
 
