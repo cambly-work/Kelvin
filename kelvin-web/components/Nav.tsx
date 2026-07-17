@@ -26,30 +26,41 @@ export default function Nav() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         scrolled || open
-          ? "border-b border-line bg-bg/85 backdrop-blur-md"
+          ? "border-b border-line/40 bg-bg/70 shadow-[0_1px_2px_rgba(0,0,0,0.04)] backdrop-blur-xl"
           : "border-b border-transparent"
       }`}
     >
-      <nav className="mx-auto flex h-12 max-w-[1024px] items-center justify-between px-5">
-        {/* brand */}
+      {/* ───── градиентная полоса-блик по нижней границе (как у Warp) ───── */}
+      <div
+        className={`pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-violet-500/40 to-transparent transition-opacity duration-500 ${
+          scrolled ? "opacity-100" : "opacity-0"
+        }`}
+      />
+
+      <nav className="mx-auto flex h-14 max-w-[1100px] items-center justify-between px-6">
+        {/* Бренд */}
         <Link
           href="/"
-          className="flex items-center gap-2 text-[14px] font-semibold text-tx"
+          className="flex items-center gap-2.5 text-[15px] font-semibold tracking-tight text-tx"
         >
           <img
             src="/assets/icon.png"
             alt="Kelvin"
-            width={18}
-            height={18}
-            className="rounded-[4px]"
+            width={20}
+            height={20}
+            className="rounded-[5px]"
           />
+          {/* Опционально: градиентный текст как у Warp (раскомментируй, если нужно) */}
+          {/* <span className="bg-gradient-to-r from-violet-600 to-blue-500 bg-clip-text text-transparent">
+            Kelvin
+          </span> */}
           <span>Kelvin</span>
         </Link>
 
-        {/* center links — desktop */}
-        <div className="hidden items-center gap-7 text-[13px] text-mut md:flex">
+        {/* Центральные ссылки (десктоп) */}
+        <div className="hidden items-center gap-8 text-[13.5px] text-mut md:flex">
           {links.map((l) => (
             <Link
               key={l.href}
@@ -61,19 +72,22 @@ export default function Nav() {
           ))}
         </div>
 
-        {/* right cluster */}
+        {/* Правый кластер */}
         <div className="flex items-center gap-4">
+          {/* Warp‑стайл CTA‑кнопка с градиентом, тенью и микро‑анимацией */}
           <Link
             href="/#download"
-            className="btn-primary hidden !px-4 !py-2 !text-[13px] sm:inline-block"
+            className="relative inline-flex items-center justify-center rounded-full px-6 py-2 text-[13px] font-medium text-white shadow-lg shadow-violet-500/25 transition-all duration-300 hover:scale-[1.04] hover:shadow-violet-500/40 bg-gradient-to-r from-violet-600 to-blue-500"
           >
             {t("download")}
           </Link>
+
           <span className="hidden md:block">
             <LocaleSwitcher />
           </span>
           <ThemeToggle />
-          {/* mobile toggle */}
+
+          {/* Мобильная кнопка‑гамбургер */}
           <button
             className="text-tx md:hidden"
             onClick={() => setOpen((v) => !v)}
@@ -81,8 +95,8 @@ export default function Nav() {
             aria-expanded={open}
           >
             <svg
-              width="18"
-              height="18"
+              width="20"
+              height="20"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -103,23 +117,23 @@ export default function Nav() {
         </div>
       </nav>
 
-      {/* mobile dropdown */}
+      {/* Мобильное меню – тоже с матовым стеклом */}
       {open && (
-        <div className="border-t border-line bg-bg/95 px-5 py-2 backdrop-blur-md md:hidden">
-          <div className="flex flex-col">
+        <div className="border-t border-line/40 bg-bg/80 px-6 py-3 backdrop-blur-xl md:hidden">
+          <div className="flex flex-col gap-1">
             {[...links, { href: "/#download", label: t("download") }].map(
               (l) => (
                 <Link
                   key={l.href}
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="rounded-lg px-2 py-2.5 text-[14px] text-mut hover:text-tx"
+                  className="rounded-lg px-3 py-2.5 text-[15px] text-mut transition-colors hover:bg-tx/5 hover:text-tx"
                 >
                   {l.label}
                 </Link>
               )
             )}
-            <div className="px-2 py-2.5">
+            <div className="px-3 py-2.5">
               <LocaleSwitcher />
             </div>
           </div>
