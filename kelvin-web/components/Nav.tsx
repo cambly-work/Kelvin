@@ -24,14 +24,17 @@ export default function Nav() {
     { href: "/#faq", label: t("faq") },
   ] as const;
 
+  // Максимально близкий к Liquid Glass эффект
+  const liquidGlass =
+    "bg-bg/40 backdrop-blur-[30px] backdrop-saturate-[160%] backdrop-brightness-[105%] backdrop-contrast-[95%] " +
+    "shadow-[inset_0_0.5px_0_rgba(255,255,255,0.12),inset_0_-0.5px_0_rgba(255,255,255,0.06)]";
+
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled || open ? "glass border-b border-white/[0.04]" : ""
+        scrolled || open ? liquidGlass : ""
       }`}
     >
-      {/* градиентная полоска полностью удалена */}
-
       <nav className="mx-auto flex h-14 max-w-[1100px] items-center justify-between px-6">
         {/* brand */}
         <Link
@@ -103,9 +106,9 @@ export default function Nav() {
         </div>
       </nav>
 
-      {/* мобильное меню — стекло для консистентности с шапкой */}
+      {/* mobile dropdown — тот же liquid glass */}
       {open && (
-        <div className="glass border-t border-white/[0.04] px-6 py-3 md:hidden">
+        <div className={`px-6 py-3 md:hidden ${liquidGlass}`}>
           <div className="flex flex-col gap-1">
             {[...links, { href: "/#download", label: t("download") }].map(
               (l) => (

@@ -155,31 +155,104 @@
     box-shadow: var(--shadow-card);
   }
 
-  /* GLASS — frosted surface with subliminal chromatic aberration at the edges.
-     macOS 26 "Liquid Glass" approximation. Aberration is drawn via inset
-     box-shadows (pink TL / cyan BR) so it only fringes the border, never
-     the content inside — unlike an SVG filter, which would split channels
-     on text. ~0.5px offset: barely visible, adds life without noise.
-     Note: the @supports fallback lives outside @layer components — putting
-     it inside broke Tailwind v4's layer parsing and dropped .glass entirely. */
+  /* GLASS — живое стекло в стиле macOS 26 Liquid Glass.
+     Используется вместе с <Glass> (client-компонент), который выставляет
+     CSS-переменные --mx/--my (позиция курсора) и --shift (дрейф иридесценции).
+     Сам .glass — это статичная база (blur + aberration). Класс-модификатор
+     .glass--live добавляет поверх прожектор за курсором (::before) и
+     переливающуюся бензиновую плёнку (::after).
+
+     Не навешивай额外的 border-* поверх .glass — inner highlight уже задаёт
+     край, второй border виден как лишняя полоса. */
   .glass {
-    background: rgba(22, 27, 34, 0.6);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    background: rgba(22, 27, 34, 0.5);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    backdrop-filter: blur(28px) saturate(180%);
     box-shadow:
-      inset 0.5px 0.5px 0 rgba(255, 100, 180, 0.18),
-      inset -0.5px -0.5px 0 rgba(100, 220, 255, 0.18),
-      0 8px 32px rgba(0, 0, 0, 0.28);
+      inset 1.5px 1.5px 0 rgba(255, 60, 160, 0.28),
+      inset -1.5px -1.5px 0 rgba(60, 220, 255, 0.28),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+      0 12px 40px rgba(0, 0, 0, 0.4);
+    /* дефолты переменных — пока курсор не пришел */
+    --mx: 50%;
+    --my: 0%;
+    --spot: 0.15;
+    --shift: 0deg;
   }
-  /* light theme — warmer glass, gentler fringe */
+
+  /* ПРОЖЕКТОР — бежит за курсором. radial-gradient в точке --mx/--my. */
+  .glass--live::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      180px circle at var(--mx) var(--my),
+      rgba(255, 255, 255, calc(0.22 * var(--spot))),
+      transparent 70%
+    );
+    pointer-events: none;
+    z-index: 0;
+    transition: background 0.15s linear;
+  }
+
+  /* ИРИДЕСЦЕНЦИЯ — бензиновая плёнка по краю. Два conic-gradient слоя
+     крутятся на --shift и дают перелив розовый↔циан↔лиловый. */
+  .glass--live::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: conic-gradient(
+      from var(--shift),
+      rgba(255, 60, 160, 0.5),
+      rgba(60, 220, 255, 0.5),
+      rgba(180, 120, 255, 0.5),
+      rgba(255, 200, 80, 0.4),
+      rgba(255, 60, 160, 0.5)
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.7;
+  }
+
+  /* контент — поверх прожектора и плёнки */
+  .glass > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* light theme — ярче блик, мягче франжа */
   :root.light .glass {
-    background: rgba(255, 255, 255, 0.65);
-    border-color: rgba(0, 0, 0, 0.06);
+    background: rgba(255, 255, 255, 0.55);
     box-shadow:
-      inset 0.5px 0.5px 0 rgba(200, 60, 130, 0.12),
-      inset -0.5px -0.5px 0 rgba(40, 150, 210, 0.12),
-      0 8px 32px rgba(0, 0, 0, 0.08);
+      inset 1.5px 1.5px 0 rgba(200, 40, 130, 0.16),
+      inset -1.5px -1.5px 0 rgba(40, 140, 210, 0.16),
+      inset 0 0 0 1px rgba(0, 0, 0, 0.06),
+      0 12px 40px rgba(0, 0, 0, 0.12);
+  }
+  :root.light .glass--live::before {
+    background: radial-gradient(
+      180px circle at var(--mx) var(--my),
+      rgba(255, 255, 255, calc(0.9 * var(--spot))),
+      transparent 70%
+    );
+  }
+  :root.light .glass--live::after {
+    opacity: 0.45;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    /* не отключаем прожектор (он от курсора), но убираем дрейф */
+    .glass--live::after {
+      opacity: 0;
+    }
   }
 
   /* glow behind a screenshot — radial accent halo */

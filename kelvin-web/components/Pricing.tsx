@@ -1,6 +1,9 @@
+"use client";
+
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import Reveal from "./Reveal";
+import Glass from "./Glass";
 
 export default function Pricing() {
   const t = useTranslations("Compare");
@@ -22,7 +25,8 @@ export default function Pricing() {
 
         <div className="mt-14 grid gap-6 lg:grid-cols-2">
           {/* Free */}
-          <Reveal className="glass rounded-[18px] p-8">
+          <Reveal>
+            <Glass className="rounded-[18px] p-8">
             <h3 className="text-[20px] font-bold text-tx">{t("free.name")}</h3>
             <div className="mt-3 flex items-baseline gap-2">
               <span className="text-[42px] font-bold tracking-[-0.02em] text-tx">
@@ -41,14 +45,13 @@ export default function Pricing() {
             <Link href="/#download" className="btn-secondary mt-8 w-full text-center">
               {t("free.cta")}
             </Link>
+            </Glass>
           </Reveal>
 
           {/* Pro — emphasized */}
-          <Reveal
-            index={1}
-            className="glass relative overflow-hidden rounded-[18px] p-8 ring-1 ring-accent/40"
-          >
-            <span className="glass absolute right-5 top-5 rounded-full border-accent/30 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-accent" style={{ background: "color-mix(in srgb, var(--color-accent) 18%, transparent)" }}>
+          <Reveal index={1}>
+            <Glass className="relative overflow-hidden rounded-[18px] p-8 ring-1 ring-accent/40">
+            <span className="absolute right-5 top-5 rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-accent" style={{ background: "color-mix(in srgb, var(--color-accent) 22%, transparent)" }}>
               {t("pro.badge")}
             </span>
             <h3 className="text-[20px] font-bold text-tx">{t("pro.name")}</h3>
@@ -69,6 +72,7 @@ export default function Pricing() {
             <Link href="/#download" className="btn-primary mt-8 w-full text-center">
               {t("pro.cta")}
             </Link>
+            </Glass>
           </Reveal>
         </div>
       </div>
