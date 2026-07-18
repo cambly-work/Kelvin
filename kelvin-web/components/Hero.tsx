@@ -1,21 +1,31 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import Reveal from "./Reveal";
 
-// Оптимизированный хук с requestAnimationFrame
-function useScrollY() {
-  const [scrollY, setScrollY] = useState(0);
+export default function Hero() {
+  const t = useTranslations("Hero");
+  const locale = useLocale();
+  const screenshotRef = useRef<HTMLDivElement | null>(null);
+
+  const panelSrc =
+    locale === "pt" ? "/assets/panel-pt-1.png" : "/assets/panel-ru-1.png";
+  const panelW = locale === "pt" ? 808 : 652;
+  const panelH = locale === "pt" ? 2252 : 2072;
 
   useEffect(() => {
+    const el = screenshotRef.current;
+    if (!el) return;
+
     let ticking = false;
     const handleScroll = () => {
       if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setScrollY(window.scrollY);
+        requestAnimationFrame(() => {
+          const offset = Math.min(window.scrollY * 0.05, 60);
+          el.style.transform = `translateY(-${offset}px)`;
           ticking = false;
         });
         ticking = true;
@@ -26,24 +36,9 @@ function useScrollY() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  return scrollY;
-}
-
-export default function Hero() {
-  const t = useTranslations("Hero");
-  const locale = useLocale();
-  const scrollY = useScrollY();
-
-  const panelSrc =
-    locale === "pt" ? "/assets/panel-pt-1.png" : "/assets/panel-ru-1.png";
-  const panelW = locale === "pt" ? 808 : 652;
-  const panelH = locale === "pt" ? 2252 : 2072;
-
-  const parallaxOffset = Math.min(scrollY * 0.05, 60);
-
   return (
     <section className="relative overflow-hidden px-5 pb-10 pt-40 text-center sm:pt-48">
-      {/* Фоновые пятна с анимацией */}
+      {/* фоновые пятна с анимацией */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div
           className="animate-drift absolute left-1/2 top-0 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-3xl"
@@ -95,7 +90,10 @@ export default function Hero() {
           {t("lead")}
         </Reveal>
 
-        <Reveal index={3} className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
+        <Reveal
+          index={3}
+          className="mt-8 flex flex-col justify-center gap-4 sm:flex-row"
+        >
           <Link
             href="/#download"
             className="btn-primary transition-transform duration-200 hover:scale-105 sm:w-auto w-full"
@@ -115,39 +113,38 @@ export default function Hero() {
         </Reveal>
       </div>
 
-      {/* Скриншот с мгновенным параллаксом */}
-      <Reveal
-        index={5}
-        className="relative mx-auto mt-16 w-fit lg:mt-20"
-        style={{
-          transform: `translateY(-${parallaxOffset}px)`,
-          willChange: "transform",
-        }}
-      >
+      {/* Скриншот с мгновенным параллаксом через ref */}
+      <Reveal index={5} className="relative mx-auto mt-16 w-fit lg:mt-20">
         <div
-          className="absolute inset-0 -z-10 scale-110 rounded-[22px] opacity-60 blur-2xl"
-          style={{
-            background:
-              "radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--color-accent) 30%, transparent), transparent 70%)",
-          }}
-        />
-        <div className="glow group relative">
-          <Image
-            src={panelSrc}
-            alt={t("title")}
-            width={panelW}
-            height={panelH}
-            priority
-            fetchPriority="high"
-            quality={80}
-            sizes="(max-width: 640px) 92vw, (max-width: 1024px) 85vw, 480px"
-            className="mx-auto h-auto w-auto max-h-[72vh] rounded-[22px] border border-white/[0.06] transition-transform duration-500 group-hover:scale-[1.02]"
+          ref={screenshotRef}
+          className="will-change-transform"
+          style={{ transform: "translateY(0px)" }}
+        >
+          <div
+            className="absolute inset-0 -z-10 scale-110 rounded-[22px] opacity-60 blur-2xl"
             style={{
-              aspectRatio: `${panelW} / ${panelH}`,
-              boxShadow:
-                "0 0 60px -20px color-mix(in srgb, var(--color-accent) 40%, transparent), var(--shadow-product)",
+              background:
+                "radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--color-accent) 30%, transparent), transparent 70%)",
             }}
           />
+          <div className="glow group relative">
+            <Image
+              src={panelSrc}
+              alt={t("title")}
+              width={panelW}
+              height={panelH}
+              priority
+              fetchPriority="high"
+              quality={80}
+              sizes="(max-width: 640px) 92vw, (max-width: 1024px) 85vw, 480px"
+              className="mx-auto h-auto w-auto max-h-[72vh] rounded-[22px] border border-white/[0.06] transition-transform duration-500 group-hover:scale-[1.02]"
+              style={{
+                aspectRatio: `${panelW} / ${panelH}`,
+                boxShadow:
+                  "0 0 60px -20px color-mix(in srgb, var(--color-accent) 40%, transparent), var(--shadow-product)",
+              }}
+            />
+          </div>
         </div>
       </Reveal>
     </section>
