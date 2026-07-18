@@ -1,23 +1,30 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import Reveal from "./Reveal";
 
-// Лёгкий хук для отслеживания скролла (параллакс)
+// Оптимизированный хук с requestAnimationFrame
 function useScrollY() {
   const [scrollY, setScrollY] = useState(0);
 
-  const handleScroll = useCallback(() => {
-    setScrollY(window.scrollY);
-  }, []);
-
   useEffect(() => {
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrollY(window.scrollY);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [handleScroll]);
+  }, []);
 
   return scrollY;
 }
@@ -32,7 +39,6 @@ export default function Hero() {
   const panelW = locale === "pt" ? 808 : 652;
   const panelH = locale === "pt" ? 2252 : 2072;
 
-  // Параллакс: смещаем скриншот на 5% от скролла (максимум 60px)
   const parallaxOffset = Math.min(scrollY * 0.05, 60);
 
   return (
@@ -109,13 +115,13 @@ export default function Hero() {
         </Reveal>
       </div>
 
-      {/* Скриншот с параллаксом и плавным появлением */}
+      {/* Скриншот с мгновенным параллаксом */}
       <Reveal
         index={5}
         className="relative mx-auto mt-16 w-fit lg:mt-20"
         style={{
           transform: `translateY(-${parallaxOffset}px)`,
-          transition: "transform 0.1s linear",
+          willChange: "transform",
         }}
       >
         <div
