@@ -27,9 +27,7 @@ export default function Nav() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled || open
-          ? "bg-bg/60 backdrop-blur-2xl"  // только фон и блюр, без границ и теней
-          : ""
+        scrolled || open ? "glass border-b border-white/[0.04]" : ""
       }`}
     >
       {/* градиентная полоска полностью удалена */}
@@ -105,9 +103,9 @@ export default function Nav() {
         </div>
       </nav>
 
-      {/* mobile dropdown — без верхнего бордера */}
+      {/* мобильное меню — стекло для консистентности с шапкой */}
       {open && (
-        <div className="bg-bg/60 px-6 py-3 backdrop-blur-2xl md:hidden">
+        <div className="glass border-t border-white/[0.04] px-6 py-3 md:hidden">
           <div className="flex flex-col gap-1">
             {[...links, { href: "/#download", label: t("download") }].map(
               (l) => (

@@ -1,3 +1,4 @@
 .zcode/
 .superpowers/
 .DS_Store
+.playwright-mcp/

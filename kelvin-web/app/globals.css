@@ -155,6 +155,33 @@
     box-shadow: var(--shadow-card);
   }
 
+  /* GLASS — frosted surface with subliminal chromatic aberration at the edges.
+     macOS 26 "Liquid Glass" approximation. Aberration is drawn via inset
+     box-shadows (pink TL / cyan BR) so it only fringes the border, never
+     the content inside — unlike an SVG filter, which would split channels
+     on text. ~0.5px offset: barely visible, adds life without noise.
+     Note: the @supports fallback lives outside @layer components — putting
+     it inside broke Tailwind v4's layer parsing and dropped .glass entirely. */
+  .glass {
+    background: rgba(22, 27, 34, 0.6);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+      inset 0.5px 0.5px 0 rgba(255, 100, 180, 0.18),
+      inset -0.5px -0.5px 0 rgba(100, 220, 255, 0.18),
+      0 8px 32px rgba(0, 0, 0, 0.28);
+  }
+  /* light theme — warmer glass, gentler fringe */
+  :root.light .glass {
+    background: rgba(255, 255, 255, 0.65);
+    border-color: rgba(0, 0, 0, 0.06);
+    box-shadow:
+      inset 0.5px 0.5px 0 rgba(200, 60, 130, 0.12),
+      inset -0.5px -0.5px 0 rgba(40, 150, 210, 0.12),
+      0 8px 32px rgba(0, 0, 0, 0.08);
+  }
+
   /* glow behind a screenshot — radial accent halo */
   .glow::before {
     content: "";
@@ -228,3 +255,14 @@
     margin: 0.25rem 0;
   }
 }
+
+/* ----------------------------------------------------------------------- */
+/* Legacy browsers without backdrop-filter fall back to a solid surface.
+   Kept outside @layer components — an @supports inside that layer broke
+   Tailwind v4's parsing and dropped the .glass rule entirely. */
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .glass {
+    background: var(--color-surface);
+  }
+}
+

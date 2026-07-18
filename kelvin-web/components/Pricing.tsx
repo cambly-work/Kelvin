@@ -22,7 +22,7 @@ export default function Pricing() {
 
         <div className="mt-14 grid gap-6 lg:grid-cols-2">
           {/* Free */}
-          <Reveal className="card rounded-[18px] p-8">
+          <Reveal className="glass rounded-[18px] p-8">
             <h3 className="text-[20px] font-bold text-tx">{t("free.name")}</h3>
             <div className="mt-3 flex items-baseline gap-2">
               <span className="text-[42px] font-bold tracking-[-0.02em] text-tx">
@@ -46,9 +46,9 @@ export default function Pricing() {
           {/* Pro — emphasized */}
           <Reveal
             index={1}
-            className="card relative overflow-hidden rounded-[18px] p-8 ring-1 ring-accent/40"
+            className="glass relative overflow-hidden rounded-[18px] p-8 ring-1 ring-accent/40"
           >
-            <span className="absolute right-5 top-5 rounded-full bg-accent px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-white">
+            <span className="glass absolute right-5 top-5 rounded-full border-accent/30 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-accent" style={{ background: "color-mix(in srgb, var(--color-accent) 18%, transparent)" }}>
               {t("pro.badge")}
             </span>
             <h3 className="text-[20px] font-bold text-tx">{t("pro.name")}</h3>
