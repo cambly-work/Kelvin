@@ -1,37 +1,66 @@
+"use client";
+
+import { useEffect, useState, useCallback } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import Reveal from "./Reveal";
 
+// Лёгкий хук для отслеживания скролла (параллакс)
+function useScrollY() {
+  const [scrollY, setScrollY] = useState(0);
+
+  const handleScroll = useCallback(() => {
+    setScrollY(window.scrollY);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
+
+  return scrollY;
+}
+
 export default function Hero() {
   const t = useTranslations("Hero");
   const locale = useLocale();
-  const panelSrc = locale === "pt" ? "/assets/panel-pt-1.png" : "/assets/panel-ru-1.png";
+  const scrollY = useScrollY();
+
+  const panelSrc =
+    locale === "pt" ? "/assets/panel-pt-1.png" : "/assets/panel-ru-1.png";
   const panelW = locale === "pt" ? 808 : 652;
   const panelH = locale === "pt" ? 2252 : 2072;
 
+  // Параллакс: смещаем скриншот на 5% от скролла (максимум 60px)
+  const parallaxOffset = Math.min(scrollY * 0.05, 60);
+
   return (
     <section className="relative overflow-hidden px-5 pb-10 pt-40 text-center sm:pt-48">
-      {/* Warp-style размытые акцентные пятна на фоне */}
+      {/* Фоновые пятна с анимацией */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        {/* Центральное верхнее свечение */}
         <div
-          className="absolute left-1/2 top-0 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-3xl"
+          className="animate-drift absolute left-1/2 top-0 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-3xl"
           style={{
-            background: "radial-gradient(circle, color-mix(in srgb, var(--color-accent) 25%, transparent), transparent 70%)",
-          }}
-        />
-        {/* Второстепенные пятна */}
-        <div
-          className="absolute left-1/4 top-1/3 h-96 w-96 rounded-full opacity-20 blur-2xl"
-          style={{
-            background: "radial-gradient(circle, color-mix(in srgb, var(--color-accent) 20%, transparent), transparent 70%)",
+            background:
+              "radial-gradient(circle, color-mix(in srgb, var(--color-accent) 25%, transparent), transparent 70%)",
+            animationDelay: "0s",
           }}
         />
         <div
-          className="absolute right-1/4 top-1/4 h-80 w-80 rounded-full opacity-25 blur-2xl"
+          className="animate-drift absolute left-1/4 top-1/3 h-96 w-96 rounded-full opacity-20 blur-2xl"
           style={{
-            background: "radial-gradient(circle, color-mix(in srgb, var(--color-accent) 18%, transparent), transparent 70%)",
+            background:
+              "radial-gradient(circle, color-mix(in srgb, var(--color-accent) 20%, transparent), transparent 70%)",
+            animationDelay: "-2s",
+          }}
+        />
+        <div
+          className="animate-drift absolute right-1/4 top-1/4 h-80 w-80 rounded-full opacity-25 blur-2xl"
+          style={{
+            background:
+              "radial-gradient(circle, color-mix(in srgb, var(--color-accent) 18%, transparent), transparent 70%)",
+            animationDelay: "-4s",
           }}
         />
       </div>
@@ -60,16 +89,16 @@ export default function Hero() {
           {t("lead")}
         </Reveal>
 
-        <Reveal index={3} className="mt-8 flex flex-wrap justify-center gap-4">
+        <Reveal index={3} className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
           <Link
             href="/#download"
-            className="btn-primary transition-transform duration-200 hover:scale-105"
+            className="btn-primary transition-transform duration-200 hover:scale-105 sm:w-auto w-full"
           >
             {t("ctaPrimary")}
           </Link>
           <Link
             href="/#pricing"
-            className="btn-secondary transition-transform duration-200 hover:scale-105"
+            className="btn-secondary transition-transform duration-200 hover:scale-105 sm:w-auto w-full"
           >
             {t("ctaSecondary")}
           </Link>
@@ -80,16 +109,23 @@ export default function Hero() {
         </Reveal>
       </div>
 
-      {/* Скриншот с мягким свечением и едва заметной обводкой */}
-      <Reveal index={5} className="relative mx-auto mt-16 w-fit lg:mt-20">
-        {/* Дополнительное свечение позади скриншота */}
+      {/* Скриншот с параллаксом и плавным появлением */}
+      <Reveal
+        index={5}
+        className="relative mx-auto mt-16 w-fit lg:mt-20"
+        style={{
+          transform: `translateY(-${parallaxOffset}px)`,
+          transition: "transform 0.1s linear",
+        }}
+      >
         <div
           className="absolute inset-0 -z-10 scale-110 rounded-[22px] opacity-60 blur-2xl"
           style={{
-            background: "radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--color-accent) 30%, transparent), transparent 70%)",
+            background:
+              "radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--color-accent) 30%, transparent), transparent 70%)",
           }}
         />
-        <div className="glow relative">
+        <div className="glow group relative">
           <Image
             src={panelSrc}
             alt={t("title")}
@@ -98,11 +134,12 @@ export default function Hero() {
             priority
             fetchPriority="high"
             quality={80}
-            sizes="(max-width: 768px) 88vw, 480px"
-            className="mx-auto h-auto w-auto max-h-[72vh] rounded-[22px] border border-white/[0.06]"
+            sizes="(max-width: 640px) 92vw, (max-width: 1024px) 85vw, 480px"
+            className="mx-auto h-auto w-auto max-h-[72vh] rounded-[22px] border border-white/[0.06] transition-transform duration-500 group-hover:scale-[1.02]"
             style={{
               aspectRatio: `${panelW} / ${panelH}`,
-              boxShadow: "0 0 60px -20px color-mix(in srgb, var(--color-accent) 40%, transparent), var(--shadow-product)",
+              boxShadow:
+                "0 0 60px -20px color-mix(in srgb, var(--color-accent) 40%, transparent), var(--shadow-product)",
             }}
           />
         </div>
