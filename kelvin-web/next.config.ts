@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: {
     formats: ["image/avif", "image/webp"],
+    qualities: [75, 80],
     // panel screenshots are tall and narrow — limit generated widths
     // so the optimizer doesn't emit oversized variants
     deviceSizes: [640, 750, 828, 1080],

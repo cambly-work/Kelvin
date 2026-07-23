@@ -5,6 +5,8 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import LocaleSwitcher from "./LocaleSwitcher";
 import ThemeToggle from "./ThemeToggle";
+import LiquidGlassShader from "./LiquidGlassShader";
+import KelvinCommandCenter from "./KelvinCommandCenter";
 
 export default function Nav() {
   const t = useTranslations("Nav");
@@ -19,27 +21,27 @@ export default function Nav() {
   }, []);
 
   const links = [
+    { href: "/#demo", label: t("demo") },
     { href: "/#features", label: t("features") },
     { href: "/#pricing", label: t("pricing") },
+    { href: "/#privacy", label: t("privacy") },
     { href: "/#faq", label: t("faq") },
   ] as const;
 
-  // Максимально близкий к Liquid Glass эффект
-  const liquidGlass =
-    "bg-bg/40 backdrop-blur-[30px] backdrop-saturate-[160%] backdrop-brightness-[105%] backdrop-contrast-[95%] " +
-    "shadow-[inset_0_0.5px_0_rgba(255,255,255,0.12),inset_0_-0.5px_0_rgba(255,255,255,0.06)]";
-
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled || open ? liquidGlass : ""
-      }`}
+      className="fixed inset-x-0 top-0 z-50 px-3 pt-3"
     >
-      <nav className="mx-auto flex h-14 max-w-[1100px] items-center justify-between px-6">
+      <nav className={`liquid-glass-header relative mx-auto flex h-14 max-w-[1100px] items-center justify-between overflow-hidden rounded-[18px] px-5 transition-all duration-500 ${
+        scrolled || open ? "liquid-glass-header--active" : ""
+      }`}>
+        <LiquidGlassShader active={scrolled || open} />
+        <div className="liquid-glass-lens absolute inset-[3px] rounded-[15px]" aria-hidden />
+        <div className="liquid-glass-noise absolute inset-0 rounded-[inherit]" aria-hidden />
         {/* brand */}
         <Link
           href="/"
-          className="flex items-center gap-2.5 text-[14px] font-semibold tracking-tight text-tx"
+          className="relative z-10 flex items-center gap-2.5 text-[14px] font-semibold tracking-tight text-tx"
         >
           <img
             src="/assets/icon.png"
@@ -52,7 +54,7 @@ export default function Nav() {
         </Link>
 
         {/* center links — desktop */}
-        <div className="hidden items-center gap-8 text-[13px] text-mut md:flex">
+        <div className="relative z-10 hidden items-center gap-8 text-[13px] text-mut md:flex">
           {links.map((l) => (
             <Link
               key={l.href}
@@ -65,7 +67,8 @@ export default function Nav() {
         </div>
 
         {/* right cluster */}
-        <div className="flex items-center gap-4">
+        <div className="relative z-10 flex items-center gap-4">
+          <KelvinCommandCenter />
           <Link
             href="/#download"
             className="btn-primary hidden !px-4 !py-2 !text-[13px] transition-transform duration-200 hover:scale-[1.04] sm:inline-block"
@@ -108,7 +111,7 @@ export default function Nav() {
 
       {/* mobile dropdown — тот же liquid glass */}
       {open && (
-        <div className={`px-6 py-3 md:hidden ${liquidGlass}`}>
+        <div className="liquid-glass-mobile mx-auto max-w-[1100px] rounded-b-[18px] px-6 py-3 md:hidden">
           <div className="flex flex-col gap-1">
             {[...links, { href: "/#download", label: t("download") }].map(
               (l) => (

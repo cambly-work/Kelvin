@@ -6,16 +6,18 @@ export default function SocialProof() {
   const pills = t.raw("pills") as string[];
 
   return (
-    <section className="border-y border-line bg-surface/40">
-      <Reveal className="mx-auto flex max-w-[980px] flex-wrap items-center justify-center gap-x-8 gap-y-3 px-5 py-7">
-        {pills.map((pill) => (
+    <section className="relative border-y border-line bg-surface/35">
+      <Reveal className="mx-auto grid max-w-[1120px] grid-cols-2 px-5 py-2 md:grid-cols-4">
+        {pills.map((pill, index) => (
           <span
             key={pill}
-            className="flex items-center gap-2 text-[14px] font-medium text-mut"
+            className={`flex min-h-20 items-center justify-center gap-2 px-3 text-center text-[12px] font-semibold uppercase tracking-[0.08em] text-mut ${
+              index > 0 ? "border-l border-line" : ""
+            }`}
           >
             <svg
-              width="16"
-              height="16"
+              width="14"
+              height="14"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"

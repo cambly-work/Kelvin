@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { routing } from "@/i18n/routing";
+import { KelvinExperienceProvider } from "@/components/KelvinExperience";
 import "../globals.css";
 
 export function generateStaticParams() {
@@ -36,10 +37,18 @@ export async function generateMetadata({
       title: t("title"),
       description: t("description"),
       siteName: "Kelvin",
-      images: [{ url: "/assets/og.png" }],
+      images: [
+        {
+          url: "/assets/og-v2.png",
+          width: 1200,
+          height: 630,
+          alt: "Kelvin — command center for macOS",
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
+      images: ["/assets/og-v2.png"],
     },
     icons: {
       icon: "/assets/icon.png",
@@ -82,7 +91,9 @@ export default async function LocaleLayout({
         <a href="#main" className="skip-link">
           {t("skipToContent")}
         </a>
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider>
+          <KelvinExperienceProvider>{children}</KelvinExperienceProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

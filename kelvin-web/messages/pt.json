@@ -4,6 +4,7 @@
     "description": "Energia, ventoinhas, alternadores, disposição do teclado, privacidade e ferramentas de desenvolvimento — tudo num painel nativo da barra de menu do macOS. A monitorização é gratuita para sempre, o Pro é um pagamento único de $19."
   },
   "Nav": {
+    "demo": "Como funciona",
     "features": "Funções",
     "pricing": "Preço",
     "privacy": "Privacidade",
@@ -11,12 +12,23 @@
     "download": "Descarregar"
   },
   "Hero": {
-    "eyebrow": "macOS · barra de menu",
-    "title": "Uma multi-ferramenta em vez de dez utilitários",
-    "lead": "Energia, ventoinhas, alternadores rápidos, disposição automática do teclado, privacidade e ferramentas de desenvolvimento — num único painel nativo da barra de menu. Local. Sem telemetria.",
+    "eyebrow": "Command Center para macOS",
+    "title": "Todo o Mac. Sob o seu controlo.",
+    "lead": "O Kelvin reúne energia, ventoinhas, ações rápidas e privacidade num painel nativo. Monitorização gratuita. Controlo quando precisar.",
     "ctaPrimary": "Descarregar grátis",
+    "ctaDemo": "Ver em ação",
     "ctaSecondary": "Kelvin Pro — $19",
-    "micro": "A monitorização é gratuita para sempre · Pro é um pagamento único, sem subscrição · macOS 11+ · Intel e Apple Silicon"
+    "micro": "A monitorização é gratuita para sempre · Pro é um pagamento único, sem subscrição · macOS 11+ · Intel e Apple Silicon",
+    "productAlt": "Painel Kelvin para controlar o Mac",
+    "metricPower": "Energia",
+    "metricLive": "atualização em tempo real",
+    "metricThermal": "Temperatura do CPU",
+    "metricNormal": "dentro do normal",
+    "metricPrivacy": "Privacidade",
+    "metricLocal": "Local",
+    "metricTelemetry": "sem nuvem nem analítica",
+    "metricControl": "Módulos",
+    "metricReady": "prontos para controlo"
   },
   "SocialProof": {
     "pills": [
@@ -24,6 +36,177 @@
       "Intel e Apple Silicon",
       "Notarizado pela Apple",
       "Sem subscrição"
+    ]
+  },
+  "CommandCenter": {
+    "trigger": "Experimentar",
+    "eyebrow": "Demo interativa",
+    "title": "Kelvin Command Center",
+    "lead": "Ative um perfil — o site adapta-se com ele.",
+    "close": "Fechar",
+    "idle": "Escolha um modo para a demonstração",
+    "active": "Perfil ativo: {mode}",
+    "activeCount": "Ativos: {count}",
+    "reset": "Repor perfil",
+    "quiet": {
+      "title": "Modo silencioso",
+      "short": "Silencioso",
+      "desc": "Curva suave das ventoinhas e uma interface fria e tranquila."
+    },
+    "battery": {
+      "title": "Limite de carga 80%",
+      "short": "Carga 80%",
+      "desc": "Modo de bateria saudável com estado do sistema em verde."
+    },
+    "privacy": {
+      "title": "Privacy Lock",
+      "short": "Privacy",
+      "desc": "Perfil protegido com firewall e bloqueio de ligações de entrada."
+    },
+    "developer": {
+      "title": "Dev Mode",
+      "short": "Dev Mode",
+      "desc": "Ferramentas de desenvolvimento e comandos rápidos do sistema."
+    }
+  },
+  "Experience": {
+    "modulesActive": "Módulos ativos: {count}",
+    "automationActive": "A automação está a observar o sistema",
+    "reset": "Repor"
+  },
+  "Automation": {
+    "eyebrow": "Automação sem código",
+    "title": "Crie uma regra em segundos",
+    "lead": "O Kelvin observa o sistema localmente e reage antes que a carga se torne um problema.",
+    "when": "Quando",
+    "temperature": "Temperatura acima do limite",
+    "threshold": "Limite de temperatura",
+    "decrease": "Diminuir limite",
+    "increase": "Aumentar limite",
+    "then": "Então",
+    "fanProfile": "Ativar perfil de refrigeração",
+    "result": "Resultado",
+    "protected": "O Mac mantém-se estável",
+    "watching": "A regra está a observar",
+    "disabled": "Regra desativada",
+    "ruleName": "Thermal Guard",
+    "local": "Funciona localmente · sem nuvem · sem atraso",
+    "enable": "Ativar automação",
+    "disable": "Desativar automação"
+  },
+  "LiveLab": {
+    "eyebrow": "Kelvin Live Lab",
+    "title": "Teste o Mac. O Kelvin reage.",
+    "lead": "Crie carga, ative módulos de proteção e veja como um único sistema transforma métricas em ações.",
+    "system": "Simulação do MacBook Pro",
+    "local": "Modelo ao vivo · nenhum dado é enviado",
+    "profile": "Recomendação",
+    "reset": "Repor",
+    "on": "Ativo",
+    "off": "Inativo",
+    "load": {
+      "title": "Crie um cenário",
+      "desc": "Ajuste a carga como se o Mac estivesse a compilar, trabalhar ou em repouso.",
+      "idle": "Repouso",
+      "work": "Trabalho",
+      "render": "Render",
+      "aria": "Carga do sistema"
+    },
+    "protect": {
+      "title": "Escolha a proteção",
+      "desc": "Os módulos afetam imediatamente a temperatura, energia e o perfil final.",
+      "quiet": "Refrigeração",
+      "battery": "Battery Care",
+      "privacy": "Privacy Lock",
+      "developer": "Dev Mode"
+    },
+    "automation": {
+      "title": "Ensine o Kelvin a reagir",
+      "desc": "O Thermal Guard ativa a refrigeração quando a temperatura atinge o limite.",
+      "threshold": "Ativação aos {value}°",
+      "toggle": "Alternar Thermal Guard",
+      "aria": "Limite do Thermal Guard"
+    },
+    "metrics": {
+      "cpu": "CPU",
+      "power": "Potência",
+      "fans": "Ventoinhas",
+      "score": "Proteção",
+      "live": "em tempo real"
+    },
+    "status": {
+      "normal": "Normal",
+      "attention": "Precisa de proteção",
+      "hot": "Carga elevada"
+    },
+    "chart": {
+      "eyebrow": "Telemetria ao vivo",
+      "title": "Carga e resposta do sistema",
+      "observing": "O Kelvin observa",
+      "responding": "Thermal Guard ativado",
+      "before": "há 60 segundos",
+      "now": "agora"
+    },
+    "profiles": {
+      "battery": "Battery Care",
+      "balanced": "Balanced Control",
+      "thermal": "Thermal Guard"
+    },
+    "recommendation": {
+      "eyebrow": "Perfil para este cenário",
+      "battery": "Limite a carga aos 80% e reduza o consumo em segundo plano durante períodos calmos.",
+      "balanced": "Equilibre energia e privacidade enquanto a automação acompanha a temperatura.",
+      "thermal": "Ative refrigeração reforçada, Battery Care e Thermal Guard para cargas prolongadas.",
+      "apply": "Aplicar perfil"
+    },
+    "disclaimer": "Este é um modelo interativo do comportamento do Kelvin, não um diagnóstico do dispositivo atual."
+  },
+  "Demo": {
+    "eyebrow": "Kelvin em ação",
+    "title": "Do sinal à ação em segundos",
+    "lead": "Não se limite a ver números. Perceba o que acontece no seu Mac e ajuste o sistema num único lugar.",
+    "live": "Em tempo real",
+    "metrics": {
+      "power": "Consumo atual",
+      "fans": "RPM das ventoinhas",
+      "security": "Proteção de ligações",
+      "temperature": "CPU",
+      "battery": "Limite",
+      "automation": "Automação",
+      "locked": "Bloqueado",
+      "ready": "Pronto",
+      "triggered": "Ativada",
+      "armed": "A observar",
+      "off": "Desl."
+    },
+    "quick": {
+      "quiet": "Alternar modo silencioso",
+      "battery": "Alternar limite da bateria",
+      "privacy": "Alternar Privacy Lock",
+      "developer": "Alternar modo de programador"
+    },
+    "scenes": [
+      {
+        "icon": "power",
+        "title": "Acompanhe a energia",
+        "desc": "Bateria, potência e temperatura reunidas numa visão clara e dinâmica.",
+        "stat": "Consumo atual",
+        "value": "18,4 W"
+      },
+      {
+        "icon": "fans",
+        "title": "Refrigere de forma inteligente",
+        "desc": "Alterne perfis das ventoinhas e crie curvas baseadas em sensores.",
+        "stat": "Perfil das ventoinhas",
+        "value": "Silencioso"
+      },
+      {
+        "icon": "security",
+        "title": "Feche o que não precisa",
+        "desc": "Controle a firewall, domínios e proteção do sistema sem o Terminal.",
+        "stat": "Proteção de ligações",
+        "value": "Ativa"
+      }
     ]
   },
   "Features": {
@@ -151,10 +334,14 @@
   },
   "Download": {
     "eyebrow": "Descarregar",
-    "title": "Descarregar",
-    "lead": "Grátis para macOS 11+. O Pro desbloqueia-se dentro da própria aplicação.",
+    "title": "Um Mac. Um centro de controlo.",
+    "lead": "Descarregue o Kelvin gratuitamente. Experimente todas as funções Pro durante 14 dias — sem cartão.",
     "ctaPrimary": "Descarregar .dmg",
     "ctaSecondary": "Comprar Pro — $19",
+    "version": "Versão {version}",
+    "compatibility": "macOS 11+ · Intel e Apple Silicon",
+    "trial": "14 dias de Pro grátis",
+    "changelog": "Novidades",
     "micro": "Notarizado pela Apple. No primeiro uso das funções Pro, o macOS pedirá permissão em Definições do Sistema → Privacidade e Segurança."
   },
   "Footer": {

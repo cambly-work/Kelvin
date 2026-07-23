@@ -108,7 +108,7 @@ function BigFeature({
           </p>
         </Reveal>
         <Reveal index={1} className={flip ? "lg:order-1" : "lg:order-2"}>
-          <div className="glow relative">
+          <div className="feature-shot glow relative rounded-[26px] border border-line bg-surface/60 p-4 sm:p-5">
             <Image
               src={crop}
               alt={title}
@@ -116,7 +116,7 @@ function BigFeature({
               height={cropH}
               quality={80}
               sizes="(max-width: 768px) 90vw, 460px"
-              className="h-auto w-full rounded-[18px] border border-line"
+              className="h-auto w-full rounded-[16px] border border-line"
               style={{
                 aspectRatio: `${cropW} / ${cropH}`,
                 boxShadow: "var(--shadow-product)",
