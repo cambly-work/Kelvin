@@ -98,6 +98,103 @@
     "eyebrow": "Kelvin Live Lab",
     "title": "Teste o Mac. O Kelvin reage.",
     "lead": "Crie carga, ative módulos de proteção e veja como um único sistema transforma métricas em ações.",
+    "simple": {
+      "title": "Escolha a tarefa. O Kelvin configura o Mac.",
+      "lead": "Sem painéis complicados: escolha o que está a fazer e ative as funções certas com um clique.",
+      "ready": "O Mac está pronto para este cenário",
+      "needsSetup": "Pode ser configurado melhor",
+      "active": "Funções ativas: {count}",
+      "choose": "1. O que está a fazer?",
+      "load": "Carga",
+      "result": "2. O que o Kelvin altera",
+      "quickActions": "Ações rápidas",
+      "clickHint": "clique para alternar",
+      "protection": "Proteção e autonomia",
+      "apply": "Aplicar",
+      "done": "Concluído",
+      "applied": "Perfil ativado",
+      "appliedDesc": "Todas as definições estão sincronizadas com a demo do Kelvin.",
+      "oneClick": "O Kelvin ativa as funções recomendadas numa única ação."
+    },
+    "modes": {
+      "focus": {
+        "title": "Trabalhar sem interrupções",
+        "desc": "O ecrã não desliga e o Night Shift protege os olhos.",
+        "result": "O Mac não adormece no momento errado",
+        "resultDesc": "O modo permanente mantém o sistema ativo e o Night Shift torna o trabalho noturno mais confortável.",
+        "profile": "Perfil Focus Mode"
+      },
+      "daily": {
+        "title": "Dia de trabalho normal",
+        "desc": "Equilíbrio entre bateria, Finder e privacidade.",
+        "result": "Menos rotina, mais autonomia",
+        "resultDesc": "O Kelvin limita a carga, mostra ficheiros ocultos e mantém ações úteis do sistema à mão.",
+        "profile": "Perfil Daily Driver"
+      },
+      "heavy": {
+        "title": "Compilação ou render",
+        "desc": "Carga elevada controlada pela automação.",
+        "result": "Temperatura sob controlo",
+        "resultDesc": "A refrigeração e o Thermal Guard reagem antes que o calor afete o desempenho.",
+        "profile": "Perfil Thermal Guard"
+      }
+    },
+    "actions": {
+      "caffeine": {
+        "title": "Modo permanente",
+        "desc": "Impede o Mac de adormecer"
+      },
+      "nightShift": {
+        "title": "Night Shift",
+        "desc": "Ecrã mais quente à noite"
+      },
+      "hiddenFiles": {
+        "title": "Ficheiros ocultos",
+        "desc": "Alternador do Finder"
+      }
+    },
+    "flow": {
+      "signal": "Sinal",
+      "action": "Ação",
+      "result": "Resultado",
+      "focus": {
+        "signal": "Trabalho noturno",
+        "action": "Focus Mode",
+        "result": "Sem pausas"
+      },
+      "daily": {
+        "signal": "Carga normal",
+        "action": "Otimização",
+        "result": "Mais autonomia"
+      },
+      "heavy": {
+        "signal": "Temperatura alta",
+        "action": "Thermal Guard",
+        "result": "Desempenho estável"
+      }
+    },
+    "activity": {
+      "title": "Registo do Kelvin",
+      "live": "sistema ativo",
+      "input": "Cenário",
+      "modules": "Módulos",
+      "state": "Estado",
+      "modulesValue": "Ativos: {count}",
+      "protected": "Mac protegido",
+      "waiting": "A aguardar aplicação",
+      "focus": {
+        "input": "Sessão prolongada"
+      },
+      "daily": {
+        "input": "Dia de trabalho"
+      },
+      "heavy": {
+        "input": "Compilação / render"
+      }
+    },
+    "preview": {
+      "local": "pronto localmente"
+    },
     "system": "Simulação do MacBook Pro",
     "local": "Modelo ao vivo · nenhum dado é enviado",
     "profile": "Recomendação",

@@ -38,7 +38,7 @@ export function KelvinExperienceProvider({ children }: { children: ReactNode }) 
   const [activeTools, setActiveTools] = useState<ToolKey[]>([]);
   const [automationEnabled, setAutomationEnabled] = useState(false);
   const [automationThreshold, setAutomationThreshold] = useState(72);
-  const [workload, setWorkload] = useState(32);
+  const [workload, setWorkload] = useState(52);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -69,7 +69,7 @@ export function KelvinExperienceProvider({ children }: { children: ReactNode }) 
       resetTools: () => {
         setActiveTools([]);
         setAutomationEnabled(false);
-        setWorkload(32);
+        setWorkload(52);
       },
       applyRecommended: () => {
         setActiveTools(

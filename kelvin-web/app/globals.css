@@ -153,6 +153,87 @@
   .download-section {
     isolation: isolate;
   }
+
+  .live-lab--clear {
+    --lab-x: 70%;
+    --lab-y: 35%;
+    position: relative;
+    isolation: isolate;
+    background: var(--color-surface);
+    border-color: color-mix(in srgb, var(--color-accent) 24%, var(--color-line));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 0 0 1px color-mix(in srgb, var(--color-accent) 8%, transparent),
+      0 42px 120px -48px rgba(0, 0, 0, 0.9);
+  }
+
+  .live-lab--clear::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    background: radial-gradient(
+      520px circle at var(--lab-x) var(--lab-y),
+      color-mix(in srgb, var(--lab-mode) 8%, transparent),
+      transparent 68%
+    );
+    pointer-events: none;
+    transition: background 0.18s linear;
+  }
+
+  .live-lab--clear > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  :root.light .live-lab--clear {
+    border-color: color-mix(in srgb, var(--color-accent) 18%, var(--color-line));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.95),
+      0 0 0 1px color-mix(in srgb, var(--color-accent) 5%, transparent),
+      0 32px 90px -48px rgba(9, 105, 218, 0.3);
+  }
+
+  :root.light .live-lab--clear::after {
+    opacity: 0.5;
+  }
+
+  @keyframes flow {
+    0% {
+      left: -55%;
+      opacity: 0;
+    }
+    25%,
+    75% {
+      opacity: 1;
+    }
+    100% {
+      left: 110%;
+      opacity: 0;
+    }
+  }
+
+  .lab-orbit {
+    animation: lab-breathe 4s ease-in-out infinite;
+  }
+
+  @keyframes lab-breathe {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.86;
+    }
+    50% {
+      transform: scale(1.035);
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lab-orbit {
+      animation: none;
+    }
+  }
   .btn-secondary:hover {
     border-color: var(--color-accent);
     background: color-mix(in srgb, var(--color-accent) 8%, transparent);
