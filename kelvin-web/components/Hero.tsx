@@ -1,16 +1,15 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import appcast from "@/public/appcast.json";
 import { Link } from "@/i18n/routing";
+import KelvinPanel from "./KelvinPanel";
 
 export default function Hero() {
   const t = useTranslations("Hero");
   const locale = useLocale();
   const productRef = useRef<HTMLDivElement | null>(null);
-  const image = `/assets/product-real/${locale}-flow.png`;
 
   useEffect(() => {
     const node = productRef.current;
@@ -89,18 +88,8 @@ export default function Hero() {
               </div>
             </div>
             <div className="kelvin-desktop-space">
-              <div className="kelvin-screenshot-window">
-                <Image
-                  src={image}
-                  alt={t("productAlt")}
-                  width={664}
-                  height={2044}
-                  loading="eager"
-                  fetchPriority="high"
-                  quality={80}
-                  sizes="(max-width: 1024px) 76vw, 360px"
-                  className="h-auto w-full"
-                />
+              <div className="kelvin-screenshot-window kelvin-screenshot-window--ui">
+                <KelvinPanel locale={locale} compact />
               </div>
               <div className="kelvin-engineering-readout" aria-hidden>
                 <span>SMC / LIVE</span>
@@ -112,7 +101,7 @@ export default function Hero() {
 
           <div className="kelvin-shot-note">
             <span className="kelvin-live-dot" />
-            {locale === "ru" ? "Настоящий интерфейс · живые данные этого Mac" : "Interface real · dados ao vivo deste Mac"}
+            {locale === "ru" ? "Интерактивный интерфейс · попробуйте переключатели" : "Interface interativa · experimente os controlos"}
           </div>
         </div>
       </div>

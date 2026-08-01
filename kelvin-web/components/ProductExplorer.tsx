@@ -1,30 +1,28 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Reveal from "./Reveal";
+import KelvinPanel, { type KelvinModule } from "./KelvinPanel";
 
 type Locale = "ru" | "pt";
 type ProductScene = {
-  id: "flow" | "hardware" | "privacy" | "maintenance" | "health";
+  id: KelvinModule;
   index: string;
   tab: string;
   title: string;
   description: string;
   facts: string[];
-  height: number;
 };
 
 const scenes: Record<Locale, ProductScene[]> = {
   ru: [
     {
-      id: "flow",
+      id: "power",
       index: "01",
       tab: "Питание",
       title: "Куда уходят ватты — видно сразу",
       description: "Kelvin читает SMC напрямую и собирает адаптер, батарею, систему и потребителей в одну живую схему. Не просто цифры — понятное направление потока энергии.",
       facts: ["Ватты и ток по шинам", "Живой график расхода", "Заряд, температура и ресурс АКБ"],
-      height: 2044,
     },
     {
       id: "hardware",
@@ -33,7 +31,6 @@ const scenes: Record<Locale, ProductScene[]> = {
       title: "Датчики без догадок",
       description: "Температуры, частоты, мощность и вентиляторы разрешаются по модели Mac. На неизвестном железе Kelvin показывает сырые данные, а не придумывает роли сенсоров.",
       facts: ["Apple Silicon и Intel", "Поиск и закрепление сенсоров", "Профили и кривые вентиляторов"],
-      height: 2058,
     },
     {
       id: "privacy",
@@ -42,52 +39,36 @@ const scenes: Record<Locale, ProductScene[]> = {
       title: "Сеть становится видимой",
       description: "Локальный радар показывает приложения, страны и порты через системный снимок соединений. Геолокация IP работает по офлайн-базе — без отправки адресов наружу.",
       facts: ["Приложения, страны и порты", "Офлайн GeoIP", "Камера, микрофон, VPN и входящая защита"],
-      height: 2206,
-    },
-    {
-      id: "maintenance",
-      index: "04",
-      tab: "Система",
-      title: "Обслуживание без Терминала",
-      description: "Uptime, память, диск, процессы, Finder и безопасные системные действия собраны в одном месте. Каждая операция объясняет, что именно изменится.",
-      facts: ["Память и диск", "Системные службы и Finder", "Диагностический отчёт"],
-      height: 1934,
     },
     {
       id: "health",
-      index: "05",
+      index: "04",
       tab: "Здоровье",
       title: "Не графики ради графиков",
       description: "Kelvin связывает батарею, термику, память и состояние системы в локальную историю и подсказывает, на что действительно стоит обратить внимание.",
       facts: ["История батареи и температуры", "Локальный Advisor", "Экспорт отчёта для диагностики"],
-      height: 1492,
     },
   ],
   pt: [
     {
-      id: "flow", index: "01", tab: "Energia", title: "Veja para onde cada watt vai",
+      id: "power", index: "01", tab: "Energia", title: "Veja para onde cada watt vai",
       description: "O Kelvin lê o SMC diretamente e reúne adaptador, bateria, sistema e consumidores num fluxo de energia vivo e compreensível.",
-      facts: ["Watts e corrente por barramento", "Gráfico de consumo em tempo real", "Carga, temperatura e saúde da bateria"], height: 2044,
+      facts: ["Potência e corrente por barramento", "Gráfico de consumo em tempo real", "Carga, temperatura e saúde da bateria"],
     },
     {
       id: "hardware", index: "02", tab: "Hardware", title: "Sensores, sem adivinhações",
       description: "Temperaturas, frequências, potência e ventoinhas são resolvidas por modelo. Em hardware desconhecido, o Kelvin mostra dados brutos em vez de inventar sensores.",
-      facts: ["Apple Silicon e Intel", "Pesquisa e sensores fixados", "Perfis e curvas de ventoinhas"], height: 2058,
+      facts: ["Apple Silicon e Intel", "Pesquisa e sensores fixados", "Perfis e curvas de ventoinhas"],
     },
     {
       id: "privacy", index: "03", tab: "Privacidade", title: "A rede fica visível",
       description: "O radar local mostra apps, países e portas a partir de um instantâneo do sistema. A geolocalização de IP usa uma base offline.",
-      facts: ["Apps, países e portas", "GeoIP offline", "Câmara, microfone, VPN e proteção de entrada"], height: 2206,
+      facts: ["Apps, países e portas", "GeoIP offline", "Câmara, microfone, VPN e proteção de entrada"],
     },
     {
-      id: "maintenance", index: "04", tab: "Sistema", title: "Manutenção sem Terminal",
-      description: "Uptime, memória, disco, processos, Finder e ações seguras do sistema vivem num só lugar, com explicações claras antes de cada mudança.",
-      facts: ["Memória e disco", "Serviços do sistema e Finder", "Relatório de diagnóstico"], height: 1934,
-    },
-    {
-      id: "health", index: "05", tab: "Saúde", title: "Mais do que gráficos",
+      id: "health", index: "04", tab: "Saúde", title: "Mais do que gráficos",
       description: "O Kelvin liga bateria, temperatura, memória e estado do sistema a um histórico local e destaca o que realmente merece atenção.",
-      facts: ["Histórico da bateria e temperatura", "Advisor local", "Exportação de relatório"], height: 1492,
+      facts: ["Histórico da bateria e temperatura", "Advisor local", "Exportação de relatório"],
     },
   ],
 };
@@ -95,23 +76,23 @@ const scenes: Record<Locale, ProductScene[]> = {
 export default function ProductExplorer({ locale }: { locale: string }) {
   const language: Locale = locale === "pt" ? "pt" : "ru";
   const items = scenes[language];
-  const [activeId, setActiveId] = useState<ProductScene["id"]>("flow");
+  const [activeId, setActiveId] = useState<ProductScene["id"]>("power");
   const active = items.find((item) => item.id === activeId) ?? items[0];
 
   return (
-    <section id="demo" className="relative border-t border-line px-5 py-24 sm:py-32">
+    <section id="showcase" className="relative border-t border-line px-5 py-24 sm:py-32">
       <div className="mx-auto max-w-[1240px]">
         <Reveal className="max-w-[800px]">
           <p className="section-eyebrow !text-left">
             {language === "ru" ? "Kelvin в разрезе" : "Kelvin por dentro"}
           </p>
           <h2 className="text-balance text-[clamp(2.8rem,6vw,5.6rem)] font-bold leading-[0.93] tracking-[-0.06em] text-tx">
-            {language === "ru" ? "Это не мокап. Это работает." : "Não é um mockup. Funciona de verdade."}
+            {language === "ru" ? "Интерфейс, который можно потрогать." : "Uma interface para explorar."}
           </h2>
           <p className="mt-6 max-w-[690px] text-[18px] leading-relaxed text-mut">
             {language === "ru"
-              ? "Все кадры ниже сняты напрямую из актуальной сборки Kelvin на реальном Mac. Выберите модуль и исследуйте интерфейс."
-              : "Todos os quadros abaixo foram capturados diretamente da versão atual do Kelvin num Mac real. Escolha um módulo e explore."}
+              ? "Выберите модуль снаружи или прямо в панели. Переключатели работают, данные перестраиваются, а локализация остаётся чистой."
+              : "Escolha um módulo aqui ou diretamente no painel. Os controlos funcionam, os dados mudam e a localização permanece consistente."}
           </p>
         </Reveal>
 
@@ -156,26 +137,16 @@ export default function ProductExplorer({ locale }: { locale: string }) {
             </div>
           </div>
 
-          <div className="kelvin-product-canvas relative min-h-[720px] overflow-hidden border-t border-line lg:border-l lg:border-t-0">
+          <div className="kelvin-product-canvas relative min-h-[720px] overflow-hidden border-t border-line p-4 sm:p-8 lg:border-l lg:border-t-0">
             <div className="kelvin-product-canvas-grid absolute inset-0" />
             <div
               key={`${language}-${active.id}`}
-              className="kelvin-panel-enter absolute left-1/2 top-10 w-[min(82%,390px)] -translate-x-1/2 overflow-hidden rounded-[23px] border border-white/10 bg-[#3f4042] shadow-[0_45px_120px_rgba(0,0,0,.58)]"
-              style={{ top: -420 }}
+              className="kelvin-panel-stage kelvin-panel-enter relative z-[1] mx-auto w-full max-w-[460px]"
             >
-              <Image
-                src={`/assets/product-real/${language}-${active.id}.png`}
-                alt={active.title}
-                width={664}
-                height={active.height}
-                quality={80}
-                sizes="(max-width: 1024px) 76vw, 390px"
-                className="h-auto w-full"
-              />
+              <KelvinPanel locale={language} activeModule={active.id} onModuleChange={setActiveId} />
             </div>
-            <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-surface via-surface/95 to-transparent" />
-            <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between rounded-full border border-white/10 bg-black/35 px-4 py-2 font-mono text-[10px] tracking-[0.1em] text-white/55 backdrop-blur-xl">
-              <span>LIVE CAPTURE</span><span>KELVIN 0.9.0</span><span>LOCAL / SMC</span>
+            <div className="absolute bottom-4 left-4 right-4 z-[2] flex items-center justify-between rounded-full border border-white/10 bg-black/35 px-4 py-2 font-mono text-[9px] tracking-[0.1em] text-white/55 backdrop-blur-xl sm:bottom-6 sm:left-6 sm:right-6 sm:text-[10px]">
+              <span>INTERACTIVE UI</span><span>KELVIN 0.9.0</span><span>LOCAL / SMC</span>
             </div>
           </div>
         </div>

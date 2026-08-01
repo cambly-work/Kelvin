@@ -1,0 +1,248 @@
+"use client";
+
+import { useState } from "react";
+
+export type KelvinModule = "power" | "hardware" | "privacy" | "health";
+
+type PanelCopy = {
+  charging: string;
+  watts: string;
+  temperature: string;
+  fan: string;
+  battery: string;
+  off: string;
+  limit: string;
+  sail: string;
+  toggles: string;
+  awake: string;
+  limit80: string;
+  sound: string;
+  output: string;
+  power: string;
+  hardware: string;
+  privacy: string;
+  health: string;
+  powerSystem: string;
+  stable: string;
+  adapter: string;
+  system: string;
+  usage: string;
+  memory: string;
+  other: string;
+  sensors: string;
+  high: string;
+  pinned: string;
+  networkRadar: string;
+  networkLead: string;
+  cameraSafe: string;
+  noVpn: string;
+  countries: string;
+  apps: string;
+  ports: string;
+  connections: string;
+  directions: string;
+  batteryHealth: string;
+  capacity: string;
+  cycles: string;
+  condition: string;
+  excellent: string;
+  localHistory: string;
+};
+
+const COPY: Record<"ru" | "pt", PanelCopy> = {
+  ru: {
+    charging: "Зарядка", watts: "Ватт", temperature: "Темп", fan: "Кулер", battery: "АКБ",
+    off: "Выкл", limit: "Лимит", sail: "Парус", toggles: "Переключатели", awake: "Не засыпать",
+    limit80: "Лимит 80%", sound: "Звук · вывод", output: "Встроенный выход", power: "Питание",
+    hardware: "Железо", privacy: "Приватность", health: "Здоровье", powerSystem: "СИСТЕМА ПИТАНИЯ",
+    stable: "Питание стабильно · батарея заряжается", adapter: "Адаптер", system: "Система", usage: "НАГРУЗКА",
+    memory: "Память", other: "Прочее", sensors: "ДАТЧИКИ", high: "Высокая: 81°", pinned: "Закреплённые",
+    networkRadar: "Приватность · радар", networkLead: "Куда сейчас звонит ваш Mac — приложения, страны и порты.",
+    cameraSafe: "Камера и микрофон не активны", noVpn: "Без VPN", countries: "Страны", apps: "Приложения",
+    ports: "Порты", connections: "43 соединения", directions: "9 направлений", batteryHealth: "ЗДОРОВЬЕ БАТАРЕИ",
+    capacity: "Ёмкость", cycles: "Циклы", condition: "Состояние", excellent: "Отличное",
+    localHistory: "Локальная история · последние 30 дней",
+  },
+  pt: {
+    charging: "Carregando", watts: "Potência", temperature: "Temp", fan: "Ventoinha", battery: "Bateria",
+    off: "Desl.", limit: "Limite", sail: "Vela", toggles: "Alternadores", awake: "Manter acordado",
+    limit80: "Limite 80%", sound: "Som · saída", output: "Saída integrada", power: "Energia",
+    hardware: "Hardware", privacy: "Privacidade", health: "Saúde", powerSystem: "SISTEMA DE ENERGIA",
+    stable: "Energia estável · bateria carregando", adapter: "Adaptador", system: "Sistema", usage: "USO",
+    memory: "Memória", other: "Outros", sensors: "SENSORES", high: "Alta: 81°", pinned: "Fixados",
+    networkRadar: "Privacidade · radar", networkLead: "Para onde o Mac se conecta — apps, países e portas.",
+    cameraSafe: "Câmara e microfone inativos", noVpn: "Sem VPN", countries: "Países", apps: "Apps",
+    ports: "Portas", connections: "43 conexões", directions: "9 destinos", batteryHealth: "SAÚDE DA BATERIA",
+    capacity: "Capacidade", cycles: "Ciclos", condition: "Condição", excellent: "Excelente",
+    localHistory: "Histórico local · últimos 30 dias",
+  },
+};
+
+export default function KelvinPanel({
+  locale,
+  activeModule,
+  onModuleChange,
+  compact = false,
+}: {
+  locale: string;
+  activeModule?: KelvinModule;
+  onModuleChange?: (module: KelvinModule) => void;
+  compact?: boolean;
+}) {
+  const language = locale === "pt" ? "pt" : "ru";
+  const t = COPY[language];
+  const [internalModule, setInternalModule] = useState<KelvinModule>("power");
+  const [awake, setAwake] = useState(true);
+  const [chargeLimit, setChargeLimit] = useState(false);
+  const currentModule = activeModule ?? internalModule;
+
+  const selectModule = (module: KelvinModule) => {
+    setInternalModule(module);
+    onModuleChange?.(module);
+  };
+
+  const modules: { id: KelvinModule; glyph: string; label: string }[] = [
+    { id: "power", glyph: "ϟ", label: t.power },
+    { id: "hardware", glyph: "▧", label: t.hardware },
+    { id: "privacy", glyph: "◇", label: t.privacy },
+    { id: "health", glyph: "♥", label: t.health },
+  ];
+
+  return (
+    <div className={`kelvin-ui-panel ${compact ? "kelvin-ui-panel--compact" : ""}`}>
+      <div className="kelvin-ui-aura" />
+      <div className="kelvin-ui-header">
+        <div className="kelvin-ui-ring" aria-label="100%"><strong>100%</strong><span>ϟ</span></div>
+        <div className="kelvin-ui-charge"><strong>{t.charging}</strong><span>58 W</span></div>
+        <span className="kelvin-ui-settings" aria-hidden>☷</span>
+      </div>
+
+      <div className="kelvin-ui-metrics">
+        <Metric value="56" label={t.watts} />
+        <Metric value="81°" label={t.temperature} warn />
+        <Metric value="4903" label={t.fan} />
+        <Metric value="+3" label={t.battery} accent />
+      </div>
+
+      <div className="kelvin-ui-segment" aria-label={language === "ru" ? "Режим зарядки" : "Modo de carga"}>
+        <span className={!chargeLimit ? "is-active" : ""}>{t.off}</span>
+        <button type="button" onClick={() => setChargeLimit(true)} className={chargeLimit ? "is-active" : ""}>{t.limit}</button>
+        <span>{t.sail}</span>
+      </div>
+
+      <p className="kelvin-ui-caption">{t.toggles}</p>
+      <div className="kelvin-ui-toggles">
+        <button type="button" aria-pressed={awake} onClick={() => setAwake((value) => !value)} className={awake ? "is-on" : ""}>
+          <span>◉</span>{t.awake}
+        </button>
+        <button type="button" aria-pressed={chargeLimit} onClick={() => setChargeLimit((value) => !value)} className={chargeLimit ? "is-on" : ""}>
+          <span>▱</span>{t.limit80}
+        </button>
+      </div>
+
+      {!compact && (
+        <div className="kelvin-ui-sound">
+          <p>{t.sound}</p>
+          <div><span>▣</span><strong>{t.output}</strong><b>✓</b></div>
+        </div>
+      )}
+
+      <div className="kelvin-ui-tabs" role="tablist" aria-label={language === "ru" ? "Разделы Kelvin" : "Secções do Kelvin"}>
+        {modules.map((module) => (
+          <button
+            key={module.id}
+            type="button"
+            role="tab"
+            aria-selected={currentModule === module.id}
+            aria-label={module.label}
+            onClick={() => selectModule(module.id)}
+            className={currentModule === module.id ? "is-active" : ""}
+          >
+            <span aria-hidden>{module.glyph}</span>
+          </button>
+        ))}
+      </div>
+
+      <div className="kelvin-ui-module" role="tabpanel">
+        {currentModule === "power" && <PowerModule t={t} />}
+        {currentModule === "hardware" && <HardwareModule t={t} />}
+        {currentModule === "privacy" && <PrivacyModule t={t} />}
+        {currentModule === "health" && <HealthModule t={t} />}
+      </div>
+    </div>
+  );
+}
+
+function Metric({ value, label, warn, accent }: { value: string; label: string; warn?: boolean; accent?: boolean }) {
+  return <div><strong className={warn ? "is-warn" : accent ? "is-accent" : ""}>{value}</strong><span>{label}</span></div>;
+}
+
+function PowerModule({ t }: { t: PanelCopy }) {
+  return (
+    <div className="kelvin-ui-module-enter">
+      <div className="kelvin-ui-module-head"><span>{t.powerSystem}</span><strong>56 <small>W</small></strong></div>
+      <p className="kelvin-ui-status"><i />{t.stable}</p>
+      <div className="kelvin-ui-flow">
+        <Node icon="⚡" label={t.adapter} value="58 / 85 W" orange />
+        <span className="kelvin-ui-flowline is-orange" />
+        <Node icon="▰" label={t.system} value="56 W" />
+        <span className="kelvin-ui-flowline" />
+        <Node icon="▱" label={t.battery} value="+3 W" accent />
+      </div>
+      <p className="kelvin-ui-section-label">{t.usage}</p>
+      <Bar label="CPU" value="0.7 W" progress={22} />
+      <Bar label="GPU" value="0.9 W" progress={31} />
+      <Bar label={t.memory} value="0.66 A" progress={58} />
+      <Bar label={t.other} value="0.35 A" progress={42} />
+    </div>
+  );
+}
+
+function HardwareModule({ t }: { t: PanelCopy }) {
+  return (
+    <div className="kelvin-ui-module-enter">
+      <div className="kelvin-ui-module-head"><span>{t.sensors}</span><strong className="is-warn">{t.high}</strong></div>
+      <div className="kelvin-ui-sensor-grid"><Metric value="81°" label="CPU" warn /><Metric value="69°" label="GPU" /><Metric value="3.09" label="CPU GHz" /><Metric value="4903" label="RPM" /></div>
+      <p className="kelvin-ui-section-label">{t.pinned}</p>
+      <SensorRow icon="▱" label={t.battery} value="0.30 A" />
+      <SensorRow icon="♨" label="CPU" value="81°" warn />
+      <SensorRow icon="♨" label="GPU" value="69°" />
+      <SensorRow icon="ϟ" label="CPU · V" value="2.21 V" />
+    </div>
+  );
+}
+
+function PrivacyModule({ t }: { t: PanelCopy }) {
+  return (
+    <div className="kelvin-ui-module-enter">
+      <h4>{t.networkRadar}</h4><p className="kelvin-ui-copy">{t.networkLead}</p>
+      <p className="kelvin-ui-privacy-state">▱ {t.cameraSafe}</p><p className="kelvin-ui-privacy-state is-warn">◇ {t.noVpn}</p>
+      <div className="kelvin-ui-privacy-tabs"><span className="is-active">{t.countries}</span><span>{t.apps}</span><span>{t.ports}</span></div>
+      <div className="kelvin-ui-radar"><span>🇧🇷</span><span>🇺🇸</span><span>🇨🇦</span><span>🇩🇪</span><i>▣</i></div>
+      <div className="kelvin-ui-radar-stats"><strong>{t.connections}</strong><span>·</span><strong>{t.directions}</strong></div>
+    </div>
+  );
+}
+
+function HealthModule({ t }: { t: PanelCopy }) {
+  return (
+    <div className="kelvin-ui-module-enter">
+      <div className="kelvin-ui-module-head"><span>{t.batteryHealth}</span><strong className="is-good">98%</strong></div>
+      <div className="kelvin-ui-health-grid"><Metric value="98%" label={t.capacity} /><Metric value="214" label={t.cycles} /><Metric value={t.excellent} label={t.condition} /></div>
+      <div className="kelvin-ui-chart"><span /><span /><span /><span /><span /><span /><span /></div>
+      <p className="kelvin-ui-history-label">{t.localHistory}</p>
+    </div>
+  );
+}
+
+function Node({ icon, label, value, orange, accent }: { icon: string; label: string; value: string; orange?: boolean; accent?: boolean }) {
+  return <div className={`kelvin-ui-node ${orange ? "is-orange" : ""} ${accent ? "is-accent" : ""}`}><span>{icon}</span><small>{label}</small><strong>{value}</strong></div>;
+}
+
+function Bar({ label, value, progress }: { label: string; value: string; progress: number }) {
+  return <div className="kelvin-ui-bar"><span>{label}</span><i><b style={{ width: `${progress}%` }} /></i><strong>{value}</strong></div>;
+}
+
+function SensorRow({ icon, label, value, warn }: { icon: string; label: string; value: string; warn?: boolean }) {
+  return <div className="kelvin-ui-sensor-row"><span>{icon}</span><strong>{label}</strong><b className={warn ? "is-warn" : ""}>{value}</b></div>;
+}
