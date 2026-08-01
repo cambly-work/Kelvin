@@ -1,7 +1,7 @@
 {
   "Meta": {
-    "title": "Kelvin — O Multi-ferramenta para a Barra de Menu do Mac",
-    "description": "Energia, ventoinhas, alternadores, disposição do teclado, privacidade e ferramentas de desenvolvimento — tudo num painel nativo da barra de menu do macOS. A monitorização é gratuita para sempre, o Pro é um pagamento único de $19."
+    "title": "Kelvin — um painel no lugar de dez utilitários para Mac",
+    "description": "Monitoramento vivo de energia, bateria e hardware, ventoinhas, limite de carga, privacidade, correção de teclado e ações do sistema num painel nativo do macOS."
   },
   "Nav": {
     "demo": "Como funciona",
@@ -12,13 +12,13 @@
     "download": "Descarregar"
   },
   "Hero": {
-    "eyebrow": "Command Center para macOS",
-    "title": "Todo o Mac. Sob o seu controlo.",
-    "lead": "O Kelvin reúne energia, ventoinhas, ações rápidas e privacidade num painel nativo. Monitorização gratuita. Controlo quando precisar.",
+    "eyebrow": "Centro de comando nativo para macOS",
+    "title": "Um Kelvin. Dez utilitários deixam de ser necessários.",
+    "lead": "Energia, bateria, sensores, ventoinhas, ações rápidas, correção de teclado e privacidade — num painel vivo. Tudo local. Monitoramento grátis para sempre.",
     "ctaPrimary": "Descarregar grátis",
     "ctaDemo": "Ver em ação",
     "ctaSecondary": "Kelvin Pro — $19",
-    "micro": "A monitorização é gratuita para sempre · Pro é um pagamento único, sem subscrição · macOS 11+ · Intel e Apple Silicon",
+    "micro": "Baixe grátis · 14 dias de Pro sem cartão · depois o monitoramento continua grátis · Pro por $19 uma vez, sem subscrição",
     "productAlt": "Painel Kelvin para controlar o Mac",
     "metricPower": "Energia",
     "metricLive": "atualização em tempo real",

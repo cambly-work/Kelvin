@@ -6,7 +6,6 @@ import { Link } from "@/i18n/routing";
 import LocaleSwitcher from "./LocaleSwitcher";
 import ThemeToggle from "./ThemeToggle";
 import LiquidGlassShader from "./LiquidGlassShader";
-import KelvinCommandCenter from "./KelvinCommandCenter";
 
 export default function Nav() {
   const t = useTranslations("Nav");
@@ -68,7 +67,6 @@ export default function Nav() {
 
         {/* right cluster */}
         <div className="relative z-10 flex items-center gap-4">
-          <KelvinCommandCenter />
           <Link
             href="/#download"
             className="btn-primary hidden !px-4 !py-2 !text-[13px] transition-transform duration-200 hover:scale-[1.04] sm:inline-block"

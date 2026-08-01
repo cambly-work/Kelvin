@@ -2,8 +2,8 @@ import { setRequestLocale } from "next-intl/server";
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import SocialProof from "@/components/SocialProof";
-import ProductDemo from "@/components/ProductDemo";
-import Features from "@/components/Features";
+import ProductExplorer from "@/components/ProductExplorer";
+import EngineeringStory from "@/components/EngineeringStory";
 import Pricing from "@/components/Pricing";
 import Trust from "@/components/Trust";
 import Faq from "@/components/Faq";
@@ -44,8 +44,8 @@ export default async function HomePage({
         />
         <Hero />
         <SocialProof />
-        <ProductDemo locale={locale} />
-        <Features locale={locale} />
+        <ProductExplorer locale={locale} />
+        <EngineeringStory locale={locale} />
         <Pricing />
         <Trust />
         <Faq />

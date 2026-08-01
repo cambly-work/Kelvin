@@ -7,6 +7,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { KelvinExperienceProvider } from "@/components/KelvinExperience";
 import "../globals.css";
+import "../product.css";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));

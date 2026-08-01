@@ -7,22 +7,22 @@
    ========================================================================= */
 
 @theme {
-  /* accent — calm developer blue */
-  --color-accent: #0969da;
-  --color-accent-blue: #0969da;
-  --color-ink: #0d1117;
+  /* accent — Kelvin's live cyan from the native app */
+  --color-accent: #35cbd3;
+  --color-accent-blue: #35cbd3;
+  --color-ink: #0a0d0d;
 
   /* canvas — deep slate, never pure black */
-  --color-bg: #090c11;
-  --color-surface: #121720;
+  --color-bg: #080a0a;
+  --color-surface: #121515;
 
   /* hairline */
   --color-line: rgba(255, 255, 255, 0.1);
 
   /* text */
-  --color-tx: #e6edf3;
-  --color-mut: #8b949e;
-  --color-faint: #6e7681;
+  --color-tx: #f3f5f4;
+  --color-mut: #a3aaa8;
+  --color-faint: #6f7775;
 
   /* font — system stack resolves to SF Pro on Mac */
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display",
@@ -59,8 +59,8 @@
     --color-tx: #1a1a1a;
     --color-mut: #5c5c5c;
     --color-faint: #86868b;
-    --color-accent: #0969da;
-    --color-accent-blue: #0969da;
+    --color-accent: #087f8c;
+    --color-accent-blue: #087f8c;
     --color-ink: #1a1a1a;
     --shadow-product: 0 30px 80px -25px rgba(9, 105, 218, 0.18);
     --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.06);
