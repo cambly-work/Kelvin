@@ -1,13 +1,17 @@
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Reveal from "./Reveal";
 
 export default function Trust() {
   const t = useTranslations("Privacy");
+  const locale = useLocale();
   const pills = t.raw("pills") as string[];
+  const localCore = locale === "pt" ? "NÚCLEO LOCAL" : "ЛОКАЛЬНОЕ ЯДРО";
+  const external = locale === "pt" ? "0 solicitações externas" : "0 внешних запросов";
+  const processing = locale === "pt" ? "Processamento no Mac" : "Обработка на Mac";
 
   return (
-    <section id="privacy" className="border-y border-line bg-surface/35">
-      <div className="mx-auto grid max-w-[1100px] gap-12 px-5 py-24 sm:py-32 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+    <section id="privacy" className="kelvin-privacy relative overflow-hidden border-y border-line bg-surface/35">
+      <div className="mx-auto grid max-w-[1180px] gap-12 px-5 py-24 sm:py-32 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
         <Reveal>
           <p className="section-eyebrow !text-left">{t("eyebrow")}</p>
           <h2 className="section-title !text-left">{t("title")}</h2>
@@ -15,18 +19,24 @@ export default function Trust() {
             {t("note")}
           </p>
         </Reveal>
-        <Reveal index={1} className="grid gap-3 sm:grid-cols-2">
-          {pills.map((pill, index) => (
-            <div
-              key={pill}
-              className="min-h-32 rounded-[18px] border border-line bg-bg/65 p-5"
-            >
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent/10 text-[13px] font-semibold text-accent">
-                0{index + 1}
-              </span>
-              <p className="mt-5 text-[15px] font-medium leading-snug text-tx">{pill}</p>
-            </div>
-          ))}
+        <Reveal index={1} className="kelvin-privacy-console">
+          <div className="kelvin-privacy-console-head">
+            <span>{localCore}</span><span className="kelvin-live-dot" />
+          </div>
+          <div className="kelvin-local-route" aria-hidden>
+            <span>MAC</span><i /><b>KELVIN</b><i /><span>SMC</span>
+          </div>
+          <div className="kelvin-privacy-readout">
+            <strong>{external}</strong><span>{processing}</span>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {pills.map((pill, index) => (
+              <div key={pill} className="kelvin-privacy-item">
+                <span>0{index + 1}</span>
+                <p>{pill}</p>
+              </div>
+            ))}
+          </div>
         </Reveal>
       </div>
     </section>

@@ -6,6 +6,8 @@ export type KelvinModule = "power" | "hardware" | "privacy" | "health";
 
 type PanelCopy = {
   charging: string;
+  paused: string;
+  sailing: string;
   watts: string;
   temperature: string;
   fan: string;
@@ -24,6 +26,8 @@ type PanelCopy = {
   health: string;
   powerSystem: string;
   stable: string;
+  stableLimit: string;
+  stableSail: string;
   adapter: string;
   system: string;
   usage: string;
@@ -51,11 +55,11 @@ type PanelCopy = {
 
 const COPY: Record<"ru" | "pt", PanelCopy> = {
   ru: {
-    charging: "Зарядка", watts: "Ватт", temperature: "Темп", fan: "Кулер", battery: "АКБ",
+    charging: "Зарядка", paused: "Пауза на 80%", sailing: "Парусный режим", watts: "Ватт", temperature: "Темп", fan: "Кулер", battery: "АКБ",
     off: "Выкл", limit: "Лимит", sail: "Парус", toggles: "Переключатели", awake: "Не засыпать",
     limit80: "Лимит 80%", sound: "Звук · вывод", output: "Встроенный выход", power: "Питание",
     hardware: "Железо", privacy: "Приватность", health: "Здоровье", powerSystem: "СИСТЕМА ПИТАНИЯ",
-    stable: "Питание стабильно · батарея заряжается", adapter: "Адаптер", system: "Система", usage: "НАГРУЗКА",
+    stable: "Питание стабильно · батарея заряжается", stableLimit: "Заряд удерживается на уровне 80%", stableSail: "Питание от адаптера · батарея отдыхает", adapter: "Адаптер", system: "Система", usage: "НАГРУЗКА",
     memory: "Память", other: "Прочее", sensors: "ДАТЧИКИ", high: "Высокая: 81°", pinned: "Закреплённые",
     networkRadar: "Приватность · радар", networkLead: "Куда сейчас звонит ваш Mac — приложения, страны и порты.",
     cameraSafe: "Камера и микрофон не активны", noVpn: "Без VPN", countries: "Страны", apps: "Приложения",
@@ -64,14 +68,14 @@ const COPY: Record<"ru" | "pt", PanelCopy> = {
     localHistory: "Локальная история · последние 30 дней",
   },
   pt: {
-    charging: "Carregando", watts: "Potência", temperature: "Temp", fan: "Ventoinha", battery: "Bateria",
-    off: "Desl.", limit: "Limite", sail: "Vela", toggles: "Alternadores", awake: "Manter acordado",
+    charging: "Carregando", paused: "Pausa em 80%", sailing: "Modo vela", watts: "Potência", temperature: "Temp", fan: "Ventoinha", battery: "Bateria",
+    off: "Desat.", limit: "Limite", sail: "Vela", toggles: "Controles", awake: "Manter ativo",
     limit80: "Limite 80%", sound: "Som · saída", output: "Saída integrada", power: "Energia",
     hardware: "Hardware", privacy: "Privacidade", health: "Saúde", powerSystem: "SISTEMA DE ENERGIA",
-    stable: "Energia estável · bateria carregando", adapter: "Adaptador", system: "Sistema", usage: "USO",
+    stable: "Energia estável · bateria carregando", stableLimit: "Carga mantida no limite de 80%", stableSail: "Energia do adaptador · bateria em repouso", adapter: "Adaptador", system: "Sistema", usage: "USO",
     memory: "Memória", other: "Outros", sensors: "SENSORES", high: "Alta: 81°", pinned: "Fixados",
     networkRadar: "Privacidade · radar", networkLead: "Para onde o Mac se conecta — apps, países e portas.",
-    cameraSafe: "Câmara e microfone inativos", noVpn: "Sem VPN", countries: "Países", apps: "Apps",
+    cameraSafe: "Câmera e microfone inativos", noVpn: "Sem VPN", countries: "Países", apps: "Apps",
     ports: "Portas", connections: "43 conexões", directions: "9 destinos", batteryHealth: "SAÚDE DA BATERIA",
     capacity: "Capacidade", cycles: "Ciclos", condition: "Condição", excellent: "Excelente",
     localHistory: "Histórico local · últimos 30 dias",
@@ -93,8 +97,12 @@ export default function KelvinPanel({
   const t = COPY[language];
   const [internalModule, setInternalModule] = useState<KelvinModule>("power");
   const [awake, setAwake] = useState(true);
-  const [chargeLimit, setChargeLimit] = useState(false);
+  const [chargeMode, setChargeMode] = useState<"off" | "limit" | "sail">("off");
   const currentModule = activeModule ?? internalModule;
+  const chargeLimit = chargeMode === "limit";
+  const chargeLabel = chargeMode === "limit" ? t.paused : chargeMode === "sail" ? t.sailing : t.charging;
+  const chargePower = chargeMode === "off" ? "58 W" : chargeMode === "limit" ? "0 W" : "56 W";
+  const batteryDelta = chargeMode === "off" ? "+3" : "0";
 
   const selectModule = (module: KelvinModule) => {
     setInternalModule(module);
@@ -113,7 +121,7 @@ export default function KelvinPanel({
       <div className="kelvin-ui-aura" />
       <div className="kelvin-ui-header">
         <div className="kelvin-ui-ring" aria-label="100%"><strong>100%</strong><span>ϟ</span></div>
-        <div className="kelvin-ui-charge"><strong>{t.charging}</strong><span>58 W</span></div>
+        <div className="kelvin-ui-charge"><strong>{chargeLabel}</strong><span>{chargePower}</span></div>
         <span className="kelvin-ui-settings" aria-hidden>☷</span>
       </div>
 
@@ -121,13 +129,13 @@ export default function KelvinPanel({
         <Metric value="56" label={t.watts} />
         <Metric value="81°" label={t.temperature} warn />
         <Metric value="4903" label={t.fan} />
-        <Metric value="+3" label={t.battery} accent />
+        <Metric value={batteryDelta} label={t.battery} accent={chargeMode === "off"} />
       </div>
 
       <div className="kelvin-ui-segment" aria-label={language === "ru" ? "Режим зарядки" : "Modo de carga"}>
-        <span className={!chargeLimit ? "is-active" : ""}>{t.off}</span>
-        <button type="button" onClick={() => setChargeLimit(true)} className={chargeLimit ? "is-active" : ""}>{t.limit}</button>
-        <span>{t.sail}</span>
+        <button type="button" aria-pressed={chargeMode === "off"} onClick={() => setChargeMode("off")} className={chargeMode === "off" ? "is-active" : ""}>{t.off}</button>
+        <button type="button" aria-pressed={chargeMode === "limit"} onClick={() => setChargeMode("limit")} className={chargeMode === "limit" ? "is-active" : ""}>{t.limit}</button>
+        <button type="button" aria-pressed={chargeMode === "sail"} onClick={() => setChargeMode("sail")} className={chargeMode === "sail" ? "is-active" : ""}>{t.sail}</button>
       </div>
 
       <p className="kelvin-ui-caption">{t.toggles}</p>
@@ -135,7 +143,7 @@ export default function KelvinPanel({
         <button type="button" aria-pressed={awake} onClick={() => setAwake((value) => !value)} className={awake ? "is-on" : ""}>
           <span>◉</span>{t.awake}
         </button>
-        <button type="button" aria-pressed={chargeLimit} onClick={() => setChargeLimit((value) => !value)} className={chargeLimit ? "is-on" : ""}>
+        <button type="button" aria-pressed={chargeLimit} onClick={() => setChargeMode((value) => value === "limit" ? "off" : "limit")} className={chargeLimit ? "is-on" : ""}>
           <span>▱</span>{t.limit80}
         </button>
       </div>
@@ -147,7 +155,7 @@ export default function KelvinPanel({
         </div>
       )}
 
-      <div className="kelvin-ui-tabs" role="tablist" aria-label={language === "ru" ? "Разделы Kelvin" : "Secções do Kelvin"}>
+      <div className="kelvin-ui-tabs" role="tablist" aria-label={language === "ru" ? "Разделы Kelvin" : "Seções do Kelvin"}>
         {modules.map((module) => (
           <button
             key={module.id}
@@ -164,7 +172,7 @@ export default function KelvinPanel({
       </div>
 
       <div className="kelvin-ui-module" role="tabpanel">
-        {currentModule === "power" && <PowerModule t={t} />}
+        {currentModule === "power" && <PowerModule t={t} chargeMode={chargeMode} />}
         {currentModule === "hardware" && <HardwareModule t={t} />}
         {currentModule === "privacy" && <PrivacyModule t={t} />}
         {currentModule === "health" && <HealthModule t={t} />}
@@ -177,17 +185,20 @@ function Metric({ value, label, warn, accent }: { value: string; label: string; 
   return <div><strong className={warn ? "is-warn" : accent ? "is-accent" : ""}>{value}</strong><span>{label}</span></div>;
 }
 
-function PowerModule({ t }: { t: PanelCopy }) {
+function PowerModule({ t, chargeMode }: { t: PanelCopy; chargeMode: "off" | "limit" | "sail" }) {
+  const status = chargeMode === "limit" ? t.stableLimit : chargeMode === "sail" ? t.stableSail : t.stable;
+  const adapterValue = chargeMode === "off" ? "58 / 85 W" : "56 / 85 W";
+  const batteryValue = chargeMode === "off" ? "+3 W" : "0 W";
   return (
     <div className="kelvin-ui-module-enter">
       <div className="kelvin-ui-module-head"><span>{t.powerSystem}</span><strong>56 <small>W</small></strong></div>
-      <p className="kelvin-ui-status"><i />{t.stable}</p>
+      <p className="kelvin-ui-status"><i />{status}</p>
       <div className="kelvin-ui-flow">
-        <Node icon="⚡" label={t.adapter} value="58 / 85 W" orange />
+        <Node icon="⚡" label={t.adapter} value={adapterValue} orange />
         <span className="kelvin-ui-flowline is-orange" />
         <Node icon="▰" label={t.system} value="56 W" />
         <span className="kelvin-ui-flowline" />
-        <Node icon="▱" label={t.battery} value="+3 W" accent />
+        <Node icon="▱" label={t.battery} value={batteryValue} accent={chargeMode === "off"} />
       </div>
       <p className="kelvin-ui-section-label">{t.usage}</p>
       <Bar label="CPU" value="0.7 W" progress={22} />

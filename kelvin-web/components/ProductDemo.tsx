@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import Reveal from "./Reveal";
 import { Icon, type FeatureIcon } from "./icons";
@@ -27,7 +27,7 @@ const PROTECTION: { key: ToolKey; icon: FeatureIcon }[] = [
   { key: "quiet", icon: "fans" },
 ];
 
-export default function ProductDemo({ locale: _locale }: { locale: string }) {
+export default function ProductDemo({ locale }: { locale: string }) {
   const t = useTranslations("LiveLab");
   const labRef = useRef<HTMLDivElement>(null);
   const [mode, setMode] = useState<Mode>("daily");
@@ -53,10 +53,14 @@ export default function ProductDemo({ locale: _locale }: { locale: string }) {
     39,
     Math.round(42 + workload * 0.39 - (batteryCare ? 3 : 0) - (cooling ? 10 : 0))
   );
-  const power = Math.max(
+  const powerValue = Math.max(
     6,
     8 + workload * 0.27 - (batteryCare ? 4 : 0)
-  ).toFixed(1);
+  );
+  const power = new Intl.NumberFormat(locale === "pt" ? "pt-BR" : "ru-RU", {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  }).format(powerValue);
   const protectedCount =
     activeTools.length + quickActions.length + Number(automationEnabled);
   const isReady =
@@ -64,8 +68,13 @@ export default function ProductDemo({ locale: _locale }: { locale: string }) {
       ? cooling && automationEnabled
       : mode === "focus"
         ? quickActions.includes("caffeine") &&
-          quickActions.includes("nightShift")
+          quickActions.includes("nightShift") &&
+          activeTools.includes("privacy")
         : batteryCare;
+
+  useEffect(() => {
+    if (applied && !isReady) setApplied(false);
+  }, [applied, isReady]);
 
   const selectMode = (nextMode: Mode, load: number) => {
     setMode(nextMode);
@@ -165,7 +174,7 @@ export default function ProductDemo({ locale: _locale }: { locale: string }) {
             <button
               type="button"
               onClick={resetLab}
-              className="w-fit rounded-full border border-line px-3 py-1.5 text-[10px] text-faint transition hover:bg-tx/10 hover:text-tx"
+              className="w-fit rounded-full border border-line bg-bg/30 px-3 py-1.5 text-[10px] text-mut transition hover:border-accent/30 hover:bg-tx/10 hover:text-tx"
             >
               {t("reset")}
             </button>
@@ -224,7 +233,9 @@ export default function ProductDemo({ locale: _locale }: { locale: string }) {
                   max="100"
                   value={workload}
                   onChange={(event) => {
-                    setWorkload(Number(event.target.value));
+                    const nextWorkload = Number(event.target.value);
+                    setWorkload(nextWorkload);
+                    setMode(nextWorkload >= 70 ? "heavy" : nextWorkload < 40 ? "focus" : "daily");
                     setApplied(false);
                   }}
                   className="automation-range mt-3 w-full"
@@ -412,6 +423,10 @@ export default function ProductDemo({ locale: _locale }: { locale: string }) {
             </div>
           </div>
         </div>
+
+        <p className="mx-auto mt-5 max-w-[760px] text-center text-[11px] leading-relaxed text-faint">
+          {t("disclaimer")}
+        </p>
       </div>
     </section>
   );

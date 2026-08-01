@@ -14,6 +14,7 @@ const copy = {
     ],
     capabilityTitle: "Что уже внутри",
     capabilityLead: "Мониторинг остаётся бесплатным. Pro открывает управление и автоматизацию.",
+    systemMap: "КАРТА СИСТЕМЫ",
     free: "FREE",
     pro: "PRO",
     cards: [
@@ -28,20 +29,21 @@ const copy = {
   pt: {
     eyebrow: "Engenharia do produto",
     title: "Um só circuito. Do sinal à ação.",
-    lead: "O Kelvin não coloca utilitários aleatórios numa pasta. Ele liga sensores, um modelo local do sistema e ações nativas num único circuito.",
+    lead: "O Kelvin não reúne utilitários aleatórios numa pasta. Ele conecta sensores, um modelo local do sistema e ações nativas em um único circuito.",
     stages: [
       { number: "01", label: "Sinal", title: "O Mac fala", body: "SMC, IORegistry, powermetrics, lsof e mecanismos abertos do macOS fornecem dados vivos do hardware e do sistema." },
       { number: "02", label: "Modelo", title: "O Kelvin entende", body: "Os dados são normalizados por modelo de Mac, entram no histórico e viram um estado claro — sem nuvem." },
-      { number: "03", label: "Ação", title: "Você controla", body: "Perfil de ventoinhas, limite de carga, alternador ou proteção são aplicados a partir da mesma interface." },
+      { number: "03", label: "Ação", title: "Você controla", body: "Perfil de ventoinhas, limite de carga, alternador ou proteção são aplicados na mesma interface." },
     ],
     capabilityTitle: "O que já está dentro",
-    capabilityLead: "O monitoramento é grátis para sempre. O Pro desbloqueia controlo e automação.",
+    capabilityLead: "O monitoramento é grátis para sempre. O Pro desbloqueia controle e automação.",
+    systemMap: "MAPA DO SISTEMA",
     free: "GRÁTIS",
     pro: "PRO",
     cards: [
-      { glyph: "⌁", title: "Energia e bateria", body: "Watts, carga, capacidade, ciclos, temperatura, tensão, equilíbrio das células e gráfico de 90 segundos.", tags: ["FREE"] },
+      { glyph: "⌁", title: "Energia e bateria", body: "Potência, carga, capacidade, ciclos, temperatura, tensão, equilíbrio das células e gráfico de 90 segundos.", tags: ["FREE"] },
       { glyph: "✣", title: "Resfriamento", body: "Temperaturas e RPM são grátis. RPM manual, curvas por sensor e proteção térmica estão no Pro.", tags: ["FREE", "PRO"] },
-      { glyph: "◫", title: "Ações rápidas", body: "Caffeine, áudio, Night Shift, tema, Finder, ecrã e botões de comando num painel configurável.", tags: ["FREE", "PRO"] },
+      { glyph: "◫", title: "Ações rápidas", body: "Caffeine, áudio, Night Shift, tema, Finder, tela e botões de comando em um painel configurável.", tags: ["FREE", "PRO"] },
       { glyph: "⌨", title: "Entrada e correções", body: "Troca automática RU↔EN, correção manual, atalhos e snippets — sem enviar o texto digitado.", tags: ["PRO"] },
       { glyph: "◇", title: "Rede e proteção", body: "Radar de conexões, GeoIP offline, câmara, microfone e VPN. Firewall de entrada e domínios no Pro.", tags: ["FREE", "PRO"] },
       { glyph: "＋", title: "Saúde do sistema", body: "Histórico, memória, disco, uptime, apps por energia, recomendações locais e PDF de diagnóstico.", tags: ["FREE"] },
@@ -79,7 +81,7 @@ export default function EngineeringStory({ locale }: { locale: string }) {
 
         <div className="mt-24 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
           <Reveal>
-            <p className="section-eyebrow !text-left">SYSTEM MAP</p>
+            <p className="section-eyebrow !text-left">{t.systemMap}</p>
             <h3 className="text-[clamp(2.2rem,5vw,4rem)] font-bold tracking-[-0.05em] text-tx">{t.capabilityTitle}</h3>
             <p className="mt-4 max-w-[620px] text-[17px] leading-relaxed text-mut">{t.capabilityLead}</p>
           </Reveal>

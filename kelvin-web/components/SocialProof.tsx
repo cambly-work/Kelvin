@@ -8,12 +8,10 @@ export default function SocialProof() {
   return (
     <section className="relative border-y border-line bg-surface/35">
       <Reveal className="mx-auto grid max-w-[1120px] grid-cols-2 px-5 py-2 md:grid-cols-4">
-        {pills.map((pill, index) => (
+        {pills.map((pill) => (
           <span
             key={pill}
-            className={`flex min-h-20 items-center justify-center gap-2 px-3 text-center text-[12px] font-semibold uppercase tracking-[0.08em] text-mut ${
-              index > 0 ? "border-l border-line" : ""
-            }`}
+            className="kelvin-proof-item flex min-h-20 items-center justify-center gap-2 px-3 text-center text-[12px] font-semibold uppercase tracking-[0.08em] text-mut"
           >
             <svg
               width="14"

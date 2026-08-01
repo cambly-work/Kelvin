@@ -81,8 +81,9 @@ export default function Nav() {
           <button
             className="text-tx md:hidden"
             onClick={() => setOpen((v) => !v)}
-            aria-label="Menu"
+            aria-label={t("menu")}
             aria-expanded={open}
+            aria-controls="mobile-navigation"
           >
             <svg
               width="18"
@@ -109,7 +110,7 @@ export default function Nav() {
 
       {/* mobile dropdown — тот же liquid glass */}
       {open && (
-        <div className="liquid-glass-mobile mx-auto max-w-[1100px] rounded-b-[18px] px-6 py-3 md:hidden">
+        <div id="mobile-navigation" className="liquid-glass-mobile mx-auto max-w-[1100px] rounded-b-[18px] px-6 py-3 md:hidden">
           <div className="flex flex-col gap-1">
             {[...links, { href: "/#download", label: t("download") }].map(
               (l) => (

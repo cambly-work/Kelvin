@@ -108,7 +108,7 @@
     top: 0;
     z-index: 100;
     background: var(--color-accent);
-    color: #fff;
+    color: #071011;
     padding: 0.6rem 1rem;
     border-radius: 0 0 8px 0;
     font-size: 14px;
@@ -133,6 +133,10 @@
   .btn-primary:hover {
     filter: brightness(1.08);
     transform: translateY(-1px);
+  }
+
+  :root.light .btn-primary {
+    color: #fff;
   }
 
   /* secondary CTA — hairline outline */

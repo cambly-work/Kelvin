@@ -1,18 +1,17 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { usePathname, useRouter } from "@/i18n/routing";
+import { usePathname } from "@/i18n/routing";
 
 export default function LocaleSwitcher() {
   const t = useTranslations("A11y");
   const locale = useLocale();
-  const router = useRouter();
   const pathname = usePathname();
 
-  function switchTo(next: string) {
+  function switchTo(next: "ru" | "pt") {
     if (next === locale) return;
-    // @ts-expect-error — pathname is a typed route but params shape varies
-    router.replace({ pathname, params: {} }, { locale: next });
+    const hash = window.location.hash;
+    window.location.assign(`/${next}${pathname}${hash}`);
   }
 
   return (

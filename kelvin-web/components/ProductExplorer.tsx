@@ -52,7 +52,7 @@ const scenes: Record<Locale, ProductScene[]> = {
   pt: [
     {
       id: "power", index: "01", tab: "Energia", title: "Veja para onde cada watt vai",
-      description: "O Kelvin lê o SMC diretamente e reúne adaptador, bateria, sistema e consumidores num fluxo de energia vivo e compreensível.",
+      description: "O Kelvin lê o SMC diretamente e reúne adaptador, bateria, sistema e consumidores em um fluxo de energia vivo e compreensível.",
       facts: ["Potência e corrente por barramento", "Gráfico de consumo em tempo real", "Carga, temperatura e saúde da bateria"],
     },
     {
@@ -92,7 +92,7 @@ export default function ProductExplorer({ locale }: { locale: string }) {
           <p className="mt-6 max-w-[690px] text-[18px] leading-relaxed text-mut">
             {language === "ru"
               ? "Выберите модуль снаружи или прямо в панели. Переключатели работают, данные перестраиваются, а локализация остаётся чистой."
-              : "Escolha um módulo aqui ou diretamente no painel. Os controlos funcionam, os dados mudam e a localização permanece consistente."}
+              : "Escolha um módulo aqui ou diretamente no painel. Os controles funcionam, os dados mudam e a localização permanece consistente."}
           </p>
         </Reveal>
 

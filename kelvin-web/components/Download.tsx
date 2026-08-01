@@ -8,7 +8,9 @@ export default function Download() {
 
   return (
     <section id="download" className="download-section relative overflow-hidden">
+      <div className="kelvin-download-grid pointer-events-none absolute inset-0" />
       <Reveal className="relative mx-auto max-w-[980px] px-5 py-24 text-center sm:py-36">
+        <img src="/assets/icon.png" alt="" width={54} height={54} className="mx-auto mb-7 rounded-[14px] shadow-[0_18px_50px_rgba(53,203,211,.22)]" />
         <p className="section-eyebrow">{t("eyebrow")}</p>
         <h2 className="text-[clamp(2.5rem,6vw,4.75rem)] font-bold tracking-[-0.045em] text-tx">
           {t("title")}
@@ -27,7 +29,7 @@ export default function Download() {
           </a>
         </div>
 
-        <div className="mx-auto mt-8 flex max-w-[620px] flex-wrap justify-center gap-x-6 gap-y-2 text-[12px] font-medium text-mut">
+        <div className="kelvin-download-readout mx-auto mt-9 flex max-w-[720px] flex-wrap justify-center gap-x-6 gap-y-2 text-[11px] font-medium text-mut">
           <span>{t("version", { version: appcast.version })}</span>
           <span>{t("compatibility")}</span>
           <span>{t("trial")}</span>

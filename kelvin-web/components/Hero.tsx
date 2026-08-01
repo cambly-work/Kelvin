@@ -10,12 +10,20 @@ export default function Hero() {
   const t = useTranslations("Hero");
   const locale = useLocale();
   const productRef = useRef<HTMLDivElement | null>(null);
+  const chips = locale === "pt"
+    ? ["macOS 11+", "Intel + Apple Silicon", "$19 · pagamento único", "zero telemetria"]
+    : ["macOS 11+", "Intel + Apple Silicon", "$19 · один платёж", "без телеметрии"];
 
   useEffect(() => {
     const node = productRef.current;
     if (!node || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const move = (event: PointerEvent) => {
+      if ((event.target as Element).closest(".kelvin-ui-panel")) {
+        node.style.setProperty("--hero-tilt-x", "0deg");
+        node.style.setProperty("--hero-tilt-y", "0deg");
+        return;
+      }
       const rect = node.getBoundingClientRect();
       const x = (event.clientX - rect.left) / rect.width - 0.5;
       const y = (event.clientY - rect.top) / rect.height - 0.5;
@@ -36,7 +44,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="kelvin-hero relative overflow-hidden px-5 pb-24 pt-28 sm:pt-36">
+    <section className="kelvin-hero relative overflow-hidden px-5 pb-24 pt-28 sm:pt-32 lg:pt-28">
       <div className="kelvin-hero-grid pointer-events-none absolute inset-0" />
       <div className="kelvin-hero-glow pointer-events-none absolute inset-0" />
 
@@ -47,15 +55,15 @@ export default function Hero() {
             {t("eyebrow")}
           </p>
 
-          <h1 className="mt-7 max-w-[760px] text-balance text-[clamp(3.7rem,8vw,7rem)] font-bold leading-[0.86] tracking-[-0.075em] text-tx">
+          <h1 className="mt-7 max-w-[760px] text-balance text-[clamp(3.45rem,7vw,5.65rem)] font-bold leading-[0.88] tracking-[-0.07em] text-tx">
             {t("title")}
           </h1>
 
-          <p className="mt-8 max-w-[650px] text-pretty text-[clamp(1.08rem,2vw,1.32rem)] leading-[1.65] text-mut">
+          <p className="mt-6 max-w-[650px] text-pretty text-[clamp(1.04rem,1.7vw,1.2rem)] leading-[1.55] text-mut">
             {t("lead")}
           </p>
 
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <a href={appcast.url} className="btn-primary text-center">
               {t("ctaPrimary")}
             </a>
@@ -66,7 +74,7 @@ export default function Hero() {
           </div>
 
           <div className="mt-7 flex flex-wrap gap-2">
-            {["macOS 11+", "Intel + Apple Silicon", "$19 · one time", "0 telemetry"].map((item) => (
+            {chips.map((item) => (
               <span key={item} className="kelvin-mini-chip">{item}</span>
             ))}
           </div>
@@ -101,7 +109,7 @@ export default function Hero() {
 
           <div className="kelvin-shot-note">
             <span className="kelvin-live-dot" />
-            {locale === "ru" ? "Интерактивный интерфейс · попробуйте переключатели" : "Interface interativa · experimente os controlos"}
+            {locale === "ru" ? "Интерактивный интерфейс · попробуйте переключатели" : "Interface interativa · experimente os controles"}
           </div>
         </div>
       </div>
