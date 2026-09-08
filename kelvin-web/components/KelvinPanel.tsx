@@ -1,84 +1,154 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useState, type KeyboardEvent } from "react";
+import Image from "next/image";
+import PanelIcon, { type PanelIconName } from "./PanelIcon";
+import {
+  INITIAL_PREVIEW,
+  previewMetrics,
+  type PreviewModule,
+  type PreviewState,
+} from "@/lib/preview-model";
 
-export type KelvinModule = "power" | "hardware" | "privacy" | "health";
-
-type PanelCopy = {
-  charging: string;
-  paused: string;
-  sailing: string;
-  watts: string;
-  temperature: string;
-  fan: string;
-  battery: string;
-  off: string;
-  limit: string;
-  sail: string;
-  toggles: string;
-  awake: string;
-  limit80: string;
-  sound: string;
-  output: string;
-  power: string;
-  hardware: string;
-  privacy: string;
-  health: string;
-  powerSystem: string;
-  stable: string;
-  stableLimit: string;
-  stableSail: string;
-  adapter: string;
-  system: string;
-  usage: string;
-  memory: string;
-  other: string;
-  sensors: string;
-  high: string;
-  pinned: string;
-  networkRadar: string;
-  networkLead: string;
-  cameraSafe: string;
-  noVpn: string;
-  countries: string;
-  apps: string;
-  ports: string;
-  connections: string;
-  directions: string;
-  batteryHealth: string;
-  capacity: string;
-  cycles: string;
-  condition: string;
-  excellent: string;
-  localHistory: string;
+export type KelvinModule = PreviewModule;
+const MODULES = ["power", "hardware", "privacy", "health"] as const;
+const ICONS: Record<PreviewModule, PanelIconName> = {
+  power: "bolt",
+  hardware: "chip",
+  privacy: "shield",
+  health: "heart",
 };
-
-const COPY: Record<"ru" | "pt", PanelCopy> = {
+const COPY = {
   ru: {
-    charging: "Зарядка", paused: "Пауза на 80%", sailing: "Парусный режим", watts: "Ватт", temperature: "Темп", fan: "Кулер", battery: "АКБ",
-    off: "Выкл", limit: "Лимит", sail: "Парус", toggles: "Переключатели", awake: "Не засыпать",
-    limit80: "Лимит 80%", sound: "Звук · вывод", output: "Встроенный выход", power: "Питание",
-    hardware: "Железо", privacy: "Приватность", health: "Здоровье", powerSystem: "СИСТЕМА ПИТАНИЯ",
-    stable: "Питание стабильно · батарея заряжается", stableLimit: "Заряд удерживается на уровне 80%", stableSail: "Питание от адаптера · батарея отдыхает", adapter: "Адаптер", system: "Система", usage: "НАГРУЗКА",
-    memory: "Память", other: "Прочее", sensors: "ДАТЧИКИ", high: "Высокая: 81°", pinned: "Закреплённые",
-    networkRadar: "Приватность · радар", networkLead: "Куда сейчас звонит ваш Mac — приложения, страны и порты.",
-    cameraSafe: "Камера и микрофон не активны", noVpn: "Без VPN", countries: "Страны", apps: "Приложения",
-    ports: "Порты", connections: "43 соединения", directions: "9 направлений", batteryHealth: "ЗДОРОВЬЕ БАТАРЕИ",
-    capacity: "Ёмкость", cycles: "Циклы", condition: "Состояние", excellent: "Отличное",
-    localHistory: "Пример локальной истории · 30 дней",
+    demo: "Превью",
+    settings: "Настройки превью",
+    reset: "Сбросить превью",
+    charge: "Батарея заряжается",
+    limit: "Заряд на паузе",
+    sail: "Парусный режим",
+    adapter: "Питание от адаптера",
+    battery: "В батарею",
+    system: "Потребление Mac",
+    temperature: "Температура CPU",
+    power: "Питание",
+    hardware: "Датчики",
+    privacy: "Сеть",
+    health: "Здоровье",
+    modes: ["Без лимита", "Лимит 80%", "Парус"],
+    modeLabel: "Режим заряда",
+    awake: "Не засыпать",
+    night: "Night Shift",
+    on: "Включено",
+    off: "Выключено",
+    chargeHint: "Лимит выключен. Зарядка продолжается.",
+    limitHint: "Лимит 80% достигнут. Mac питается от адаптера.",
+    sailHint:
+      "Диапазон 70–80%. При 80% зарядка на паузе, ниже 70% возобновится.",
+    graph: "Потребление за минуту",
+    ago: "60 с назад",
+    now: "Сейчас",
+    watts: "Вт",
+    flow: "Баланс питания",
+    consumers: "Куда уходит энергия",
+    memory: "Память",
+    other: "Остальное",
+    apps: "Приложения",
+    impact: "Влияние",
+    net: "Сеть",
+    impactHint: "Влияние — относительный показатель, не ватты.",
+    netHint: "Число сетевых направлений в примере.",
+    cpuHint: "Доля CPU в примере.",
+    cooling: "Усиленное охлаждение",
+    coolingHint: "Пример профиля для Mac с вентиляторами.",
+    automatic: "Автоматика по температуре",
+    automaticHint: "В примере включается при высокой нагрузке.",
+    gpuLabel: "Режим графики",
+    gpuModes: ["Авто", "Встроенная", "Дискретная"],
+    gpuHint: "Переключение — только на совместимых Intel Mac с двумя GPU.",
+    networkTitle: "Соединения под контролем",
+    connections: "соединения",
+    destinations: "направления",
+    views: ["Приложения", "Страны", "Порты"],
+    countries: ["Бразилия", "США", "Германия", "Канада"],
+    privacyHint: "Локальный снимок соединений. GeoIP без облака.",
+    camera: "Камера и микрофон не активны",
+    healthTitle: "Батарея в хорошем состоянии",
+    capacity: "Исходной ёмкости",
+    cycles: "Циклов",
+    batteryTemp: "Температура",
+    healthHint:
+      "Стабильная ёмкость в примере истории. Нет заметного снижения за месяц.",
+    history: "Ёмкость · 30 дней",
+    historyAgo: "30 дней назад",
+    launch: "Запуск при входе",
+    hidden: "Скрытые файлы Finder",
+    settingsHint: "Настройки этой демонстрации не меняют ваш Mac.",
+    footer: "Демонстрационные данные · не диагностика вашего Mac",
   },
   pt: {
-    charging: "Carregando", paused: "Pausa em 80%", sailing: "Modo vela", watts: "Potência", temperature: "Temp", fan: "Ventoinha", battery: "Bateria",
-    off: "Desat.", limit: "Limite", sail: "Vela", toggles: "Controles", awake: "Manter ativo",
-    limit80: "Limite 80%", sound: "Som · saída", output: "Saída integrada", power: "Energia",
-    hardware: "Hardware", privacy: "Privacidade", health: "Saúde", powerSystem: "SISTEMA DE ENERGIA",
-    stable: "Energia estável · bateria carregando", stableLimit: "Carga mantida no limite de 80%", stableSail: "Energia do adaptador · bateria em repouso", adapter: "Adaptador", system: "Sistema", usage: "USO",
-    memory: "Memória", other: "Outros", sensors: "SENSORES", high: "Alta: 81°", pinned: "Fixados",
-    networkRadar: "Privacidade · radar", networkLead: "Para onde o Mac se conecta — apps, países e portas.",
-    cameraSafe: "Câmera e microfone inativos", noVpn: "Sem VPN", countries: "Países", apps: "Apps",
-    ports: "Portas", connections: "43 conexões", directions: "9 destinos", batteryHealth: "SAÚDE DA BATERIA",
-    capacity: "Capacidade", cycles: "Ciclos", condition: "Condição", excellent: "Excelente",
-    localHistory: "Exemplo de histórico local · 30 dias",
+    demo: "Prévia",
+    settings: "Ajustes da prévia",
+    reset: "Redefinir prévia",
+    charge: "Bateria carregando",
+    limit: "Carga em pausa",
+    sail: "Modo vela",
+    adapter: "Energia do adaptador",
+    battery: "Para a bateria",
+    system: "Consumo do Mac",
+    temperature: "Temperatura da CPU",
+    power: "Energia",
+    hardware: "Sensores",
+    privacy: "Rede",
+    health: "Saúde",
+    modes: ["Sem limite", "Limite 80%", "Vela"],
+    modeLabel: "Modo de carga",
+    awake: "Manter ativo",
+    night: "Night Shift",
+    on: "Ativado",
+    off: "Desativado",
+    chargeHint: "Sem limite de carga. A bateria continua carregando.",
+    limitHint: "Limite de 80% atingido. O Mac usa o adaptador.",
+    sailHint: "Faixa de 70–80%. Pausa em 80%; a carga volta abaixo de 70%.",
+    graph: "Consumo no último minuto",
+    ago: "60 s atrás",
+    now: "Agora",
+    watts: "W",
+    flow: "Balanço de energia",
+    consumers: "Uso de energia",
+    memory: "Memória",
+    other: "Outros",
+    apps: "Aplicativos",
+    impact: "Impacto",
+    net: "Rede",
+    impactHint: "Impacto é um índice relativo, não watts.",
+    netHint: "Número de destinos de rede no exemplo.",
+    cpuHint: "Uso de CPU no exemplo.",
+    cooling: "Resfriamento reforçado",
+    coolingHint: "Exemplo de perfil para Macs com ventoinhas.",
+    automatic: "Automação térmica",
+    automaticHint: "No exemplo, atua sob carga elevada.",
+    gpuLabel: "Modo gráfico",
+    gpuModes: ["Auto", "Integrada", "Dedicada"],
+    gpuHint: "Troca apenas em Macs Intel compatíveis com duas GPUs.",
+    networkTitle: "Conexões à vista",
+    connections: "conexões",
+    destinations: "destinos",
+    views: ["Apps", "Países", "Portas"],
+    countries: ["Brasil", "EUA", "Alemanha", "Canadá"],
+    privacyHint: "Conexões locais. GeoIP sem nuvem.",
+    camera: "Câmera e microfone inativos",
+    healthTitle: "Bateria em boas condições",
+    capacity: "Capacidade original",
+    cycles: "Ciclos",
+    batteryTemp: "Temperatura",
+    healthHint:
+      "Capacidade estável neste histórico de exemplo. Sem queda relevante no mês.",
+    history: "Capacidade · 30 dias",
+    historyAgo: "30 dias atrás",
+    launch: "Iniciar ao entrar",
+    hidden: "Arquivos ocultos no Finder",
+    settingsHint: "Os ajustes desta demonstração não alteram seu Mac.",
+    footer: "Dados de demonstração · não é um diagnóstico do seu Mac",
   },
 };
 
@@ -87,207 +157,563 @@ export default function KelvinPanel({
   activeModule,
   onModuleChange,
   compact = false,
+  state: controlled,
+  onStateChange,
 }: {
   locale: string;
   activeModule?: KelvinModule;
   onModuleChange?: (module: KelvinModule) => void;
   compact?: boolean;
+  state?: PreviewState;
+  onStateChange?: (state: PreviewState) => void;
 }) {
-  const language = locale === "pt" ? "pt" : "ru";
-  const t = COPY[language];
-  const panelId = useId();
-  const [settingsOpen, setSettingsOpen] = useState(false);
-  const [launchAtLogin, setLaunchAtLogin] = useState(false);
+  const t = COPY[locale === "pt" ? "pt" : "ru"];
+  const id = useId();
+  const [localState, setLocalState] = useState<PreviewState>({
+    ...INITIAL_PREVIEW,
+  });
+  const state = controlled ?? localState;
   const [internalModule, setInternalModule] = useState<KelvinModule>("power");
-  const [awake, setAwake] = useState(true);
-  const [chargeMode, setChargeMode] = useState<"off" | "limit" | "sail">("off");
   const currentModule = activeModule ?? internalModule;
-  const chargeLimit = chargeMode === "limit";
-  const chargeLabel = chargeMode === "limit" ? t.paused : chargeMode === "sail" ? t.sailing : t.charging;
-  const chargePower = chargeMode === "off" ? "59 W" : "56 W";
-  const batteryDelta = chargeMode === "off" ? "+3 W" : "0 W";
-
-  const selectModule = (module: KelvinModule) => {
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [networkView, setNetworkView] = useState(0);
+  const [sort, setSort] = useState<"impact" | "cpu" | "net">("impact");
+  const metrics = previewMetrics(state);
+  const format = (value: number) =>
+    new Intl.NumberFormat(locale === "pt" ? "pt-BR" : "ru-RU", {
+      maximumFractionDigits: 1,
+    }).format(value);
+  const watts = (value: number) => format(value) + " " + t.watts;
+  const update = (patch: Partial<PreviewState>) => {
+    const next = { ...state, ...patch };
+    if (onStateChange) onStateChange(next);
+    else setLocalState(next);
+  };
+  const select = (module: KelvinModule) => {
     setInternalModule(module);
     onModuleChange?.(module);
   };
-
-  const modules: { id: KelvinModule; glyph: string; label: string }[] = [
-    { id: "power", glyph: "ϟ", label: t.power },
-    { id: "hardware", glyph: "▧", label: t.hardware },
-    { id: "privacy", glyph: "◇", label: t.privacy },
-    { id: "health", glyph: "♥", label: t.health },
+  const reset = () => {
+    if (onStateChange) onStateChange({ ...INITIAL_PREVIEW });
+    else setLocalState({ ...INITIAL_PREVIEW });
+    setSettingsOpen(false);
+    setNetworkView(0);
+    setSort("impact");
+    select("power");
+  };
+  const tabKeys = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
+    const next =
+      event.key === "ArrowRight"
+        ? (index + 1) % 4
+        : event.key === "ArrowLeft"
+          ? (index + 3) % 4
+          : event.key === "Home"
+            ? 0
+            : event.key === "End"
+              ? 3
+              : null;
+    if (next === null) return;
+    event.preventDefault();
+    select(MODULES[next]);
+    document.getElementById(id + "-" + MODULES[next])?.focus();
+  };
+  const chargeTitle =
+    state.chargeMode === "off"
+      ? t.charge
+      : state.chargeMode === "limit"
+        ? t.limit
+        : t.sail;
+  const apps = [
+    { name: "Xcode", impact: 42, cpu: 76, net: 2 },
+    { name: "Safari", impact: 18, cpu: 24, net: 7 },
+    { name: "Mail", impact: 3, cpu: 1, net: 1 },
   ];
+  const connections =
+    networkView === 0
+      ? [
+          ["Safari", 26],
+          ["Xcode", 12],
+          ["Mail", 5],
+        ]
+      : networkView === 1
+        ? t.countries.map((name, index) => [name, [20, 12, 7, 4][index]])
+        : [
+            ["HTTPS · 443", 35],
+            ["DNS · 53", 5],
+            ["IMAPS · 993", 3],
+          ];
 
   return (
-    <div className={`kelvin-ui-panel ${compact ? "kelvin-ui-panel--compact" : ""}`}>
-      <div className="kelvin-ui-aura" />
-      <div className="kelvin-ui-header">
-        <div className="kelvin-ui-ring" aria-label="80%"><strong>80%</strong><span>ϟ</span></div>
-        <div className="kelvin-ui-charge"><strong>{chargeLabel}</strong><span>{chargePower}</span></div>
-        <button type="button" className="kelvin-ui-settings" aria-expanded={settingsOpen} aria-controls={`${panelId}-settings`} aria-label={language === "ru" ? "Настройки превью" : "Ajustes da prévia"} onClick={() => setSettingsOpen(value => !value)}>⚙</button>
-      </div>
-
-      {settingsOpen && <div id={`${panelId}-settings`} className="kelvin-ui-settings-body">
-        <strong>{language === "ru" ? "Настройки панели" : "Ajustes do painel"}</strong>
-        <button type="button" role="switch" aria-checked={launchAtLogin} onClick={() => setLaunchAtLogin(value => !value)}>
-          <span>{language === "ru" ? "Запуск при входе" : "Iniciar ao entrar"}</span><b>{launchAtLogin ? "✓" : "−"}</b>
-        </button>
-        <p>{language === "ru" ? "Пример настройки. На сайте автозапуск Mac не изменяется." : "Exemplo de ajuste. A prévia não altera a inicialização do Mac."}</p>
-      </div>}
-
-      <div className="kelvin-ui-metrics">
-        <Metric value="56" label={t.watts} />
-        <Metric value="81°" label={t.temperature} warn />
-        <Metric value="4903" label={t.fan} />
-        <Metric value={batteryDelta} label={t.battery} accent={chargeMode === "off"} />
-      </div>
-
-      <div className="kelvin-ui-segment" aria-label={language === "ru" ? "Режим зарядки" : "Modo de carga"}>
-        <button type="button" aria-pressed={chargeMode === "off"} onClick={() => setChargeMode("off")} className={chargeMode === "off" ? "is-active" : ""}>{t.off}</button>
-        <button type="button" aria-pressed={chargeMode === "limit"} onClick={() => setChargeMode("limit")} className={chargeMode === "limit" ? "is-active" : ""}>{t.limit}</button>
-        <button type="button" aria-pressed={chargeMode === "sail"} onClick={() => setChargeMode("sail")} className={chargeMode === "sail" ? "is-active" : ""}>{t.sail}</button>
-      </div>
-
-      <p className="kelvin-ui-caption">{t.toggles}</p>
-      <div className="kelvin-ui-toggles">
-        <button type="button" aria-pressed={awake} onClick={() => setAwake((value) => !value)} className={awake ? "is-on" : ""}>
-          <span>◉</span>{t.awake}
-        </button>
-        <button type="button" aria-pressed={chargeLimit} onClick={() => setChargeMode((value) => value === "limit" ? "off" : "limit")} className={chargeLimit ? "is-on" : ""}>
-          <span>▱</span>{t.limit80}
-        </button>
-      </div>
-
-      {!compact && (
-        <div className="kelvin-ui-sound">
-          <p>{t.sound}</p>
-          <div><span>▣</span><strong>{t.output}</strong><b>✓</b></div>
-        </div>
-      )}
-
-      <div className="kelvin-ui-tabs" role="tablist" aria-label={language === "ru" ? "Разделы Kelvin" : "Seções do Kelvin"}>
-        {modules.map((module) => (
+    <div className={`kp-panel ${compact ? "kp-panel--compact" : ""}`}>
+      <div className="kp-toolbar">
+        <span className="kp-brand">
+          <Image src="/assets/icon.png" width={24} height={24} alt="" />
+          Kelvin <span className="kp-demo-tag">{t.demo}</span>
+        </span>
+        <div className="kp-toolbar-actions">
           <button
-            key={module.id}
+            type="button"
+            className="kp-icon-button"
+            title={t.reset}
+            aria-label={t.reset}
+            onClick={reset}
+          >
+            <PanelIcon name="reset" size={17} />
+          </button>
+          <button
+            type="button"
+            className="kp-icon-button"
+            title={t.settings}
+            aria-label={t.settings}
+            aria-expanded={settingsOpen}
+            aria-controls={id + "-settings"}
+            onClick={() => setSettingsOpen((value) => !value)}
+          >
+            <PanelIcon name="settings" size={18} />
+          </button>
+        </div>
+      </div>
+
+      <div id={id + "-settings"} hidden={!settingsOpen} className="kp-settings">
+        <Toggle
+          label={t.launch}
+          on={state.launchAtLogin}
+          onChange={() => update({ launchAtLogin: !state.launchAtLogin })}
+          icon="settings"
+        />
+        <Toggle
+          label={t.hidden}
+          on={state.hiddenFiles}
+          onChange={() => update({ hiddenFiles: !state.hiddenFiles })}
+          icon="folder"
+        />
+        <p className="kp-hint">{t.settingsHint}</p>
+      </div>
+
+      <div className="kp-summary">
+        <div className="kp-battery-ring" aria-label="80%">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <circle className="kp-ring-track" cx="50" cy="50" r="43" />
+            <circle
+              className="kp-ring-fill"
+              cx="50"
+              cy="50"
+              r="43"
+              pathLength="100"
+              strokeDasharray="80 100"
+            />
+          </svg>
+          <div>
+            <strong>
+              80<span>%</span>
+            </strong>
+            <PanelIcon name="battery" size={18} />
+          </div>
+        </div>
+        <div className="kp-charge-status">
+          <span className="kp-device">MacBook Pro · Intel</span>
+          <h3>{chargeTitle}</h3>
+          <p>
+            <span className="kp-status-dot" />
+            {t.adapter}
+          </p>
+        </div>
+      </div>
+      <div className="kp-metrics">
+        <Metric value={watts(metrics.system)} label={t.system} />
+        <Metric value={metrics.cpu + "°"} label={t.temperature} />
+        <Metric value={watts(metrics.battery)} label={t.battery} />
+      </div>
+
+      <div className="kp-quick-actions">
+        <button
+          type="button"
+          aria-pressed={state.awake}
+          className={state.awake ? "is-on" : ""}
+          onClick={() => update({ awake: !state.awake })}
+        >
+          <span className="kp-control-icon">
+            <PanelIcon name="coffee" />
+          </span>
+          <span>
+            {t.awake}
+            <small>{state.awake ? t.on : t.off}</small>
+          </span>
+        </button>
+        <button
+          type="button"
+          aria-pressed={state.nightShift}
+          className={state.nightShift ? "is-on" : ""}
+          onClick={() => update({ nightShift: !state.nightShift })}
+        >
+          <span className="kp-control-icon">
+            <PanelIcon name="moon" />
+          </span>
+          <span>
+            {t.night}
+            <small>{state.nightShift ? t.on : t.off}</small>
+          </span>
+        </button>
+      </div>
+
+      <div
+        className="kp-tabs"
+        role="tablist"
+        aria-label={locale === "pt" ? "Módulos do Kelvin" : "Модули Kelvin"}
+      >
+        {MODULES.map((module, index) => (
+          <button
+            key={module}
             type="button"
             role="tab"
-            aria-selected={currentModule === module.id}
-            id={`${panelId}-${module.id}`}
-            aria-controls={`${panelId}-module`}
-            aria-label={module.label}
-            onClick={() => selectModule(module.id)}
-            className={currentModule === module.id ? "is-active" : ""}
+            id={id + "-" + module}
+            aria-controls={id + "-content"}
+            aria-selected={currentModule === module}
+            tabIndex={currentModule === module ? 0 : -1}
+            onKeyDown={(event) => tabKeys(event, index)}
+            onClick={() => select(module)}
           >
-            <span aria-hidden>{module.glyph}</span>
+            <PanelIcon name={ICONS[module]} size={18} />
+            <span>{t[module]}</span>
           </button>
         ))}
       </div>
 
-      <div id={`${panelId}-module`} className="kelvin-ui-module" role="tabpanel" aria-labelledby={`${panelId}-${currentModule}`}>
-        {currentModule === "power" && <PowerModule t={t} chargeMode={chargeMode} locale={language} compact={compact} />}
-        {currentModule === "hardware" && <HardwareModule t={t} locale={language} />}
-        {currentModule === "privacy" && <PrivacyModule t={t} />}
-        {currentModule === "health" && <HealthModule t={t} />}
+      <div
+        className="kp-module"
+        id={id + "-content"}
+        role="tabpanel"
+        aria-labelledby={id + "-" + currentModule}
+        tabIndex={0}
+      >
+        {currentModule === "power" && (
+          <>
+            <div className="kp-section-heading">
+              <span>{t.modeLabel}</span>
+              <PanelIcon name="battery" size={17} />
+            </div>
+            <div className="kp-segment" role="group" aria-label={t.modeLabel}>
+              {(["off", "limit", "sail"] as const).map((mode, index) => (
+                <button
+                  key={mode}
+                  type="button"
+                  aria-pressed={state.chargeMode === mode}
+                  onClick={() => update({ chargeMode: mode })}
+                >
+                  {t.modes[index]}
+                </button>
+              ))}
+            </div>
+            <p className="kp-hint kp-charge-hint" role="status">
+              {state.chargeMode === "off"
+                ? t.chargeHint
+                : state.chargeMode === "limit"
+                  ? t.limitHint
+                  : t.sailHint}
+            </p>
+            <div className="kp-section-heading">
+              <span>{t.graph}</span>
+              <strong>{watts(metrics.system)}</strong>
+            </div>
+            <Sparkline
+              label={t.graph}
+              values={[
+                0.69, 0.73, 0.71, 0.81, 0.76, 0.88, 0.85, 0.9, 0.87, 1,
+              ].map((value) => value * metrics.system)}
+              max={55}
+            />
+            <div className="kp-chart-labels">
+              <span>{t.ago}</span>
+              <span>{t.now}</span>
+            </div>
+            <div className="kp-energy-flow" aria-label={t.flow}>
+              <div>
+                <PanelIcon name="plug" size={18} />
+                <span>{t.adapter}</span>
+                <strong>{watts(metrics.adapter)}</strong>
+              </div>
+              <PanelIcon name="arrow" size={16} />
+              <div>
+                <PanelIcon name="laptop" size={18} />
+                <span>Mac</span>
+                <strong>{watts(metrics.system)}</strong>
+              </div>
+              <span className="kp-flow-plus">+</span>
+              <div>
+                <PanelIcon name="battery" size={18} />
+                <span>{t.battery}</span>
+                <strong>{watts(metrics.battery)}</strong>
+              </div>
+            </div>
+            {!compact && (
+              <details className="kp-details">
+                <summary>
+                  {t.apps}
+                  <span>↓</span>
+                </summary>
+                <div className="kp-segment" role="group" aria-label={t.apps}>
+                  {(["impact", "cpu", "net"] as const).map((metric) => (
+                    <button
+                      type="button"
+                      key={metric}
+                      aria-pressed={sort === metric}
+                      onClick={() => setSort(metric)}
+                    >
+                      {metric === "impact"
+                        ? t.impact
+                        : metric === "cpu"
+                          ? "CPU"
+                          : t.net}
+                    </button>
+                  ))}
+                </div>
+                {[...apps]
+                  .sort((a, b) => b[sort] - a[sort])
+                  .map((app) => (
+                    <Row
+                      key={app.name}
+                      label={app.name}
+                      value={app[sort] + (sort === "cpu" ? "%" : "")}
+                      icon="laptop"
+                    />
+                  ))}
+                <p className="kp-hint">
+                  {sort === "impact"
+                    ? t.impactHint
+                    : sort === "net"
+                      ? t.netHint
+                      : t.cpuHint}
+                </p>
+              </details>
+            )}
+          </>
+        )}
+
+        {currentModule === "hardware" && (
+          <>
+            <div className="kp-section-heading">
+              <span>{t.hardware}</span>
+              <span className="kp-soft-label">Intel</span>
+            </div>
+            <div className="kp-sensor-grid">
+              <Metric value={metrics.cpu + "°"} label="CPU" />
+              <Metric value={metrics.gpu + "°"} label="GPU" />
+              <Metric value={format(metrics.rpm)} label="RPM" />
+            </div>
+            <Toggle
+              label={t.cooling}
+              on={state.cooling}
+              onChange={() => update({ cooling: !state.cooling })}
+              icon="fan"
+            />
+            <p className="kp-hint">{t.coolingHint}</p>
+            <Toggle
+              label={t.automatic}
+              on={state.automation}
+              onChange={() => update({ automation: !state.automation })}
+              icon="chip"
+            />
+            <p className="kp-hint">{t.automaticHint}</p>
+            <div className="kp-section-heading kp-spaced">
+              <span>{t.gpuLabel}</span>
+            </div>
+            <div className="kp-segment" role="group" aria-label={t.gpuLabel}>
+              {(["auto", "integrated", "discrete"] as const).map(
+                (mode, index) => (
+                  <button
+                    key={mode}
+                    type="button"
+                    aria-pressed={state.gpuMode === mode}
+                    onClick={() => update({ gpuMode: mode })}
+                  >
+                    {t.gpuModes[index]}
+                  </button>
+                ),
+              )}
+            </div>
+            <p className="kp-hint">{t.gpuHint}</p>
+          </>
+        )}
+
+        {currentModule === "privacy" && (
+          <>
+            <div className="kp-section-heading">
+              <span>{t.networkTitle}</span>
+              <PanelIcon name="globe" size={18} />
+            </div>
+            <div className="kp-network-summary">
+              <strong>
+                43 <span>{t.connections}</span>
+              </strong>
+              <span>9 {t.destinations}</span>
+            </div>
+            <div className="kp-segment" role="group" aria-label={t.privacy}>
+              {t.views.map((label, index) => (
+                <button
+                  key={label}
+                  type="button"
+                  aria-pressed={networkView === index}
+                  onClick={() => setNetworkView(index)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <div className="kp-connections">
+              {connections.map(([name, count]) => (
+                <Row
+                  key={String(name)}
+                  label={String(name)}
+                  value={String(count)}
+                  icon={networkView === 0 ? "laptop" : "globe"}
+                />
+              ))}
+            </div>
+            <p className="kp-safe-note">
+              <PanelIcon name="shield" size={16} />
+              {t.camera}
+            </p>
+            <p className="kp-hint">{t.privacyHint}</p>
+          </>
+        )}
+
+        {currentModule === "health" && (
+          <>
+            <div className="kp-health-title">
+              <PanelIcon name="heart" size={23} />
+              <h4>{t.healthTitle}</h4>
+            </div>
+            <div className="kp-sensor-grid">
+              <Metric value="98%" label={t.capacity} />
+              <Metric value="214" label={t.cycles} />
+              <Metric value="32°" label={t.batteryTemp} />
+            </div>
+            <div className="kp-section-heading kp-spaced">
+              <span>{t.history}</span>
+              <strong>98%</strong>
+            </div>
+            <Sparkline
+              label={t.history}
+              values={[
+                98.6, 98.5, 98.5, 98.4, 98.3, 98.3, 98.2, 98.2, 98.1, 98,
+              ]}
+              min={95}
+              max={100}
+            />
+            <div className="kp-chart-labels">
+              <span>{t.historyAgo}</span>
+              <span>{t.now}</span>
+            </div>
+            <p className="kp-hint">{t.healthHint}</p>
+          </>
+        )}
+      </div>
+      <div className="kp-footer">
+        <span className="kp-status-dot" />
+        {t.footer}
       </div>
     </div>
   );
 }
 
-function Metric({ value, label, warn, accent }: { value: string; label: string; warn?: boolean; accent?: boolean }) {
-  return <div><strong className={warn ? "is-warn" : accent ? "is-accent" : ""}>{value}</strong><span>{label}</span></div>;
-}
-
-function PowerModule({ t, chargeMode, locale, compact }: { t: PanelCopy; chargeMode: "off" | "limit" | "sail"; locale: "ru" | "pt"; compact: boolean }) {
-  const status = chargeMode === "limit" ? t.stableLimit : chargeMode === "sail" ? t.stableSail : t.stable;
-  const adapterValue = chargeMode === "off" ? "59 / 85 W" : "56 / 85 W";
-  const batteryValue = chargeMode === "off" ? "+3 W" : "0 W";
+function Metric({ value, label }: { value: string; label: string }) {
   return (
-    <div className="kelvin-ui-module-enter">
-      <div className="kelvin-ui-module-head"><span>{t.powerSystem}</span><strong>56 <small>W</small></strong></div>
-      <p className="kelvin-ui-status"><i />{status}</p>
-      <div className="kelvin-ui-flow">
-        <Node icon="⚡" label={t.adapter} value={adapterValue} orange />
-        <span className="kelvin-ui-flowline is-orange" />
-        <Node icon="▰" label={t.system} value="56 W" />
-        <span className="kelvin-ui-flowline" />
-        <Node icon="▱" label={t.battery} value={batteryValue} accent={chargeMode === "off"} />
-      </div>
-      <p className="kelvin-ui-section-label">{t.usage}</p>
-      <Bar label="CPU" value="28 W" progress={50} />
-      <Bar label="GPU" value="14 W" progress={25} />
-      <Bar label={t.memory} value="6 W" progress={11} />
-      <Bar label={t.other} value="8 W" progress={14} />
-      {!compact && <AppEnergyPreview locale={locale} />}
+    <div className="kp-metric">
+      <strong>{value}</strong>
+      <span>{label}</span>
     </div>
   );
 }
 
-function HardwareModule({ t, locale }: { t: PanelCopy; locale: "ru" | "pt" }) {
-  const [gpuMode, setGpuMode] = useState(2);
-  const gpuLabels = locale === "ru" ? ["Встроенная", "Дискретная", "Авто"] : ["Integrada", "Dedicada", "Auto"];
+function Row({
+  label,
+  value,
+  icon,
+}: {
+  label: string;
+  value: string;
+  icon: PanelIconName;
+}) {
   return (
-    <div className="kelvin-ui-module-enter">
-      <div className="kelvin-ui-module-head"><span>{t.sensors}</span><strong className="is-warn">{t.high}</strong></div>
-      <div className="kelvin-ui-sensor-grid"><Metric value="81°" label="CPU" warn /><Metric value="69°" label="GPU" /><Metric value="3.09" label="CPU GHz" /><Metric value="4903" label="RPM" /></div>
-      <p className="kelvin-ui-section-label">{t.pinned}</p>
-      <SensorRow icon="▱" label={t.battery} value="32°" />
-      <SensorRow icon="♨" label="CPU" value="81°" warn />
-      <SensorRow icon="♨" label="GPU" value="69°" />
-      <SensorRow icon="ϟ" label="CPU · V" value="1.10 V" />
-      <p className="kelvin-ui-section-label">GPU · INTEL DUAL-GPU</p>
-      <div className="kelvin-ui-segment" aria-label={locale === "ru" ? "Режим GPU в демо" : "Modo de GPU na demonstração"}>
-        {gpuLabels.map((label, index) => <button key={label} type="button" aria-pressed={gpuMode === index} className={gpuMode === index ? "is-active" : ""} onClick={() => setGpuMode(index)}>{label}</button>)}
-      </div>
-      <p className="kelvin-ui-copy" role="status">{gpuLabels[gpuMode]} · {locale === "ru" ? "пример режима на совместимом Intel Mac; не для Apple Silicon" : "exemplo em Mac Intel compatível; não se aplica ao Apple Silicon"}</p>
+    <div className="kp-row">
+      <PanelIcon name={icon} size={17} />
+      <span>{label}</span>
+      <strong>{value}</strong>
     </div>
   );
 }
 
-function PrivacyModule({ t }: { t: PanelCopy }) {
-  const [view, setView] = useState(0);
+function Toggle({
+  label,
+  on,
+  onChange,
+  icon,
+}: {
+  label: string;
+  on: boolean;
+  onChange: () => void;
+  icon: PanelIconName;
+}) {
   return (
-    <div className="kelvin-ui-module-enter">
-      <h4>{t.networkRadar}</h4><p className="kelvin-ui-copy">{t.networkLead}</p>
-      <p className="kelvin-ui-privacy-state">▱ {t.cameraSafe}</p><p className="kelvin-ui-privacy-state is-warn">◇ {t.noVpn}</p>
-      <div className="kelvin-ui-privacy-tabs">{[t.countries, t.apps, t.ports].map((label, index) => <button key={label} type="button" className={view === index ? "is-active" : ""} aria-pressed={view === index} onClick={() => setView(index)}>{label}</button>)}</div>
-      {view === 0 ? <div className="kelvin-ui-radar"><span>🇧🇷</span><span>🇺🇸</span><span>🇨🇦</span><span>🇩🇪</span><i>▣</i></div> : <div className="kelvin-ui-network-list">{(view === 1 ? [["Safari", "26"], ["Xcode", "12"], ["Mail", "5"]] : [["HTTPS · 443", "35"], ["DNS · 53", "5"], ["IMAPS · 993", "3"]]).map(([label, value]) => <SensorRow key={label} icon="↗" label={label} value={value} />)}</div>}
-      <div className="kelvin-ui-radar-stats"><strong>{t.connections}</strong><span>·</span><strong>{t.directions}</strong></div>
-    </div>
+    <button
+      type="button"
+      className="kp-toggle"
+      role="switch"
+      aria-label={label}
+      aria-checked={on}
+      onClick={onChange}
+    >
+      <PanelIcon name={icon} size={19} />
+      <span>{label}</span>
+      <i aria-hidden="true">
+        <b />
+      </i>
+    </button>
   );
 }
 
-function HealthModule({ t }: { t: PanelCopy }) {
+function Sparkline({
+  label,
+  values,
+  min = 0,
+  max,
+}: {
+  label: string;
+  values: number[];
+  min?: number;
+  max: number;
+}) {
+  const id = useId();
+  const points = values
+    .map(
+      (value, index) =>
+        `${(index * 300) / (values.length - 1)},${70 - ((value - min) / (max - min)) * 60}`,
+    )
+    .join(" ");
   return (
-    <div className="kelvin-ui-module-enter">
-      <div className="kelvin-ui-module-head"><span>{t.batteryHealth}</span><strong className="is-good">98%</strong></div>
-      <div className="kelvin-ui-health-grid"><Metric value="98%" label={t.capacity} /><Metric value="214" label={t.cycles} /><Metric value={t.excellent} label={t.condition} /></div>
-      <div className="kelvin-ui-chart"><span /><span /><span /><span /><span /><span /><span /></div>
-      <p className="kelvin-ui-history-label">{t.localHistory}</p>
-    </div>
+    <svg
+      className="kp-sparkline"
+      viewBox="0 0 300 80"
+      preserveAspectRatio="none"
+      role="img"
+      aria-label={label}
+    >
+      <defs>
+        <linearGradient id={id} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="currentColor" stopOpacity=".2" />
+          <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <path className="kp-grid-line" d="M0 20H300M0 45H300M0 70H300" />
+      <polygon points={`0,80 ${points} 300,80`} fill={`url(#${id})`} />
+      <polyline
+        points={points}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
+      />
+    </svg>
   );
-}
-
-function AppEnergyPreview({ locale }: { locale: "ru" | "pt" }) {
-  const [sort, setSort] = useState<"impact" | "cpu" | "net">("impact");
-  const apps = [{ name: "Xcode", impact: 42, cpu: 76, net: 2 }, { name: "Safari", impact: 18, cpu: 24, net: 7 }, { name: "Mail", impact: 3, cpu: 1, net: 1 }];
-  const labels = { impact: locale === "ru" ? "Влияние" : "Impacto", cpu: "CPU", net: locale === "ru" ? "Сеть" : "Rede" };
-  return <div className="kelvin-ui-app-energy">
-    <p className="kelvin-ui-section-label">{locale === "ru" ? "ЭНЕРГИЯ ПРИЛОЖЕНИЙ" : "ENERGIA DOS APPS"}</p>
-    <div className="kelvin-ui-segment">{(["impact", "cpu", "net"] as const).map(metric => <button type="button" key={metric} aria-pressed={sort === metric} className={sort === metric ? "is-active" : ""} onClick={() => setSort(metric)}>{labels[metric]}</button>)}</div>
-    {[...apps].sort((a, b) => b[sort] - a[sort]).map(app => <SensorRow key={app.name} icon="◫" label={app.name} value={`${app[sort]}${sort === "cpu" ? "%" : ""}`} />)}
-    <p className="kelvin-ui-copy">{locale === "ru" ? "Влияние — относительный показатель, не ватты. Сеть — число направлений." : "Impacto é um índice relativo, não watts. Rede indica o número de destinos."}</p>
-  </div>;
-}
-
-function Node({ icon, label, value, orange, accent }: { icon: string; label: string; value: string; orange?: boolean; accent?: boolean }) {
-  return <div className={`kelvin-ui-node ${orange ? "is-orange" : ""} ${accent ? "is-accent" : ""}`}><span>{icon}</span><small>{label}</small><strong>{value}</strong></div>;
-}
-
-function Bar({ label, value, progress }: { label: string; value: string; progress: number }) {
-  return <div className="kelvin-ui-bar"><span>{label}</span><i><b style={{ width: `${progress}%` }} /></i><strong>{value}</strong></div>;
-}
-
-function SensorRow({ icon, label, value, warn }: { icon: string; label: string; value: string; warn?: boolean }) {
-  return <div className="kelvin-ui-sensor-row"><span>{icon}</span><strong>{label}</strong><b className={warn ? "is-warn" : ""}>{value}</b></div>;
 }

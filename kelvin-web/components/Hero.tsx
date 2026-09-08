@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import KelvinPanel from "./KelvinPanel";
@@ -8,39 +7,20 @@ import KelvinPanel from "./KelvinPanel";
 export default function Hero() {
   const t = useTranslations("Hero");
   const locale = useLocale();
-  const productRef = useRef<HTMLDivElement | null>(null);
-  const chips = locale === "pt"
-    ? ["macOS 11+", "Intel + Apple Silicon", "grátis para sempre", "zero telemetria"]
-    : ["macOS 11+", "Intel + Apple Silicon", "бесплатно навсегда", "без телеметрии"];
-
-  useEffect(() => {
-    const node = productRef.current;
-    if (!node || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const move = (event: PointerEvent) => {
-      if ((event.target as Element).closest(".kelvin-ui-panel")) {
-        node.style.setProperty("--hero-tilt-x", "0deg");
-        node.style.setProperty("--hero-tilt-y", "0deg");
-        return;
-      }
-      const rect = node.getBoundingClientRect();
-      const x = (event.clientX - rect.left) / rect.width - 0.5;
-      const y = (event.clientY - rect.top) / rect.height - 0.5;
-      node.style.setProperty("--hero-tilt-x", `${x * 7}deg`);
-      node.style.setProperty("--hero-tilt-y", `${y * -5}deg`);
-    };
-    const reset = () => {
-      node.style.setProperty("--hero-tilt-x", "0deg");
-      node.style.setProperty("--hero-tilt-y", "0deg");
-    };
-
-    node.addEventListener("pointermove", move);
-    node.addEventListener("pointerleave", reset);
-    return () => {
-      node.removeEventListener("pointermove", move);
-      node.removeEventListener("pointerleave", reset);
-    };
-  }, []);
+  const chips =
+    locale === "pt"
+      ? [
+          "macOS 11+",
+          "Intel + Apple Silicon",
+          "grátis para sempre",
+          "zero telemetria",
+        ]
+      : [
+          "macOS 11+",
+          "Intel + Apple Silicon",
+          "бесплатно навсегда",
+          "без телеметрии",
+        ];
 
   return (
     <section className="kelvin-hero relative overflow-hidden px-5 pb-24 pt-28 sm:pt-32 lg:pt-28">
@@ -68,13 +48,17 @@ export default function Hero() {
             </Link>
             <Link href="/#demo" className="btn-secondary text-center">
               {t("ctaDemo")}
-              <span aria-hidden className="ml-2">↓</span>
+              <span aria-hidden className="ml-2">
+                ↓
+              </span>
             </Link>
           </div>
 
           <div className="mt-7 flex flex-wrap gap-2">
             {chips.map((item) => (
-              <span key={item} className="kelvin-mini-chip">{item}</span>
+              <span key={item} className="kelvin-mini-chip">
+                {item}
+              </span>
             ))}
           </div>
 
@@ -83,33 +67,17 @@ export default function Hero() {
           </p>
         </div>
 
-        <div ref={productRef} className="kelvin-hero-product relative mx-auto w-full max-w-[650px]" aria-label={t("productAlt")}>
-          <div className="kelvin-desktop-shell">
-            <div className="kelvin-menu-bar" aria-hidden>
-              <div className="flex items-center gap-2.5">
-                <span className="font-semibold">●</span>
-                <span>Kelvin</span>
-              </div>
-              <div className="flex items-center gap-4 text-white/55">
-                <span>80%</span><span>56 W</span><span>81°</span><span>⌁</span>
-              </div>
-            </div>
-            <div className="kelvin-desktop-space">
-              <div className="kelvin-screenshot-window kelvin-screenshot-window--ui">
-                <KelvinPanel locale={locale} compact />
-              </div>
-              <div className="kelvin-engineering-readout" aria-hidden>
-                <span>SMC / DEMO</span>
-                <span>LOCAL PROCESSING</span>
-                <span>0 CLOUD</span>
-              </div>
-            </div>
+        <div className="kp-hero-stage" aria-label={t("productAlt")}>
+          <div className="kp-stage-label">
+            <span>Kelvin</span>
+            <span>macOS</span>
           </div>
-
-          <div className="kelvin-shot-note">
-            <span className="kelvin-live-dot" />
-            {locale === "ru" ? "Интерактивное превью · демонстрационные данные" : "Prévia interativa · dados de demonstração"}
-          </div>
+          <KelvinPanel locale={locale} compact />
+          <p className="kp-stage-caption">
+            {locale === "ru"
+              ? "Интерактивное превью · демонстрационные данные"
+              : "Prévia interativa · dados de demonstração"}
+          </p>
         </div>
       </div>
     </section>

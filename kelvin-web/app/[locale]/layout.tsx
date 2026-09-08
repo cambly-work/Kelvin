@@ -7,9 +7,9 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { routing } from "@/i18n/routing";
 import { release } from "@/lib/release";
-import { KelvinExperienceProvider } from "@/components/KelvinExperience";
 import "../globals.css";
 import "../product.css";
+import "../preview.css";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -110,7 +110,7 @@ export default async function LocaleLayout({
           {t("skipToContent")}
         </a>
         <NextIntlClientProvider>
-          <KelvinExperienceProvider>{children}</KelvinExperienceProvider>
+          {children}
         </NextIntlClientProvider>
       </body>
     </html>

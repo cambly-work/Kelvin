@@ -41,7 +41,9 @@ if (process.argv[2]) {
       assert.equal(response.status, 200);
       const html = await response.text();
       assert.ok(html.includes(`lang="${locale}"`));
-      assert.doesNotMatch(html, /Kelvin Pro|Lemon Squeezy|\$19/);
+      // React Flight references such as "$19" are identifiers, not visible prices.
+      const renderedHtml = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
+      assert.doesNotMatch(renderedHtml, /Kelvin Pro|Lemon Squeezy|\$19/);
       if (!page) {
         const data = JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
         assert.equal(data.downloadUrl, config.googleDriveUrl);
