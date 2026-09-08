@@ -458,7 +458,7 @@
   .liquid-glass-header--active {
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.018)),
-      color-mix(in srgb, var(--color-bg) 38%, transparent);
+      color-mix(in srgb, var(--color-bg) 84%, transparent);
     -webkit-backdrop-filter: blur(15px) saturate(195%) contrast(108%);
     backdrop-filter: blur(15px) saturate(195%) contrast(108%);
     border-color: transparent;

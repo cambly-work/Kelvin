@@ -51,11 +51,11 @@ export default function ProductDemo({ locale }: { locale: string }) {
   const cooling = activeTools.includes("quiet");
   const temperature = Math.max(
     39,
-    Math.round(42 + workload * 0.39 - (batteryCare ? 3 : 0) - (cooling ? 10 : 0))
+    Math.round(42 + workload * 0.39 - (cooling ? 10 : 0))
   );
   const powerValue = Math.max(
     6,
-    8 + workload * 0.27 - (batteryCare ? 4 : 0)
+    8 + workload * 0.27
   );
   const power = new Intl.NumberFormat(locale === "pt" ? "pt-BR" : "ru-RU", {
     minimumFractionDigits: 1,

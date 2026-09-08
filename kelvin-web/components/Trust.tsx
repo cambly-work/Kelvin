@@ -6,7 +6,7 @@ export default function Trust() {
   const locale = useLocale();
   const pills = t.raw("pills") as string[];
   const localCore = locale === "pt" ? "NÚCLEO LOCAL" : "ЛОКАЛЬНОЕ ЯДРО";
-  const external = locale === "pt" ? "0 solicitações externas" : "0 внешних запросов";
+  const external = locale === "pt" ? "0 telemetria" : "0 телеметрии";
   const processing = locale === "pt" ? "Processamento no Mac" : "Обработка на Mac";
 
   return (

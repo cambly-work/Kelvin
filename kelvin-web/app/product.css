@@ -27,6 +27,25 @@
 @media(max-width:640px){.kelvin-screenshot-window--ui{right:10px;width:78%}.kelvin-ui-panel{padding:17px}.kelvin-ui-panel--compact{padding:14px}.kelvin-ui-metrics{gap:4px}.kelvin-ui-metrics>div{padding:8px 3px}.kelvin-ui-toggles button{padding:0 7px}.kelvin-ui-panel--compact .kelvin-ui-module{min-height:272px}.kelvin-panel-stage{padding-bottom:54px}}
 @media(prefers-reduced-motion:reduce){.kelvin-ui-module-enter,.kelvin-ui-radar:after{animation:none}}
 
+/* Free edition and current native panel controls. */
+.kelvin-free-card{display:grid;gap:40px;align-items:center;padding:clamp(24px,5vw,56px);border:1px solid color-mix(in srgb,var(--color-accent) 30%,var(--color-line));border-radius:30px;background:linear-gradient(135deg,color-mix(in srgb,var(--color-accent) 7%,var(--color-surface)),var(--color-surface) 70%);box-shadow:inset 0 1px #ffffff10,0 30px 90px -60px #000}
+.kelvin-free-included{padding:26px;border:1px solid var(--color-line);border-radius:22px;background:color-mix(in srgb,var(--color-bg) 65%,transparent)}
+.kelvin-download-pending{display:flex;align-items:center;gap:10px;min-height:48px;padding:14px 22px;border:1px solid var(--color-line);border-radius:14px;background:var(--color-surface);color:var(--color-mut);font-size:14px}
+.kelvin-install-steps{display:grid;gap:16px;margin-top:48px;text-align:left;list-style:none}
+.kelvin-install-steps li{position:relative;padding:24px;border:1px solid var(--color-line);border-radius:20px;background:color-mix(in srgb,var(--color-surface) 90%,transparent)}
+.kelvin-install-number{font:600 11px ui-monospace,monospace;color:var(--color-accent)}
+.kelvin-install-steps h3{margin-top:20px;font-size:16px;font-weight:600;color:var(--color-tx)}
+.kelvin-install-steps p{margin-top:8px;font-size:13px;line-height:1.7;color:var(--color-mut)}
+.kelvin-ui-settings{cursor:pointer;border:1px solid #ffffff14;background:#ffffff08;border-radius:9px;padding:6px;font-size:16px}
+.kelvin-ui-settings-body{position:relative;margin-bottom:12px;padding:12px;border:1px solid #ffffff18;border-radius:12px;background:#ffffff08;font-size:12px;color:#d9e2ed}
+.kelvin-ui-settings-body button{display:flex;width:100%;justify-content:space-between;gap:12px;margin-top:10px;padding:8px 0;cursor:pointer;color:#8af1d5}
+.kelvin-ui-settings-body p{margin-top:6px;font-size:10px;line-height:1.6;color:#96a5b7}
+.kelvin-ui-privacy-tabs button{flex:1;border:0;border-radius:6px;background:transparent;padding:6px 3px;color:inherit;cursor:pointer;font:inherit}
+.kelvin-ui-privacy-tabs button.is-active{background:#ffffff12;color:#eef3f9}
+.kelvin-ui-app-energy{margin-top:20px;padding-top:4px;border-top:1px solid #ffffff12}
+.kelvin-ui-network-list{min-height:130px;padding:10px 0}
+.kelvin-product-canvas{padding-bottom:80px}
+@media(min-width:768px){.kelvin-free-card{grid-template-columns:1.2fr 1fr}.kelvin-install-steps{grid-template-columns:repeat(3,minmax(0,1fr))}}
 /* Shared product language across proof, pricing, privacy, FAQ and download. */
 .kelvin-proof-item:nth-child(even){border-left:1px solid var(--color-line)}.kelvin-proof-item:nth-child(n+3){border-top:1px solid var(--color-line)}
 .kelvin-pricing-aura{background:radial-gradient(ellipse 55% 38% at 72% 45%,color-mix(in srgb,var(--color-accent) 9%,transparent),transparent 72%)}

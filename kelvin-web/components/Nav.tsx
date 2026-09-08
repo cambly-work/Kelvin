@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import LocaleSwitcher from "./LocaleSwitcher";
 import ThemeToggle from "./ThemeToggle";
-import LiquidGlassShader from "./LiquidGlassShader";
 
 export default function Nav() {
   const t = useTranslations("Nav");
@@ -34,7 +33,6 @@ export default function Nav() {
       <nav className={`liquid-glass-header relative mx-auto flex h-14 max-w-[1100px] items-center justify-between overflow-hidden rounded-[18px] px-5 transition-all duration-500 ${
         scrolled || open ? "liquid-glass-header--active" : ""
       }`}>
-        <LiquidGlassShader active={scrolled || open} />
         <div className="liquid-glass-lens absolute inset-[3px] rounded-[15px]" aria-hidden />
         <div className="liquid-glass-noise absolute inset-0 rounded-[inherit]" aria-hidden />
         {/* brand */}

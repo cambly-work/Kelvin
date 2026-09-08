@@ -5,6 +5,12 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  async redirects() {
+    // Native Kelvin still opens the original .html legal URLs.
+    return ["privacy", "eula", "notes"].map(page => ({
+      source: `/${page}.html`, destination: `/ru/${page}`, permanent: true,
+    }));
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     qualities: [75, 80],

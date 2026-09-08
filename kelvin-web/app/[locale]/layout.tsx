@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { routing } from "@/i18n/routing";
+import { release } from "@/lib/release";
 import { KelvinExperienceProvider } from "@/components/KelvinExperience";
 import "../globals.css";
 import "../product.css";
@@ -41,16 +42,14 @@ export async function generateMetadata({
       siteName: "Kelvin",
       images: [
         {
-          url: "/assets/og-v2.png",
-          width: 1200,
-          height: 630,
-          alt: "Kelvin — command center for macOS",
+          url: "/assets/icon.png",
+          alt: "Kelvin",
         },
       ],
     },
     twitter: {
-      card: "summary_large_image",
-      images: ["/assets/og-v2.png"],
+      card: "summary",
+      images: ["/assets/icon.png"],
     },
     icons: {
       icon: "/assets/icon.png",
@@ -74,11 +73,12 @@ const structuredData = {
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "macOS 11 or later",
   url: "https://trykelvin.com",
-  downloadUrl: "https://trykelvin.com/Kelvin-0.9.0.dmg",
-  image: "https://trykelvin.com/assets/og-v2.png",
+  ...(release.downloadUrl ? { downloadUrl: release.downloadUrl } : {}),
+  softwareVersion: release.version,
+  isAccessibleForFree: true,
+  image: "https://trykelvin.com/assets/icon.png",
   offers: [
-    { "@type": "Offer", price: "0", priceCurrency: "USD", name: "Kelvin Free" },
-    { "@type": "Offer", price: "19", priceCurrency: "USD", name: "Kelvin Pro" },
+    { "@type": "Offer", price: "0", priceCurrency: "USD", name: "Kelvin" },
   ],
 };
 

@@ -13,17 +13,18 @@ const copy = {
       { number: "03", label: "Действие", title: "Вы управляете", body: "Профиль вентиляторов, лимит заряда, переключатель или защита применяются из того же интерфейса." },
     ],
     capabilityTitle: "Что уже внутри",
-    capabilityLead: "Мониторинг остаётся бесплатным. Pro открывает управление и автоматизацию.",
+    capabilityLead: "Все модули доступны бесплатно — от показателей до системных действий.",
     systemMap: "КАРТА СИСТЕМЫ",
     free: "FREE",
-    pro: "PRO",
     cards: [
-      { glyph: "⌁", title: "Энергия и батарея", body: "Ватты, заряд, ёмкость, циклы, температура, напряжение, баланс ячеек и 90‑секундный график.", tags: ["FREE"] },
-      { glyph: "✣", title: "Охлаждение", body: "Температуры и обороты — бесплатно. Ручные RPM, кривые по сенсору и защита от перегрева — в Pro.", tags: ["FREE", "PRO"] },
-      { glyph: "◫", title: "Быстрые действия", body: "Caffeine, звук, Night Shift, тема, Finder, экран и собственные кнопки-команды в настраиваемой панели.", tags: ["FREE", "PRO"] },
-      { glyph: "⌨", title: "Ввод и исправления", body: "Локальная авто‑раскладка RU↔EN, ручное исправление, хоткеи и сниппеты — без отправки набранного текста.", tags: ["PRO"] },
-      { glyph: "◇", title: "Сеть и защита", body: "Радар соединений, офлайн GeoIP, камера, микрофон и VPN. Входящий фаервол и блок доменов — в Pro.", tags: ["FREE", "PRO"] },
-      { glyph: "＋", title: "Здоровье системы", body: "История, память, диск, uptime, приложения по энергии, локальные рекомендации и диагностический PDF.", tags: ["FREE"] },
+      { glyph: "⌁", title: "Энергия и батарея", body: "Ватты, заряд, ёмкость, циклы, температура, напряжение, баланс ячеек и 90‑секундный график." },
+      { glyph: "✣", title: "Охлаждение", body: "Ручные RPM, кривые по сенсору и автоматический режим на Mac с поддерживаемыми вентиляторами." },
+      { glyph: "◫", title: "Быстрые действия", body: "Caffeine, звук, Night Shift, тема, Finder, экран и собственные кнопки-команды в настраиваемой панели." },
+      { glyph: "⌨", title: "Ввод и исправления", body: "Локальная авто‑раскладка RU↔EN, ручное исправление, хоткеи и сниппеты — без отправки набранного текста." },
+      { glyph: "◇", title: "Сеть и защита", body: "Радар соединений, офлайн GeoIP, камера, микрофон и VPN. Входящий фаервол и блокировка доменов." },
+      { glyph: "▧", title: "Графика под контролем", body: "Авто, встроенная или дискретная GPU на совместимых Intel Mac. Системный сервис подтверждает применение режима; на Apple Silicon доступен мониторинг." },
+      { glyph: "⚙", title: "Панель под вас", body: "Обновлённые настройки панели и значка в строке меню, запуск при входе и единый статус системного сервиса." },
+      { glyph: "＋", title: "Здоровье системы", body: "Локальный Advisor, память, диск и диагностический PDF. Приложения можно сортировать по энергопотреблению, CPU и сетевым направлениям." },
     ],
   },
   pt: {
@@ -36,17 +37,18 @@ const copy = {
       { number: "03", label: "Ação", title: "Você controla", body: "Perfil de ventoinhas, limite de carga, alternador ou proteção são aplicados na mesma interface." },
     ],
     capabilityTitle: "O que já está dentro",
-    capabilityLead: "O monitoramento é grátis para sempre. O Pro desbloqueia controle e automação.",
+    capabilityLead: "Todos os módulos são gratuitos — das métricas às ações do sistema.",
     systemMap: "MAPA DO SISTEMA",
     free: "GRÁTIS",
-    pro: "PRO",
     cards: [
-      { glyph: "⌁", title: "Energia e bateria", body: "Potência, carga, capacidade, ciclos, temperatura, tensão, equilíbrio das células e gráfico de 90 segundos.", tags: ["FREE"] },
-      { glyph: "✣", title: "Resfriamento", body: "Temperaturas e RPM são grátis. RPM manual, curvas por sensor e proteção térmica estão no Pro.", tags: ["FREE", "PRO"] },
-      { glyph: "◫", title: "Ações rápidas", body: "Caffeine, áudio, Night Shift, tema, Finder, tela e botões de comando em um painel configurável.", tags: ["FREE", "PRO"] },
-      { glyph: "⌨", title: "Entrada e correções", body: "Troca automática RU↔EN, correção manual, atalhos e snippets — sem enviar o texto digitado.", tags: ["PRO"] },
-      { glyph: "◇", title: "Rede e proteção", body: "Radar de conexões, GeoIP offline, câmara, microfone e VPN. Firewall de entrada e domínios no Pro.", tags: ["FREE", "PRO"] },
-      { glyph: "＋", title: "Saúde do sistema", body: "Histórico, memória, disco, uptime, apps por energia, recomendações locais e PDF de diagnóstico.", tags: ["FREE"] },
+      { glyph: "⌁", title: "Energia e bateria", body: "Potência, carga, capacidade, ciclos, temperatura, tensão, equilíbrio das células e gráfico de 90 segundos." },
+      { glyph: "✣", title: "Resfriamento", body: "RPM manual, curvas por sensor e modo automático em Macs com ventoinhas compatíveis." },
+      { glyph: "◫", title: "Ações rápidas", body: "Caffeine, áudio, Night Shift, tema, Finder, tela e botões de comando em um painel configurável." },
+      { glyph: "⌨", title: "Entrada e correções", body: "Troca automática RU↔EN, correção manual, atalhos e snippets — sem enviar o texto digitado." },
+      { glyph: "◇", title: "Rede e proteção", body: "Radar de conexões, GeoIP offline, câmara, microfone e VPN. Firewall de entrada e bloqueio de domínios." },
+      { glyph: "▧", title: "Controle da GPU", body: "Modo automático, integrado ou dedicado em Macs Intel compatíveis. O serviço confirma a aplicação do modo; no Apple Silicon, há monitoramento." },
+      { glyph: "⚙", title: "Um painel seu", body: "Ajustes atualizados do painel e do ícone na barra de menus, início ao entrar na sessão e status do serviço do sistema." },
+      { glyph: "＋", title: "Saúde do sistema", body: "Advisor local, memória, disco e PDF de diagnóstico. Ordene apps por impacto energético, CPU e destinos de rede." },
     ],
   },
 } as const;
@@ -87,7 +89,6 @@ export default function EngineeringStory({ locale }: { locale: string }) {
           </Reveal>
           <div className="flex gap-2 text-[10px] font-semibold tracking-[0.12em]">
             <span className="kelvin-plan-tag kelvin-plan-tag--free">{t.free}</span>
-            <span className="kelvin-plan-tag kelvin-plan-tag--pro">{t.pro}</span>
           </div>
         </div>
 
@@ -96,13 +97,6 @@ export default function EngineeringStory({ locale }: { locale: string }) {
             <Reveal key={card.title} index={index % 3} className="kelvin-capability-card group">
               <div className="flex items-start justify-between gap-4">
                 <span className="kelvin-capability-glyph" aria-hidden>{card.glyph}</span>
-                <div className="flex gap-1.5">
-                  {card.tags.map((tag) => (
-                    <span key={tag} className={`kelvin-plan-tag ${tag === "PRO" ? "kelvin-plan-tag--pro" : "kelvin-plan-tag--free"}`}>
-                      {tag === "FREE" ? t.free : t.pro}
-                    </span>
-                  ))}
-                </div>
               </div>
               <h4 className="mt-10 text-[24px] font-semibold tracking-[-0.035em] text-tx">{card.title}</h4>
               <p className="mt-4 text-[15px] leading-[1.75] text-mut">{card.body}</p>

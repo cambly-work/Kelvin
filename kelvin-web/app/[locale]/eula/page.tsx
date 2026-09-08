@@ -46,10 +46,9 @@ function EulaRu() {
 
       <h2 className="legal-h2">1. Лицензия</h2>
       <p className="legal-p">
-        Правообладатель предоставляет Пользователю неисключительную,
+        Правообладатель бесплатно предоставляет Пользователю неисключительную,
         непередаваемую лицензию на установку и использование Приложения на
-        принадлежащих ему компьютерах Mac в личных и коммерческих целях, в
-        соответствии с приобретённым тарифом.
+        принадлежащих ему компьютерах Mac в личных и коммерческих целях.
       </p>
 
       <h2 className="legal-h2">2. Ограничения</h2>
@@ -84,8 +83,7 @@ function EulaRu() {
       <p className="legal-p">
         В максимально допустимой законом степени Правообладатель не несёт
         ответственности за косвенные или случайные убытки, связанные с
-        использованием Приложения. Совокупная ответственность не превышает
-        суммы, уплаченной за лицензию.
+        использованием Приложения.
       </p>
 
       <h2 className="legal-h2">7. Срок и прекращение</h2>
@@ -112,7 +110,7 @@ function EulaRu() {
 
       <p className="mt-7 text-[13px] opacity-70">
         Это типовой шаблон, не являющийся юридической консультацией. Перед
-        публичной продажей рекомендуется проверка юристом/бухгалтером
+        публикацией рекомендуется проверка юристом/бухгалтером
         (contador).
       </p>
     </>
@@ -133,10 +131,9 @@ function EulaPt() {
 
       <h2 className="legal-h2">1. Licença</h2>
       <p className="legal-p">
-        O detentor dos direitos concede ao Utilizador uma licença não
+        O detentor dos direitos concede gratuitamente ao Utilizador uma licença não
         exclusiva e intransmissível para instalar e usar a Aplicação em
-        computadores Mac que possua, para fins pessoais e comerciais, de
-        acordo com o nível adquirido.
+        computadores Mac que possua, para fins pessoais e comerciais.
       </p>
 
       <h2 className="legal-h2">2. Restrições</h2>
@@ -172,13 +169,12 @@ function EulaPt() {
       <p className="legal-p">
         Na medida máxima permitida por lei, o detentor dos direitos não é
         responsável por danos indiretos ou incidentais relacionados com o uso
-        da Aplicação. A responsabilidade agregada não excede o montante pago
-        pela licença.
+        da Aplicação.
       </p>
 
       <h2 className="legal-h2">7. Prazo e rescisão</h2>
       <p className="legal-p">
-        A licença mantém-se em vigor até ser rescindida. Rescindide-se
+        A licença mantém-se em vigor até ser rescindida. Rescinde-se
         automaticamente em caso de violação dos termos; nesse caso, o
         Utilizador deve eliminar a Aplicação.
       </p>
@@ -199,7 +195,7 @@ function EulaPt() {
 
       <p className="mt-7 text-[13px] opacity-70">
         Este é um modelo padrão e não constitui aconselhamento jurídico.
-        Antes da venda pública, recomenda-se a revisão por um
+        Antes da publicação, recomenda-se a revisão por um
         advogado/contador (contador).
       </p>
     </>

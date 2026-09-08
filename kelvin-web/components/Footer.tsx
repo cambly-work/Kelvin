@@ -24,6 +24,9 @@ export default function Footer() {
           <span className="font-medium text-mut">Kelvin</span>
         </div>
         <nav className="flex flex-wrap gap-x-5 gap-y-2">
+          <a href="https://github.com/cambly-work/kelvin_app" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-tx">
+            {t("openProject")} <span aria-hidden>↗</span>
+          </a>
           <Link href="/privacy" className="transition-colors hover:text-tx">
             {t("privacy")}
           </Link>

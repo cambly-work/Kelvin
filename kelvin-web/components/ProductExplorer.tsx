@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Reveal from "./Reveal";
 import KelvinPanel, { type KelvinModule } from "./KelvinPanel";
+import { release } from "@/lib/release";
 
 type Locale = "ru" | "pt";
 type ProductScene = {
@@ -91,8 +92,8 @@ export default function ProductExplorer({ locale }: { locale: string }) {
           </h2>
           <p className="mt-6 max-w-[690px] text-[18px] leading-relaxed text-mut">
             {language === "ru"
-              ? "Выберите модуль снаружи или прямо в панели. Переключатели работают, данные перестраиваются, а локализация остаётся чистой."
-              : "Escolha um módulo aqui ou diretamente no painel. Os controles funcionam, os dados mudam e a localização permanece consistente."}
+              ? "Исследуйте питание, датчики, сеть и здоровье Mac. Это интерактивное превью с демонстрационными данными: переключатели меняют модель, а не настройки вашего компьютера."
+              : "Explore energia, sensores, rede e saúde do Mac. Esta prévia usa dados de demonstração: os controles alteram o modelo, não os ajustes do seu computador."}
           </p>
         </Reveal>
 
@@ -140,13 +141,13 @@ export default function ProductExplorer({ locale }: { locale: string }) {
           <div className="kelvin-product-canvas relative min-h-[720px] overflow-hidden border-t border-line p-4 sm:p-8 lg:border-l lg:border-t-0">
             <div className="kelvin-product-canvas-grid absolute inset-0" />
             <div
-              key={`${language}-${active.id}`}
+              key={language}
               className="kelvin-panel-stage kelvin-panel-enter relative z-[1] mx-auto w-full max-w-[460px]"
             >
               <KelvinPanel locale={language} activeModule={active.id} onModuleChange={setActiveId} />
             </div>
             <div className="absolute bottom-4 left-4 right-4 z-[2] flex items-center justify-between rounded-full border border-white/10 bg-black/35 px-4 py-2 font-mono text-[9px] tracking-[0.1em] text-white/55 backdrop-blur-xl sm:bottom-6 sm:left-6 sm:right-6 sm:text-[10px]">
-              <span>INTERACTIVE UI</span><span>KELVIN 0.9.0</span><span>LOCAL / SMC</span>
+              <span>INTERACTIVE UI</span><span>KELVIN {release.version}</span><span>DEMO / SMC</span>
             </div>
           </div>
         </div>

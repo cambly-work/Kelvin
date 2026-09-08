@@ -1,74 +1,41 @@
-# Kelvin Web
+# Kelvin website
 
-Landing site for Kelvin, a macOS menu-bar multitool. Built with Next.js 16, React 19, Tailwind CSS v4, and `next-intl`. Dark theme by default, light theme via toggle.
+The current website is `kelvin-web/`: Next.js 16, React 19, Tailwind CSS 4 and next-intl (Russian / Brazilian Portuguese). Kelvin is completely free, with no subscription, activation key or trial.
 
-## Quick start
+## Develop and validate
 
-```bash
+```sh
 cd kelvin-web
-npm install      # first time only
-npm run dev      # http://localhost:3000  (redirects to /ru)
-npm run build    # production build
-npm start        # serve the production build
+npm install
+npm run dev
+npm run check
 ```
 
-## Project structure
+With the server running, `node scripts/verify-release.mjs http://localhost:3000` additionally checks both languages, all legal routes, free-offer metadata and legacy redirects. `npm test` validates the Drive URL guard and translation consistency without a server.
 
-```
-kelvin-web/
-├── app/
-│   ├── [locale]/            # locale-segmented routes (ru, pt)
-│   │   ├── layout.tsx       # <html> shell, metadata, theme FOUC script — DO NOT remove the script
-│   │   ├── page.tsx         # the landing page — assembles all sections
-│   │   ├── privacy/         # privacy policy page
-│   │   ├── eula/            # license agreement page
-│   │   └── notes/           # release notes page
-│   ├── api/latest-version/  # version-check endpoint (read by the app)
-│   ├── globals.css          # ★ the whole design system lives here
-│   └── layout.tsx           # root passthrough (next-intl owns <html>)
-├── components/              # one file per page section
-├── messages/                # i18n strings: ru.json, pt.json
-├── i18n/                    # routing.ts (locales), request.ts
-├── public/                  # static assets, screenshots, appcast.json
-└── next.config.ts
-```
+## Release and Google Drive DMG
 
-## How to edit things
+Edit `kelvin-web/public/release.json`:
+- `version` and `minOS`: match the actual app bundle.
+- `googleDriveUrl`: the public file-sharing link to the DMG, with viewer access for anyone with the link. Use the file's `/file/d/…/view` URL, not a folder or an edit URL.
 
-### Change text on the site
-All copy lives in `messages/ru.json` and `messages/pt.json`, grouped by section (`Hero`, `Features`, `Compare`, `Faq`, `Download`, etc.). Edit the JSON, save, and the dev server hot-reloads.
+The download section and search metadata share the validated link from `lib/release.ts`. Navigation and hero CTAs lead to the download section, which explains installation. The Drive link opens in a new tab; it is a file page, not a direct binary download. Empty or invalid links show an explicit pending state, never a fake download button. Rebuild/redeploy the website after changing this configuration.
 
-### Change colors / theme
-Open `app/globals.css`. The `@theme { ... }` block at the top defines the **dark** (default) tokens. The `:root.light { ... }` block overrides them for light mode. Change a value there and every component using that token updates. Key tokens:
+Manual DMG distribution is separate from native updates. The current native app uses Sparkle and `https://trykelvin.com/appcast.xml`, which requires a real signed update archive and correctly generated feed. **Do not replace that archive URL with a Google Drive preview page.** This repository's legacy `appcast.json` files and `api/latest-version` compatibility endpoint are preserved; they do not drive the website download. Review the native release pipeline separately before publishing an update.
 
-| Token            | What it controls        |
-| ---------------- | ----------------------- |
-| `--color-bg`     | page background         |
-| `--color-surface`| cards / raised surfaces |
-| `--color-tx`     | primary text            |
-| `--color-mut`    | secondary text          |
-| `--color-accent` | the blue accent         |
-| `--color-line`   | hairline borders        |
+## Content and design
 
-### Change a single section
-Each section is one file in `components/`:
+- `messages/{ru,pt}.json`: localized site copy, FAQ, free edition and download instructions.
+- `components/EngineeringStory.tsx`, `ProductExplorer.tsx`: product capabilities and model-specific limits.
+- `components/KelvinPanel.tsx`: interactive preview with **sample data**, not a live connection to the visitor's Mac. Energy impact is a relative metric, not watts.
+- `app/{globals,product}.css`: design tokens, dark/light theme and component styling.
+- `app/[locale]/{privacy,eula,notes}/page.tsx`: current legal pages and version notes.
+- `app/[locale]/layout.tsx`: locale HTML shell, theme script and metadata.
 
-| Section      | File                    |
-| ------------ | ----------------------- |
-| Nav bar      | `components/Nav.tsx`     |
-| Hero         | `components/Hero.tsx`    |
-| Trust band   | `components/SocialProof.tsx` |
-| Features     | `components/Features.tsx`|
-| Pricing      | `components/Pricing.tsx` |
-| FAQ          | `components/Faq.tsx`     |
-| Download CTA | `components/Download.tsx`|
-| Footer       | `components/Footer.tsx`  |
+Native changes were checked against `/Users/timmorrison/kelvin_app`: free feature access, GPU compatibility/service, panel and menu-bar settings, launch-at-login, and app energy presentation. The bundle still reports 0.9.0; no release number was invented. Apple notarization is not claimed without checking the actual distribution artifact.
 
-### Change screenshots
-Drop replacements into `public/assets/`. The hero uses `panel-ru-1.png` / `panel-pt-1.png`. Feature crops (RU only) live in `public/assets/crops/`. Keep the same filenames, or update the paths in `Hero.tsx` / `Features.tsx`.
+Root-level HTML files are compatibility redirects to the Next.js routes, not a second website. The native app's legacy `/privacy.html`, `/eula.html` and `/notes.html` URLs also redirect through Next.js.
 
-### Change the download link
-The `.dmg` URL comes from `public/appcast.json` → `url`. The Download section reads it automatically. **Do not delete `appcast.json`** — installed copies of Kelvin also read it for auto-updates.
+## Deployment
 
-## Deploy
-Push to `main`. The GitHub Actions workflow in `.github/workflows/` builds and deploys.
+Build with `npm run build` and serve with `npm start`, using the existing hosting configuration. No deployment workflow or hosting credentials are configured in this checkout. Deploy `kelvin-web/`, not the legacy root HTML.

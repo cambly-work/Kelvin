@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import appcast from "@/public/appcast.json";
 import { Link } from "@/i18n/routing";
 import KelvinPanel from "./KelvinPanel";
 
@@ -11,8 +10,8 @@ export default function Hero() {
   const locale = useLocale();
   const productRef = useRef<HTMLDivElement | null>(null);
   const chips = locale === "pt"
-    ? ["macOS 11+", "Intel + Apple Silicon", "$19 · pagamento único", "zero telemetria"]
-    : ["macOS 11+", "Intel + Apple Silicon", "$19 · один платёж", "без телеметрии"];
+    ? ["macOS 11+", "Intel + Apple Silicon", "grátis para sempre", "zero telemetria"]
+    : ["macOS 11+", "Intel + Apple Silicon", "бесплатно навсегда", "без телеметрии"];
 
   useEffect(() => {
     const node = productRef.current;
@@ -64,9 +63,9 @@ export default function Hero() {
           </p>
 
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <a href={appcast.url} className="btn-primary text-center">
+            <Link href="/#download" className="btn-primary text-center">
               {t("ctaPrimary")}
-            </a>
+            </Link>
             <Link href="/#demo" className="btn-secondary text-center">
               {t("ctaDemo")}
               <span aria-hidden className="ml-2">↓</span>
@@ -92,7 +91,7 @@ export default function Hero() {
                 <span>Kelvin</span>
               </div>
               <div className="flex items-center gap-4 text-white/55">
-                <span>100%</span><span>59W</span><span>99°</span><span>⌁</span>
+                <span>80%</span><span>56 W</span><span>81°</span><span>⌁</span>
               </div>
             </div>
             <div className="kelvin-desktop-space">
@@ -100,7 +99,7 @@ export default function Hero() {
                 <KelvinPanel locale={locale} compact />
               </div>
               <div className="kelvin-engineering-readout" aria-hidden>
-                <span>SMC / LIVE</span>
+                <span>SMC / DEMO</span>
                 <span>LOCAL PROCESSING</span>
                 <span>0 CLOUD</span>
               </div>
@@ -109,7 +108,7 @@ export default function Hero() {
 
           <div className="kelvin-shot-note">
             <span className="kelvin-live-dot" />
-            {locale === "ru" ? "Интерактивный интерфейс · попробуйте переключатели" : "Interface interativa · experimente os controles"}
+            {locale === "ru" ? "Интерактивное превью · демонстрационные данные" : "Prévia interativa · dados de demonstração"}
           </div>
         </div>
       </div>
