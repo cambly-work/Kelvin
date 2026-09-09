@@ -7,9 +7,14 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { routing } from "@/i18n/routing";
 import { release } from "@/lib/release";
+import SiteVisitReporter from "@/components/SiteVisitReporter";
 import "../globals.css";
 import "../product.css";
 import "../preview.css";
+
+const siteOrigin = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : "https://kelvin-cambly-works-projects.vercel.app";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -26,7 +31,7 @@ export async function generateMetadata({
   return {
     title: t("title"),
     description: t("description"),
-    metadataBase: new URL("https://trykelvin.com"),
+    metadataBase: new URL(siteOrigin),
     alternates: {
       canonical: `/${locale}`,
       languages: {
@@ -72,11 +77,11 @@ const structuredData = {
   name: "Kelvin",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "macOS 11 or later",
-  url: "https://trykelvin.com",
+  url: siteOrigin,
   ...(release.downloadUrl ? { downloadUrl: release.downloadUrl } : {}),
   softwareVersion: release.version,
   isAccessibleForFree: true,
-  image: "https://trykelvin.com/assets/icon.png",
+  image: `${siteOrigin}/assets/icon.png`,
   offers: [
     { "@type": "Offer", price: "0", priceCurrency: "USD", name: "Kelvin" },
   ],
@@ -110,6 +115,7 @@ export default async function LocaleLayout({
           {t("skipToContent")}
         </a>
         <NextIntlClientProvider>
+          <SiteVisitReporter />
           {children}
         </NextIntlClientProvider>
       </body>
