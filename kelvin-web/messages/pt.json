@@ -418,8 +418,12 @@
     "back": "← Kelvin",
     "privacy": {
       "title": "Política de Privacidade",
+<<<<<<< HEAD
       "updated": "Atualizado: 8 de setembro de 2026",
       "description": "Saiba como o Kelvin trata dados: monitoramento local do Mac, permissões do macOS, atualizações, relatórios de falha e download pelo Google Drive."
+=======
+      "updated": "Atualizado: 9 de setembro de 2026"
+>>>>>>> c979d52bcbeea65faf62d00fd005964baae4dffe
     },
     "eula": {
       "title": "Contrato de Licença do Usuário Final (EULA)",
