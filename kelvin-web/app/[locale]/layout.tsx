@@ -5,20 +5,12 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-import { routing } from "@/i18n/routing";
-<<<<<<< HEAD
-import { pageMetadata, requireLocale, languageTags } from "@/lib/seo";
-=======
-import { release } from "@/lib/release";
 import SiteVisitReporter from "@/components/SiteVisitReporter";
->>>>>>> c979d52bcbeea65faf62d00fd005964baae4dffe
+import { routing } from "@/i18n/routing";
+import { pageMetadata, requireLocale, languageTags } from "@/lib/seo";
 import "../globals.css";
 import "../product.css";
 import "../preview.css";
-
-const siteOrigin = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : "https://kelvin-cambly-works-projects.vercel.app";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -33,44 +25,10 @@ export async function generateMetadata({
   const validLocale = requireLocale(locale);
   const t = await getTranslations({ locale: validLocale, namespace: "Meta" });
   return {
-<<<<<<< HEAD
     ...pageMetadata(validLocale, "", t("title"), t("description")),
     applicationName: "Kelvin",
     robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
     icons: { icon: "/assets/icon.png", apple: "/assets/icon.png" },
-=======
-    title: t("title"),
-    description: t("description"),
-    metadataBase: new URL(siteOrigin),
-    alternates: {
-      canonical: `/${locale}`,
-      languages: {
-        ru: "/ru",
-        pt: "/pt",
-        "x-default": "/ru",
-      },
-    },
-    openGraph: {
-      type: "website",
-      title: t("title"),
-      description: t("description"),
-      siteName: "Kelvin",
-      images: [
-        {
-          url: "/assets/icon.png",
-          alt: "Kelvin",
-        },
-      ],
-    },
-    twitter: {
-      card: "summary",
-      images: ["/assets/icon.png"],
-    },
-    icons: {
-      icon: "/assets/icon.png",
-      apple: "/assets/icon.png",
-    },
->>>>>>> c979d52bcbeea65faf62d00fd005964baae4dffe
   };
 }
 
@@ -82,25 +40,6 @@ export const viewport: Viewport = {
 };
 
 const themeScript = `(function(){try{var t=localStorage.getItem('kelvin-theme');if(t==='light'){document.documentElement.classList.add('light')}else if(t==='dark'){document.documentElement.classList.remove('light')}else if(matchMedia('(prefers-color-scheme: light)').matches){document.documentElement.classList.add('light')}}catch(e){}})()`;
-<<<<<<< HEAD
-=======
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "Kelvin",
-  applicationCategory: "UtilitiesApplication",
-  operatingSystem: "macOS 11 or later",
-  url: siteOrigin,
-  ...(release.downloadUrl ? { downloadUrl: release.downloadUrl } : {}),
-  softwareVersion: release.version,
-  isAccessibleForFree: true,
-  image: `${siteOrigin}/assets/icon.png`,
-  offers: [
-    { "@type": "Offer", price: "0", priceCurrency: "USD", name: "Kelvin" },
-  ],
-};
-
->>>>>>> c979d52bcbeea65faf62d00fd005964baae4dffe
 export default async function LocaleLayout({
   children,
   params,
