@@ -27,6 +27,7 @@ export async function generateMetadata({
   return {
     ...pageMetadata(validLocale, "", t("title"), t("description")),
     applicationName: "Kelvin",
+    verification: { google: "I5Pjgux75ceVAG8J-nUKPb68KnofcUR2u-isb1zPEbU" },
     robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
     icons: { icon: "/assets/icon.png", apple: "/assets/icon.png" },
   };
