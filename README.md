@@ -39,3 +39,7 @@ Root-level HTML files are compatibility redirects to the Next.js routes, not a s
 ## Deployment
 
 Build with `npm run build` and serve with `npm start`, using the existing hosting configuration. No deployment workflow or hosting credentials are configured in this checkout. Deploy `kelvin-web/`, not the legacy root HTML.
+
+## SEO
+
+Production website: https://kelvin-iota.vercel.app. The canonical origin can be overridden with `NEXT_PUBLIC_SITE_URL` when moving to a verified custom domain. SEO implementation, launch steps and Search Console setup are in [docs/SEO.md](docs/SEO.md). Run `node scripts/verify-seo.mjs http://localhost:3100` from `kelvin-web/` against a running production build to validate all 14 pages, languages, canonical URLs, structured data, sitemap and robots.

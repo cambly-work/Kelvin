@@ -1,7 +1,7 @@
 {
   "Meta": {
-    "title": "Kelvin — centro de controle gratuito para Mac",
-    "description": "Kelvin grátis para sempre: energia, bateria, sensores, ventoinhas, GPU, privacidade e automação em um painel nativo do macOS. Sem assinatura nem chaves."
+    "title": "Kelvin — temperatura do Mac e controle de ventoinhas grátis",
+    "description": "Monitore a temperatura da CPU e GPU, controle ventoinhas e limite a carga do MacBook. Kelvin é grátis para macOS 11 ou posterior, sem assinatura."
   },
   "Nav": {
     "demo": "Como funciona",
@@ -14,8 +14,8 @@
   },
   "Hero": {
     "eyebrow": "Centro de comando nativo para macOS",
-    "title": "Um Kelvin. Dez utilitários deixam de ser necessários.",
-    "lead": "Energia, bateria, sensores, ventoinhas, ações rápidas e privacidade em um painel nativo. Monitoramento, controle e automação grátis para sempre.",
+    "title": "Kelvin. Temperatura e bateria do Mac sob controle.",
+    "lead": "Monitore a temperatura da CPU e GPU, ajuste ventoinhas e limite a carga do MacBook. Energia, ações rápidas e automação em um painel gratuito para macOS. A disponibilidade de sensores e controles depende do modelo do Mac.",
     "ctaPrimary": "Baixar grátis",
     "ctaDemo": "Ver em ação",
     "micro": "Sem assinatura · sem chave · sem período de teste · todos os recursos disponíveis",
@@ -418,15 +418,18 @@
     "back": "← Kelvin",
     "privacy": {
       "title": "Política de Privacidade",
-      "updated": "Atualizado: 8 de setembro de 2026"
+      "updated": "Atualizado: 8 de setembro de 2026",
+      "description": "Saiba como o Kelvin trata dados: monitoramento local do Mac, permissões do macOS, atualizações, relatórios de falha e download pelo Google Drive."
     },
     "eula": {
       "title": "Contrato de Licença do Usuário Final (EULA)",
-      "updated": "Atualizado: 8 de setembro de 2026"
+      "updated": "Atualizado: 8 de setembro de 2026",
+      "description": "Termos de uso gratuito do Kelvin para macOS: licença, direitos do aplicativo, ações do sistema, limitações e contato para dúvidas."
     },
     "notes": {
       "title": "Novidades",
-      "updated": "Histórico de versões do Kelvin"
+      "updated": "Histórico de versões do Kelvin",
+      "description": "Novidades do Kelvin para macOS: versão atual, temperatura e energia, controle de ventoinhas, bateria e atualizações do painel."
     }
   },
   "A11y": {

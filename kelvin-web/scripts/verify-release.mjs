@@ -40,7 +40,7 @@ if (process.argv[2]) {
       const response = await fetch(`${origin}/${locale}${page}`);
       assert.equal(response.status, 200);
       const html = await response.text();
-      assert.ok(html.includes(`lang="${locale}"`));
+      assert.ok(html.includes(`lang="${locale === 'pt' ? 'pt-BR' : 'ru'}"`));
       // React Flight references such as "$19" are identifiers, not visible prices.
       const renderedHtml = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
       assert.doesNotMatch(renderedHtml, /Kelvin Pro|Lemon Squeezy|\$19/);

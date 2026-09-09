@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { routing } from "@/i18n/routing";
-import { release } from "@/lib/release";
+import { pageMetadata, requireLocale, languageTags } from "@/lib/seo";
 import "../globals.css";
 import "../product.css";
 import "../preview.css";
@@ -21,40 +21,13 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "Meta" });
-
+  const validLocale = requireLocale(locale);
+  const t = await getTranslations({ locale: validLocale, namespace: "Meta" });
   return {
-    title: t("title"),
-    description: t("description"),
-    metadataBase: new URL("https://trykelvin.com"),
-    alternates: {
-      canonical: `/${locale}`,
-      languages: {
-        ru: "/ru",
-        pt: "/pt",
-        "x-default": "/ru",
-      },
-    },
-    openGraph: {
-      type: "website",
-      title: t("title"),
-      description: t("description"),
-      siteName: "Kelvin",
-      images: [
-        {
-          url: "/assets/icon.png",
-          alt: "Kelvin",
-        },
-      ],
-    },
-    twitter: {
-      card: "summary",
-      images: ["/assets/icon.png"],
-    },
-    icons: {
-      icon: "/assets/icon.png",
-      apple: "/assets/icon.png",
-    },
+    ...pageMetadata(validLocale, "", t("title"), t("description")),
+    applicationName: "Kelvin",
+    robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
+    icons: { icon: "/assets/icon.png", apple: "/assets/icon.png" },
   };
 }
 
@@ -66,22 +39,6 @@ export const viewport: Viewport = {
 };
 
 const themeScript = `(function(){try{var t=localStorage.getItem('kelvin-theme');if(t==='light'){document.documentElement.classList.add('light')}else if(t==='dark'){document.documentElement.classList.remove('light')}else if(matchMedia('(prefers-color-scheme: light)').matches){document.documentElement.classList.add('light')}}catch(e){}})()`;
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "Kelvin",
-  applicationCategory: "UtilitiesApplication",
-  operatingSystem: "macOS 11 or later",
-  url: "https://trykelvin.com",
-  ...(release.downloadUrl ? { downloadUrl: release.downloadUrl } : {}),
-  softwareVersion: release.version,
-  isAccessibleForFree: true,
-  image: "https://trykelvin.com/assets/icon.png",
-  offers: [
-    { "@type": "Offer", price: "0", priceCurrency: "USD", name: "Kelvin" },
-  ],
-};
-
 export default async function LocaleLayout({
   children,
   params,
@@ -95,17 +52,11 @@ export default async function LocaleLayout({
   const t = await getTranslations({ locale, namespace: "A11y" });
 
   return (
-    <html lang={locale} className="h-full antialiased" data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang={languageTags[locale]} className="h-full antialiased" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className="min-h-dvh flex flex-col">
         <Script id="kelvin-theme" strategy="beforeInteractive">
           {themeScript}
         </Script>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
-          }}
-        />
         <a href="#main" className="skip-link">
           {t("skipToContent")}
         </a>

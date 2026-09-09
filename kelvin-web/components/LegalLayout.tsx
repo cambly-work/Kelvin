@@ -36,7 +36,7 @@ export default function LegalLayout({
         </nav>
       </header>
 
-      <main className="flex-1">
+      <main id="main" className="flex-1">
         <section className="mx-auto max-w-[47.5rem] px-5 pb-10 pt-24 sm:px-8 sm:pb-20 sm:pt-28 lg:px-8">
           <Link
             href="/"

@@ -1,3 +1,4 @@
+import { pageMetadata, requireLocale } from "@/lib/seo";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import LegalLayout from "@/components/LegalLayout";
@@ -9,8 +10,9 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  requireLocale(locale);
   const t = await getTranslations({ locale, namespace: "Legal.privacy" });
-  return { title: `${t("title")} — Kelvin` };
+  return pageMetadata(requireLocale(locale), "/privacy", `${t("title")} — Kelvin`, t("description"));
 }
 
 export default async function PrivacyPage({

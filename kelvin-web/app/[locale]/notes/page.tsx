@@ -1,3 +1,4 @@
+import { pageMetadata, requireLocale } from "@/lib/seo";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { release } from "@/lib/release";
@@ -9,8 +10,9 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  requireLocale(locale);
   const t = await getTranslations({ locale, namespace: "Legal.notes" });
-  return { title: `${t("title")} — Kelvin` };
+  return pageMetadata(requireLocale(locale), "/notes", `${t("title")} — Kelvin`, t("description"));
 }
 
 export default async function NotesPage({
