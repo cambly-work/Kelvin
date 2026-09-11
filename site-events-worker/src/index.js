@@ -1,5 +1,6 @@
 const allowedEvents = new Set(["visit_start", "session_summary"]);
 const exactOrigins = new Set([
+  "https://kelvin-iota.vercel.app",
   "https://kelvin-cambly-works-projects.vercel.app",
 ]);
 const previewOrigin =
